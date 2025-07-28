@@ -68,10 +68,10 @@ export default function Home() {
             <div className="absolute inset-0 flex items-center justify-center text-center">
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-12 max-w-4xl mx-4 border border-white/20">
                 <h1 className="text-6xl md:text-7xl font-bold mb-6 text-orange-100">
-                  Welcome to ChefMaster Recipes
+                  {t('home.hero_title')}
                 </h1>
                 <p className="text-2xl md:text-3xl mb-10 max-w-3xl text-orange-50">
-                  Master your culinary skills and share your favorite recipes with a community of food lovers.
+                  {t('home.hero_subtitle')}
                 </p>
                 <div className="flex gap-6 justify-center">
                   {session ? (
@@ -79,7 +79,7 @@ export default function Home() {
                       href="/recipes"
                       className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-200 border border-white/30 transform hover:scale-105 shadow-lg"
                     >
-                      Explore Recipes
+                      {t('home.explore_recipes')}
                     </Link>
                   ) : (
                     <>
@@ -87,13 +87,13 @@ export default function Home() {
                         href="/auth/signup"
                         className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
                       >
-                        Sign Up
+                        {t('navigation.sign_up')}
                       </Link>
                       <Link
                         href="/auth/signin"
                         className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-200 border border-white/30 transform hover:scale-105 shadow-lg"
                       >
-                        Log In
+                        {t('navigation.sign_in')}
                       </Link>
                     </>
                   )}
@@ -105,16 +105,15 @@ export default function Home() {
 
         {/* About Us Section */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">About Us</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('home.about_us_title')}</h2>
           <p className="text-gray-700 text-lg leading-relaxed max-w-4xl">
-            ChefMaster Recipes is a platform for food enthusiasts to explore, create, and share recipes from around the world. Our mission is
-            to help you master your culinary skills and provide a space for culinary creativity to flourish.
+            {t('home.about_us_text')}
           </p>
         </div>
 
         {/* Top Recipes Section */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Top Recipes</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('home.top_recipes_title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {topRecipes.map((recipe) => (
               <div key={recipe.id} onClick={() => handleRecipeClick(recipe.id)}>
@@ -142,11 +141,11 @@ export default function Home() {
                         {renderStars(recipe.rating)}
                       </div>
                       <span className="text-sm font-medium text-gray-700">
-                        Rating: {recipe.rating}
+                        {t('home.rating_label')} {recipe.rating}
                       </span>
                     </div>
                     <p className="text-gray-600 text-sm">
-                      By {recipe.chef}
+                      {t('home.by_chef')} {recipe.chef}
                     </p>
                   </div>
                 </div>
@@ -157,14 +156,14 @@ export default function Home() {
 
         {/* Ratings Section */}
         <div className="bg-white rounded-xl p-8 shadow-lg">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Ratings</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('home.ratings_title')}</h2>
           <div className="flex items-start gap-8">
             <div className="text-center">
               <div className="text-5xl font-bold text-gray-900 mb-2">4.5</div>
               <div className="flex items-center justify-center mb-2">
                 {renderStars(4.5)}
               </div>
-              <div className="text-gray-600 text-sm">150 reviews</div>
+              <div className="text-gray-600 text-sm">150 {t('home.reviews')}</div>
             </div>
             
             <div className="flex-1 max-w-md">
