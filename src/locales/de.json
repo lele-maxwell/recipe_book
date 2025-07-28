@@ -67,5 +67,17 @@
     "dont_have_account": "Haben Sie kein Konto?",
     "already_have_account": "Haben Sie bereits ein Konto?",
     "create_account": "Konto Erstellen"
+  },
+  "home": {
+    "hero_title": "Willkommen bei ChefMaster Recipes",
+    "hero_subtitle": "Meistern Sie Ihre Kochkünste und teilen Sie Ihre Lieblingsrezepte mit einer Gemeinschaft von Essensliebhabern.",
+    "explore_recipes": "Rezepte Erkunden",
+    "about_us_title": "Über Uns",
+    "about_us_text": "ChefMaster Recipes ist eine Plattform für Essensbegeisterte, um Rezepte aus aller Welt zu erkunden, zu erstellen und zu teilen. Unsere Mission ist es, Ihnen zu helfen, Ihre Kochkünste zu meistern und einen Raum für kulinarische Kreativität zu schaffen.",
+    "top_recipes_title": "Top Rezepte",
+    "ratings_title": "Bewertungen",
+    "rating_label": "Bewertung:",
+    "by_chef": "Von",
+    "reviews": "Bewertungen"
   }
 }

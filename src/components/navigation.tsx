@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { useTranslate } from '@tolgee/react'
+import { useTranslate, useTolgee } from '@tolgee/react'
 
 export function Navigation() {
   const { data: session } = useSession()
@@ -134,9 +134,8 @@ export function Navigation() {
 
 function LanguageSelector() {
   const { t } = useTranslate()
-  // For now, we'll use a simple state-based approach
-  // In a real app, you'd integrate with Tolgee's language switching
-  const currentLanguage = 'en' // This would come from Tolgee context
+  const tolgee = useTolgee(['language'])
+  const currentLanguage = tolgee.getLanguage()
 
   const languages = [
     { code: 'en', name: 'English' },
@@ -144,6 +143,14 @@ function LanguageSelector() {
     { code: 'es', name: 'Español' },
     { code: 'de', name: 'Deutsch' },
   ]
+
+  const handleLanguageChange = async (languageCode: string) => {
+    try {
+      await tolgee.changeLanguage(languageCode)
+    } catch (error) {
+      console.error('Failed to change language:', error)
+    }
+  }
 
   return (
     <div className="dropdown dropdown-end">
@@ -154,10 +161,7 @@ function LanguageSelector() {
         {languages.map((language) => (
           <li key={language.code}>
             <button
-              onClick={() => {
-                // TODO: Implement proper language switching with Tolgee
-                console.log('Switch to language:', language.code)
-              }}
+              onClick={() => handleLanguageChange(language.code)}
               className={`text-gray-800 hover:bg-orange-100 hover:text-orange-800 text-lg py-3 px-4 rounded-lg transition-colors duration-200 ${currentLanguage === language.code ? 'bg-orange-100 text-orange-800 font-semibold' : ''}`}
             >
               {language.name}
