@@ -1,0 +1,71 @@
+{
+  "common": {
+    "loading": "Laden...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "search": "Suchen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "recipes": "Rezepte",
+    "my_recipes": "Meine Rezepte",
+    "create_recipe": "Rezept Erstellen",
+    "profile": "Profil",
+    "sign_in": "Anmelden",
+    "sign_out": "Abmelden",
+    "sign_up": "Registrieren"
+  },
+  "recipe": {
+    "title": "Titel",
+    "description": "Beschreibung",
+    "instructions": "Anweisungen",
+    "ingredients": "Zutaten",
+    "prep_time": "Vorbereitungszeit",
+    "cook_time": "Kochzeit",
+    "servings": "Portionen",
+    "rating": "Bewertung",
+    "ratings": "Bewertungen",
+    "created_by": "Erstellt von",
+    "created_at": "Erstellt am",
+    "no_recipes": "Keine Rezepte gefunden",
+    "add_ingredient": "Zutat Hinzufügen",
+    "quantity": "Menge",
+    "unit": "Einheit",
+    "ingredient_name": "Zutat Name"
+  },
+  "units": {
+    "cups": "Tassen",
+    "tablespoons": "Esslöffel",
+    "teaspoons": "Teelöffel",
+    "grams": "Gramm",
+    "kilograms": "Kilogramm",
+    "ounces": "Unzen",
+    "pounds": "Pfund",
+    "milliliters": "Milliliter",
+    "liters": "Liter",
+    "pieces": "Stücke",
+    "cloves": "Zehen",
+    "slices": "Scheiben",
+    "pinch": "Prise",
+    "dash": "Spritzer"
+  },
+  "auth": {
+    "sign_in_title": "Bei Rezeptbuch Anmelden",
+    "sign_up_title": "Konto Erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "name": "Name",
+    "sign_in_with_google": "Mit Google anmelden",
+    "dont_have_account": "Haben Sie kein Konto?",
+    "already_have_account": "Haben Sie bereits ein Konto?",
+    "create_account": "Konto Erstellen"
+  }
+}

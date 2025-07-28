@@ -1,0 +1,71 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "home": "Home",
+    "recipes": "Recipes",
+    "my_recipes": "My Recipes",
+    "create_recipe": "Create Recipe",
+    "profile": "Profile",
+    "sign_in": "Sign In",
+    "sign_out": "Sign Out",
+    "sign_up": "Sign Up"
+  },
+  "recipe": {
+    "title": "Title",
+    "description": "Description",
+    "instructions": "Instructions",
+    "ingredients": "Ingredients",
+    "prep_time": "Prep Time",
+    "cook_time": "Cook Time",
+    "servings": "Servings",
+    "rating": "Rating",
+    "ratings": "Ratings",
+    "created_by": "Created by",
+    "created_at": "Created at",
+    "no_recipes": "No recipes found",
+    "add_ingredient": "Add Ingredient",
+    "quantity": "Quantity",
+    "unit": "Unit",
+    "ingredient_name": "Ingredient Name"
+  },
+  "units": {
+    "cups": "cups",
+    "tablespoons": "tablespoons",
+    "teaspoons": "teaspoons",
+    "grams": "grams",
+    "kilograms": "kilograms",
+    "ounces": "ounces",
+    "pounds": "pounds",
+    "milliliters": "milliliters",
+    "liters": "liters",
+    "pieces": "pieces",
+    "cloves": "cloves",
+    "slices": "slices",
+    "pinch": "pinch",
+    "dash": "dash"
+  },
+  "auth": {
+    "sign_in_title": "Sign In to Recipe Book",
+    "sign_up_title": "Create Account",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "sign_in_with_google": "Sign in with Google",
+    "dont_have_account": "Don't have an account?",
+    "already_have_account": "Already have an account?",
+    "create_account": "Create Account"
+  }
+}

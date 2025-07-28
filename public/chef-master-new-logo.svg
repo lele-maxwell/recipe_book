@@ -1,0 +1,44 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Chef Hat -->
+  <g transform="translate(10, 10)">
+    <!-- Hat band -->
+    <path d="M8 45 Q8 42 12 42 L38 42 Q42 42 42 45 L42 48 Q42 50 38 50 L12 50 Q8 50 8 48 Z" 
+          fill="none" stroke="#2d3748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Hat pleats -->
+    <path d="M15 42 Q15 38 18 38 Q21 38 21 42" 
+          fill="none" stroke="#2d3748" stroke-width="2" stroke-linecap="round"/>
+    <path d="M25 42 Q25 36 28 36 Q31 36 31 42" 
+          fill="none" stroke="#2d3748" stroke-width="2" stroke-linecap="round"/>
+    <path d="M35 42 Q35 38 38 38 Q41 38 41 42" 
+          fill="none" stroke="#2d3748" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Main hat body -->
+    <path d="M5 45 Q5 20 12 15 Q18 12 25 12 Q32 12 38 15 Q45 20 45 45" 
+          fill="none" stroke="#2d3748" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Hat puff/top -->
+    <circle cx="25" cy="18" r="8" 
+            fill="none" stroke="#2d3748" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M17 18 Q20 12 25 12 Q30 12 33 18" 
+          fill="none" stroke="#2d3748" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  
+  <!-- "Chef" Text in elegant script -->
+  <g transform="translate(65, 15)">
+    <path d="M5 35 Q2 32 2 28 Q2 22 8 20 Q15 18 22 22 Q25 24 25 28 Q25 32 22 35 Q18 37 12 37 Q8 37 5 35 Z
+             M12 25 Q15 23 18 25 Q20 27 18 29 Q15 31 12 29 Q10 27 12 25 Z" 
+          fill="#2d3748" stroke="none"/>
+    
+    <path d="M30 18 Q30 15 32 15 Q35 15 35 18 L35 45 Q35 48 38 48 Q42 48 45 45 L48 42 Q50 40 52 42 Q54 44 52 46 L48 50 Q42 54 35 54 Q28 54 25 48 L25 22 Q25 18 28 18 Q30 18 30 18 Z" 
+          fill="#2d3748" stroke="none"/>
+    
+    <path d="M58 25 Q58 20 62 18 Q68 16 74 18 Q78 20 78 25 L78 35 Q78 40 74 42 Q68 44 62 42 Q58 40 58 35 Z
+             M65 25 Q68 23 71 25 Q73 27 71 29 Q68 31 65 29 Q63 27 65 25 Z
+             M58 45 Q58 48 62 48 Q68 48 74 48 Q78 48 78 45" 
+          fill="#2d3748" stroke="none"/>
+    
+    <path d="M85 18 Q85 15 87 15 Q90 15 90 18 L90 35 Q90 40 94 42 Q98 44 102 42 Q105 40 105 35 L105 25 Q105 20 108 18 Q112 16 116 18 Q120 20 120 25 L120 45 Q120 48 117 48 Q114 48 114 45 L114 35 Q114 32 112 32 Q110 32 110 35 L110 45 Q110 50 105 52 Q98 54 90 52 Q85 50 85 45 L85 22 Q85 18 85 18 Z" 
+          fill="#2d3748" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,71 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "search": "Rechercher",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "recipes": "Recettes",
+    "my_recipes": "Mes Recettes",
+    "create_recipe": "Créer une Recette",
+    "profile": "Profil",
+    "sign_in": "Se Connecter",
+    "sign_out": "Se Déconnecter",
+    "sign_up": "S'Inscrire"
+  },
+  "recipe": {
+    "title": "Titre",
+    "description": "Description",
+    "instructions": "Instructions",
+    "ingredients": "Ingrédients",
+    "prep_time": "Temps de Préparation",
+    "cook_time": "Temps de Cuisson",
+    "servings": "Portions",
+    "rating": "Note",
+    "ratings": "Notes",
+    "created_by": "Créé par",
+    "created_at": "Créé le",
+    "no_recipes": "Aucune recette trouvée",
+    "add_ingredient": "Ajouter un Ingrédient",
+    "quantity": "Quantité",
+    "unit": "Unité",
+    "ingredient_name": "Nom de l'Ingrédient"
+  },
+  "units": {
+    "cups": "tasses",
+    "tablespoons": "cuillères à soupe",
+    "teaspoons": "cuillères à café",
+    "grams": "grammes",
+    "kilograms": "kilogrammes",
+    "ounces": "onces",
+    "pounds": "livres",
+    "milliliters": "millilitres",
+    "liters": "litres",
+    "pieces": "pièces",
+    "cloves": "gousses",
+    "slices": "tranches",
+    "pinch": "pincée",
+    "dash": "trait"
+  },
+  "auth": {
+    "sign_in_title": "Se Connecter au Livre de Recettes",
+    "sign_up_title": "Créer un Compte",
+    "email": "Email",
+    "password": "Mot de Passe",
+    "name": "Nom",
+    "sign_in_with_google": "Se connecter avec Google",
+    "dont_have_account": "Vous n'avez pas de compte ?",
+    "already_have_account": "Vous avez déjà un compte ?",
+    "create_account": "Créer un Compte"
+  }
+}

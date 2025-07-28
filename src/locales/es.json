@@ -1,0 +1,71 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "recipes": "Recetas",
+    "my_recipes": "Mis Recetas",
+    "create_recipe": "Crear Receta",
+    "profile": "Perfil",
+    "sign_in": "Iniciar Sesión",
+    "sign_out": "Cerrar Sesión",
+    "sign_up": "Registrarse"
+  },
+  "recipe": {
+    "title": "Título",
+    "description": "Descripción",
+    "instructions": "Instrucciones",
+    "ingredients": "Ingredientes",
+    "prep_time": "Tiempo de Preparación",
+    "cook_time": "Tiempo de Cocción",
+    "servings": "Porciones",
+    "rating": "Calificación",
+    "ratings": "Calificaciones",
+    "created_by": "Creado por",
+    "created_at": "Creado el",
+    "no_recipes": "No se encontraron recetas",
+    "add_ingredient": "Agregar Ingrediente",
+    "quantity": "Cantidad",
+    "unit": "Unidad",
+    "ingredient_name": "Nombre del Ingrediente"
+  },
+  "units": {
+    "cups": "tazas",
+    "tablespoons": "cucharadas",
+    "teaspoons": "cucharaditas",
+    "grams": "gramos",
+    "kilograms": "kilogramos",
+    "ounces": "onzas",
+    "pounds": "libras",
+    "milliliters": "mililitros",
+    "liters": "litros",
+    "pieces": "piezas",
+    "cloves": "dientes",
+    "slices": "rebanadas",
+    "pinch": "pizca",
+    "dash": "chorrito"
+  },
+  "auth": {
+    "sign_in_title": "Iniciar Sesión en Libro de Recetas",
+    "sign_up_title": "Crear Cuenta",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "sign_in_with_google": "Iniciar sesión con Google",
+    "dont_have_account": "¿No tienes una cuenta?",
+    "already_have_account": "¿Ya tienes una cuenta?",
+    "create_account": "Crear Cuenta"
+  }
+}
