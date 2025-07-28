@@ -16,6 +16,10 @@ const tolgee = Tolgee()
       es: () => import('../locales/es.json').then(m => m.default),
       de: () => import('../locales/de.json').then(m => m.default),
     },
+    // Enable language persistence
+    observerOptions: {
+      fullKeyEncode: true,
+    },
   })
 
 export { tolgee, TolgeeProvider }
