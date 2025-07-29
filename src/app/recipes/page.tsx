@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../../lib/translations'
 import { RecipeWithDetails } from '@/types/recipe'
 
 // Mock data for recipes
@@ -389,7 +389,7 @@ export default function RecipesPage() {
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortOrder, setSortOrder] = useState('desc')
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
 
   useEffect(() => {
     // Load recipes regardless of authentication status
