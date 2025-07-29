@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../../lib/translations'
 import { RecipeWithDetails } from '@/types/recipe'
 
 export default function MyRecipesPage() {
@@ -16,7 +16,7 @@ export default function MyRecipesPage() {
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortOrder, setSortOrder] = useState('desc')
   const [publishingRecipe, setPublishingRecipe] = useState<string | null>(null)
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
 
   // Redirect to sign in if not authenticated
   useEffect(() => {
