@@ -16,6 +16,7 @@ interface UserProfile {
   cookingExperience: string | null
   favoritesCuisines: string | null
   dietaryRestrictions: string | null
+  profilePicture: string | null
   isPublicProfile: boolean
 }
 
@@ -26,6 +27,7 @@ export default function EditProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
@@ -38,6 +40,7 @@ export default function EditProfilePage() {
     cookingExperience: '',
     favoritesCuisines: [] as string[],
     dietaryRestrictions: [] as string[],
+    profilePicture: '',
     isPublicProfile: true
   })
 
@@ -69,6 +72,7 @@ export default function EditProfilePage() {
           cookingExperience: data.cookingExperience || '',
           favoritesCuisines: cuisines,
           dietaryRestrictions: dietary,
+          profilePicture: data.profilePicture || '',
           isPublicProfile: data.isPublicProfile
         })
       } else {
@@ -94,6 +98,56 @@ export default function EditProfilePage() {
   const handleArrayInputChange = (field: 'favoritesCuisines' | 'dietaryRestrictions', value: string) => {
     const items = value.split(',').map(item => item.trim()).filter(item => item.length > 0)
     setFormData(prev => ({ ...prev, [field]: items }))
+  }
+
+  const handleProfilePictureUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+    if (!allowedTypes.includes(file.type)) {
+      setError(t('profile.edit.invalid_file_type'))
+      return
+    }
+
+    // Validate file size (max 5MB)
+    const maxSize = 5 * 1024 * 1024 // 5MB
+    if (file.size > maxSize) {
+      setError(t('profile.edit.file_too_large'))
+      return
+    }
+
+    setIsUploading(true)
+    setError('')
+
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setFormData(prev => ({ ...prev, profilePicture: data.imageUrl }))
+        setSuccessMessage(t('profile.edit.profile_picture_uploaded'))
+        setTimeout(() => setSuccessMessage(''), 3000)
+      } else {
+        const errorData = await response.json()
+        setError(errorData.error || t('profile.edit.upload_error'))
+      }
+    } catch (error) {
+      setError(t('profile.edit.upload_error'))
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  const removeProfilePicture = () => {
+    setFormData(prev => ({ ...prev, profilePicture: '' }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -240,6 +294,85 @@ export default function EditProfilePage() {
                   placeholder={t('profile.edit.website_placeholder')}
                   className="input input-bordered w-full"
                 />
+              </div>
+            </div>
+          </div>
+
+          {/* Profile Picture */}
+          <div className="bg-white rounded-lg shadow-sm p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('profile.edit.profile_picture')}</h2>
+            
+            <div className="flex items-start space-x-6">
+              {/* Current Profile Picture */}
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                  {formData.profilePicture ? (
+                    <img
+                      src={formData.profilePicture}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                      <span className="text-white text-2xl font-bold">
+                        {formData.name?.charAt(0)?.toUpperCase() || profile?.email.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Upload Controls */}
+              <div className="flex-1">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {t('profile.edit.change_picture')}
+                    </label>
+                    <div className="flex items-center space-x-4">
+                      <label className="btn btn-outline btn-sm cursor-pointer">
+                        {isUploading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-500 mr-2"></div>
+                            {t('profile.edit.uploading')}
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            {t('profile.edit.upload_picture')}
+                          </>
+                        )}
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/jpeg,image/jpg,image/png,image/webp"
+                          onChange={handleProfilePictureUpload}
+                          disabled={isUploading}
+                        />
+                      </label>
+                      
+                      {formData.profilePicture && (
+                        <button
+                          type="button"
+                          onClick={removeProfilePicture}
+                          className="btn btn-outline btn-error btn-sm"
+                          disabled={isUploading}
+                        >
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                          {t('profile.edit.remove_picture')}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm text-gray-500">
+                    {t('profile.edit.picture_requirements')}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
