@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import { useTranslate, useTolgee } from '@tolgee/react'
+import { useTolgee } from '@tolgee/react'
+import { useTranslateWithFallback } from '../lib/translations'
 
 export function Navigation() {
   const { data: session } = useSession()
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
 
   return (
     <nav className="navbar navbar-glass sticky top-0 z-50">
@@ -133,7 +134,7 @@ export function Navigation() {
 }
 
 function LanguageSelector() {
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
   const tolgee = useTolgee(['language'])
   const currentLanguage = tolgee.getLanguage()
 
