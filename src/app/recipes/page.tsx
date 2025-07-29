@@ -626,7 +626,7 @@ export default function RecipesPage() {
 
                   <div className="flex items-center justify-between mb-4">
                     <div className="text-sm text-gray-600">
-                      {t('recipes.by')} <span className="font-medium text-gray-800">{t('recipes.chef')} {recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</span>
+                      {t('recipes.by')} <Link href={`/profile/${recipe.user.id}`} className="font-medium text-orange-600 hover:text-orange-700 hover:underline cursor-pointer">{t('recipes.chef')} {recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</Link>
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
