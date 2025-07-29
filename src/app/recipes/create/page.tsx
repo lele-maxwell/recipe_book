@@ -1,15 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { useTranslate } from '@tolgee/react'
+import { useTranslate, useTolgee } from '@tolgee/react'
 import { RecipeIngredientInput, MEASUREMENT_UNITS } from '@/types/recipe'
+import { getUnitName } from '@/lib/translations'
 
 export default function CreateRecipe() {
   const { data: session } = useSession()
   const router = useRouter()
   const { t } = useTranslate()
+  const tolgee = useTolgee()
+  const currentLanguage = tolgee.getLanguage()
   
   const [formData, setFormData] = useState({
     title: '',
@@ -34,8 +37,13 @@ export default function CreateRecipe() {
   const [uploadingImage, setUploadingImage] = useState(false)
 
   // Redirect to sign in if not authenticated
+  useEffect(() => {
+    if (!session) {
+      router.push('/auth/signin')
+    }
+  }, [session, router])
+
   if (!session) {
-    router.push('/auth/signin')
     return null
   }
 
@@ -116,7 +124,7 @@ export default function CreateRecipe() {
     )
 
     if (validIngredients.length === 0) {
-      setError('Please add at least one ingredient')
+      setError(t('create_recipe.error_no_ingredients'))
       setIsLoading(false)
       return
     }
@@ -164,10 +172,10 @@ export default function CreateRecipe() {
         setImagePreview('')
       } else {
         const data = await response.json()
-        setError(data.message || 'Failed to create recipe')
+        setError(data.message || t('create_recipe.error_failed_create'))
       }
     } catch (error) {
-      setError('An error occurred. Please try again.')
+      setError(t('create_recipe.error_generic'))
     } finally {
       setIsLoading(false)
     }
@@ -191,9 +199,9 @@ export default function CreateRecipe() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-semibold text-gray-900 mb-4">Recipe Created Successfully!</h1>
+              <h1 className="text-2xl font-semibold text-gray-900 mb-4">{t('create_recipe.success_title')}</h1>
               <p className="text-gray-600 mb-8">
-                Your recipe <span className="font-medium text-gray-900">&ldquo;{createdRecipe.title}&rdquo;</span> has been created and is now visible to all users.
+                {t('create_recipe.success_message', { title: createdRecipe.title })}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -201,19 +209,19 @@ export default function CreateRecipe() {
                   onClick={() => router.push(`/recipes/${createdRecipe.id}`)}
                   className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                 >
-                  View Recipe
+                  {t('create_recipe.view_recipe')}
                 </button>
                 <button
                   onClick={() => router.push('/my-recipes')}
                   className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  Go to My Recipes
+                  {t('create_recipe.go_to_my_recipes')}
                 </button>
                 <button
                   onClick={handleCreateAnother}
                   className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 >
-                  Create Another Recipe
+                  {t('create_recipe.create_another')}
                 </button>
               </div>
             </div>
@@ -227,7 +235,7 @@ export default function CreateRecipe() {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-2xl mx-auto px-6">
         <div className="bg-white rounded-lg shadow-sm p-8">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-8">Create a New Recipe</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 mb-8">{t('create_recipe.title')}</h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
@@ -239,12 +247,12 @@ export default function CreateRecipe() {
             {/* Recipe Title */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Recipe Title
+                {t('create_recipe.recipe_title')}
               </label>
               <input
                 type="text"
                 name="title"
-                placeholder="Enter recipe title"
+                placeholder={t('create_recipe.recipe_title_placeholder')}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                 value={formData.title}
                 onChange={handleInputChange}
@@ -255,15 +263,29 @@ export default function CreateRecipe() {
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Recipe Image
+                {t('create_recipe.recipe_image')}
               </label>
               <div className="space-y-4">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
-                />
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    id="image-upload"
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className="flex items-center justify-center w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 cursor-pointer hover:bg-gray-200 focus-within:bg-white focus-within:ring-2 focus-within:ring-orange-500 transition-all"
+                  >
+                    <span className="mr-3 px-4 py-2 bg-orange-50 text-orange-700 rounded-md text-sm font-medium hover:bg-orange-100 transition-colors">
+                      {t('create_recipe.choose_image')}
+                    </span>
+                    <span className="text-gray-500 text-sm">
+                      {imageFile ? imageFile.name : t('create_recipe.no_image_chosen')}
+                    </span>
+                  </label>
+                </div>
                 {imagePreview && (
                   <div className="mt-4">
                     <img
@@ -274,7 +296,7 @@ export default function CreateRecipe() {
                   </div>
                 )}
                 <div className="text-sm text-gray-500">
-                  Supported formats: JPEG, PNG, WebP (max 5MB)
+                  {t('create_recipe.supported_formats')}
                 </div>
               </div>
             </div>
@@ -283,14 +305,14 @@ export default function CreateRecipe() {
             <div>
               <div className="flex justify-between items-center mb-4">
                 <label className="block text-sm font-medium text-gray-700">
-                  Ingredients
+                  {t('create_recipe.ingredients')}
                 </label>
                 <button
                   type="button"
                   onClick={addIngredient}
                   className="text-sm text-orange-600 hover:text-orange-700 font-medium"
                 >
-                  Add Ingredient
+                  {t('create_recipe.add_ingredient')}
                 </button>
               </div>
               
@@ -298,20 +320,20 @@ export default function CreateRecipe() {
                 {ingredients.map((ingredient, index) => (
                   <div key={index} className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Ingredient</label>
+                      <label className="block text-xs text-gray-500 mb-1">{t('create_recipe.ingredient')}</label>
                       <input
                         type="text"
-                        placeholder="e.g., Flour"
+                        placeholder={t('create_recipe.ingredient_placeholder')}
                         className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                         value={ingredient.ingredientName}
                         onChange={(e) => handleIngredientChange(index, 'ingredientName', e.target.value)}
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-gray-500 mb-1">Measurement</label>
+                      <label className="block text-xs text-gray-500 mb-1">{t('create_recipe.measurement')}</label>
                       <input
                         type="text"
-                        placeholder="e.g., 200"
+                        placeholder={t('create_recipe.measurement_placeholder')}
                         className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                         value={ingredient.quantity || ''}
                         onChange={(e) => handleIngredientChange(index, 'quantity', parseFloat(e.target.value) || 0)}
@@ -324,7 +346,7 @@ export default function CreateRecipe() {
               {/* Unit Selection */}
               <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Unit
+                  {t('create_recipe.unit')}
                 </label>
                 <select
                   className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
@@ -336,7 +358,7 @@ export default function CreateRecipe() {
                 >
                   {MEASUREMENT_UNITS.map(unit => (
                     <option key={unit} value={unit}>
-                      {unit}
+                      {getUnitName(unit, currentLanguage)}
                     </option>
                   ))}
                 </select>
@@ -346,12 +368,12 @@ export default function CreateRecipe() {
             {/* Prep Time */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Prep Time (minutes)
+                {t('create_recipe.prep_time')}
               </label>
               <input
                 type="number"
                 name="prepTime"
-                placeholder="e.g., 15"
+                placeholder={t('create_recipe.prep_time_placeholder')}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                 value={formData.prepTime}
                 onChange={handleInputChange}
@@ -362,12 +384,12 @@ export default function CreateRecipe() {
             {/* Cook Time */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cook Time (minutes)
+                {t('create_recipe.cook_time')}
               </label>
               <input
                 type="number"
                 name="cookTime"
-                placeholder="e.g., 30"
+                placeholder={t('create_recipe.cook_time_placeholder')}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                 value={formData.cookTime}
                 onChange={handleInputChange}
@@ -378,12 +400,12 @@ export default function CreateRecipe() {
             {/* Servings */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Servings
+                {t('create_recipe.servings')}
               </label>
               <input
                 type="number"
                 name="servings"
-                placeholder="e.g., 4"
+                placeholder={t('create_recipe.servings_placeholder')}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
                 value={formData.servings}
                 onChange={handleInputChange}
@@ -394,11 +416,11 @@ export default function CreateRecipe() {
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description (optional)
+                {t('create_recipe.description')}
               </label>
               <textarea
                 name="description"
-                placeholder="Brief description of your recipe"
+                placeholder={t('create_recipe.description_placeholder')}
                 rows={3}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all resize-none"
                 value={formData.description}
@@ -409,14 +431,14 @@ export default function CreateRecipe() {
             {/* Instructions */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Instructions
+                {t('create_recipe.instructions')}
               </label>
               <div className="text-sm text-gray-500 mb-2">
-                You can use Markdown formatting (e.g., **bold**, *italic*, numbered lists, etc.)
+                {t('create_recipe.markdown_info')}
               </div>
               <textarea
                 name="instructions"
-                placeholder="Write your recipe instructions here using Markdown formatting"
+                placeholder={t('create_recipe.instructions_placeholder')}
                 rows={6}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all resize-none"
                 value={formData.instructions}
@@ -432,7 +454,7 @@ export default function CreateRecipe() {
                 disabled={isLoading || uploadingImage}
                 className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 px-6 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {uploadingImage ? 'Uploading Image...' : isLoading ? 'Saving...' : 'Save Recipe'}
+                {uploadingImage ? t('create_recipe.uploading_image') : isLoading ? t('create_recipe.saving') : t('create_recipe.save_recipe')}
               </button>
             </div>
           </form>
