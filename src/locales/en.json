@@ -165,5 +165,27 @@
     "view_recipe": "View Recipe",
     "go_to_my_recipes": "Go to My Recipes",
     "create_another": "Create Another Recipe"
+  },
+  "footer": {
+    "tagline": "Recipes Made Simple",
+    "description": "Join thousands of home cooks sharing their favorite recipes and discovering new culinary adventures from around the world.",
+    "quick_links": "Quick Links",
+    "about_us": "About Us",
+    "contact": "Contact",
+    "categories": "Categories",
+    "appetizers": "Appetizers",
+    "main_courses": "Main Courses",
+    "desserts": "Desserts",
+    "beverages": "Beverages",
+    "vegetarian": "Vegetarian",
+    "quick_meals": "Quick Meals",
+    "stay_connected": "Stay Connected",
+    "newsletter": "Newsletter",
+    "email_placeholder": "Enter your email",
+    "subscribe": "Subscribe",
+    "all_rights_reserved": "All rights reserved.",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "cookie_policy": "Cookie Policy"
   }
 }

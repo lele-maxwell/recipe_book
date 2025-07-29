@@ -165,5 +165,27 @@
     "view_recipe": "Rezept Anzeigen",
     "go_to_my_recipes": "Zu Meinen Rezepten",
     "create_another": "Weiteres Rezept Erstellen"
+  },
+  "footer": {
+    "tagline": "Rezepte Leicht Gemacht",
+    "description": "Schließen Sie sich Tausenden von Hobbyköchen an, die ihre Lieblingsrezepte teilen und neue kulinarische Abenteuer aus aller Welt entdecken.",
+    "quick_links": "Schnelle Links",
+    "about_us": "Über Uns",
+    "contact": "Kontakt",
+    "categories": "Kategorien",
+    "appetizers": "Vorspeisen",
+    "main_courses": "Hauptgerichte",
+    "desserts": "Desserts",
+    "beverages": "Getränke",
+    "vegetarian": "Vegetarisch",
+    "quick_meals": "Schnelle Gerichte",
+    "stay_connected": "Bleiben Sie Verbunden",
+    "newsletter": "Newsletter",
+    "email_placeholder": "E-Mail eingeben",
+    "subscribe": "Abonnieren",
+    "all_rights_reserved": "Alle Rechte vorbehalten.",
+    "privacy_policy": "Datenschutzrichtlinie",
+    "terms_of_service": "Nutzungsbedingungen",
+    "cookie_policy": "Cookie-Richtlinie"
   }
 }

@@ -165,5 +165,27 @@
     "view_recipe": "Voir la Recette",
     "go_to_my_recipes": "Aller à Mes Recettes",
     "create_another": "Créer une Autre Recette"
+  },
+  "footer": {
+    "tagline": "Recettes Simplifiées",
+    "description": "Rejoignez des milliers de cuisiniers amateurs partageant leurs recettes préférées et découvrant de nouvelles aventures culinaires du monde entier.",
+    "quick_links": "Liens Rapides",
+    "about_us": "À Propos",
+    "contact": "Contact",
+    "categories": "Catégories",
+    "appetizers": "Entrées",
+    "main_courses": "Plats Principaux",
+    "desserts": "Desserts",
+    "beverages": "Boissons",
+    "vegetarian": "Végétarien",
+    "quick_meals": "Repas Rapides",
+    "stay_connected": "Restez Connecté",
+    "newsletter": "Newsletter",
+    "email_placeholder": "Entrez votre email",
+    "subscribe": "S'abonner",
+    "all_rights_reserved": "Tous droits réservés.",
+    "privacy_policy": "Politique de Confidentialité",
+    "terms_of_service": "Conditions d'Utilisation",
+    "cookie_policy": "Politique des Cookies"
   }
 }
