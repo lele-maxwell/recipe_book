@@ -1,198 +1,118 @@
-import { IngredientWithTranslations } from '@/types/recipe'
+'use client'
 
-/**
- * Get the translated name of an ingredient based on the current locale
- */
-export function getIngredientName(
-  ingredient: IngredientWithTranslations,
-  locale: string = 'en'
-): string {
-  // First, try to find a translation for the requested locale
-  const translation = ingredient.translations?.find(t => t.locale === locale)
-  if (translation) {
-    return translation.name
-  }
+import { useTranslate as useTolgeeTranslate, useTolgee } from '@tolgee/react'
+import { useEffect, useState } from 'react'
 
-  // If no translation found, try English as fallback
-  if (locale !== 'en') {
-    const englishTranslation = ingredient.translations?.find(t => t.locale === 'en')
-    if (englishTranslation) {
-      return englishTranslation.name
+// Import static translations as fallback
+import enTranslations from '../locales/en.json'
+import frTranslations from '../locales/fr.json'
+import esTranslations from '../locales/es.json'
+import deTranslations from '../locales/de.json'
+
+const staticTranslations = {
+  en: enTranslations,
+  fr: frTranslations,
+  es: esTranslations,
+  de: deTranslations,
+}
+
+type TranslationKey = string
+type TranslationParams = Record<string, string | number>
+
+export function useTranslateWithFallback() {
+  const { t: tolgeeTranslate } = useTolgeeTranslate()
+  const tolgee = useTolgee()
+  const [currentLanguage, setCurrentLanguage] = useState('en')
+  const [isApiAvailable, setIsApiAvailable] = useState(true)
+
+  useEffect(() => {
+    // Get current language
+    setCurrentLanguage(tolgee.getLanguage() || 'en')
+
+    // Check if API is available by testing a translation
+    const checkApiAvailability = async () => {
+      try {
+        // Try to get a simple translation from API
+        const testTranslation = tolgeeTranslate('common.loading')
+        if (!testTranslation || testTranslation === 'common.loading') {
+          // If translation is not found or returns the key, API might not be working
+          setIsApiAvailable(false)
+        }
+      } catch (error) {
+        console.warn('Tolgee API not available, using static fallback:', error)
+        setIsApiAvailable(false)
+      }
+    }
+
+    checkApiAvailability()
+
+    // Listen for language changes if available
+    const handleLanguageChange = () => {
+      setCurrentLanguage(tolgee.getLanguage() || 'en')
+    }
+
+    // Add event listener for language changes
+    if (typeof window !== 'undefined') {
+      window.addEventListener('tolgee:languageChanged', handleLanguageChange)
+      return () => {
+        window.removeEventListener('tolgee:languageChanged', handleLanguageChange)
+      }
+    }
+  }, [tolgee, tolgeeTranslate])
+
+  const translate = (key: TranslationKey, params?: TranslationParams): string => {
+    try {
+      // First, try to get translation from Tolgee API
+      if (isApiAvailable) {
+        const apiTranslation = tolgeeTranslate(key, params)
+        
+        // If we get a valid translation (not just the key back), use it
+        if (apiTranslation && apiTranslation !== key) {
+          return apiTranslation
+        }
+      }
+
+      // Fallback to static translations
+      const staticData = staticTranslations[currentLanguage as keyof typeof staticTranslations] || staticTranslations.en
+      const translation = getNestedTranslation(staticData, key)
+      
+      if (translation) {
+        // Simple parameter replacement for static translations
+        if (params) {
+          return Object.keys(params).reduce((text, paramKey) => {
+            return text.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(params[paramKey]))
+          }, translation)
+        }
+        return translation
+      }
+
+      // If no translation found anywhere, return the key
+      console.warn(`Translation not found for key: ${key}`)
+      return key
+    } catch (error) {
+      console.error('Translation error:', error)
+      return key
     }
   }
 
-  // If no translations available, return the original name
-  return ingredient.name
+  return { t: translate, language: currentLanguage, isApiAvailable }
 }
 
-/**
- * Get the translated unit name based on the current locale
- */
-export function getUnitName(unit: string, locale: string = 'en'): string {
-  // This would typically use the translation system
-  // For now, we'll use a simple mapping
-  const unitTranslations: Record<string, Record<string, string>> = {
-    en: {
-      cups: 'cups',
-      tablespoons: 'tablespoons',
-      teaspoons: 'teaspoons',
-      grams: 'grams',
-      kilograms: 'kilograms',
-      ounces: 'ounces',
-      pounds: 'pounds',
-      milliliters: 'milliliters',
-      liters: 'liters',
-      pieces: 'pieces',
-      cloves: 'cloves',
-      slices: 'slices',
-      pinch: 'pinch',
-      dash: 'dash',
-    },
-    fr: {
-      cups: 'tasses',
-      tablespoons: 'cuillères à soupe',
-      teaspoons: 'cuillères à café',
-      grams: 'grammes',
-      kilograms: 'kilogrammes',
-      ounces: 'onces',
-      pounds: 'livres',
-      milliliters: 'millilitres',
-      liters: 'litres',
-      pieces: 'pièces',
-      cloves: 'gousses',
-      slices: 'tranches',
-      pinch: 'pincée',
-      dash: 'trait',
-    },
-    es: {
-      cups: 'tazas',
-      tablespoons: 'cucharadas',
-      teaspoons: 'cucharaditas',
-      grams: 'gramos',
-      kilograms: 'kilogramos',
-      ounces: 'onzas',
-      pounds: 'libras',
-      milliliters: 'mililitros',
-      liters: 'litros',
-      pieces: 'piezas',
-      cloves: 'dientes',
-      slices: 'rebanadas',
-      pinch: 'pizca',
-      dash: 'chorrito',
-    },
-    de: {
-      cups: 'Tassen',
-      tablespoons: 'Esslöffel',
-      teaspoons: 'Teelöffel',
-      grams: 'Gramm',
-      kilograms: 'Kilogramm',
-      ounces: 'Unzen',
-      pounds: 'Pfund',
-      milliliters: 'Milliliter',
-      liters: 'Liter',
-      pieces: 'Stücke',
-      cloves: 'Zehen',
-      slices: 'Scheiben',
-      pinch: 'Prise',
-      dash: 'Spritzer',
-    },
+// Helper function to get nested translation from static data
+function getNestedTranslation(obj: Record<string, unknown>, key: string): string | null {
+  const keys = key.split('.')
+  let current: unknown = obj
+
+  for (const k of keys) {
+    if (current && typeof current === 'object' && current !== null && k in current) {
+      current = (current as Record<string, unknown>)[k]
+    } else {
+      return null
+    }
   }
 
-  return unitTranslations[locale]?.[unit] || unitTranslations.en[unit] || unit
+  return typeof current === 'string' ? current : null
 }
 
-/**
- * Seed some common ingredient translations
- */
-export const commonIngredientTranslations = {
-  flour: {
-    en: 'Flour',
-    fr: 'Farine',
-    es: 'Harina',
-    de: 'Mehl',
-  },
-  sugar: {
-    en: 'Sugar',
-    fr: 'Sucre',
-    es: 'Azúcar',
-    de: 'Zucker',
-  },
-  salt: {
-    en: 'Salt',
-    fr: 'Sel',
-    es: 'Sal',
-    de: 'Salz',
-  },
-  pepper: {
-    en: 'Pepper',
-    fr: 'Poivre',
-    es: 'Pimienta',
-    de: 'Pfeffer',
-  },
-  butter: {
-    en: 'Butter',
-    fr: 'Beurre',
-    es: 'Mantequilla',
-    de: 'Butter',
-  },
-  eggs: {
-    en: 'Eggs',
-    fr: 'Œufs',
-    es: 'Huevos',
-    de: 'Eier',
-  },
-  milk: {
-    en: 'Milk',
-    fr: 'Lait',
-    es: 'Leche',
-    de: 'Milch',
-  },
-  onion: {
-    en: 'Onion',
-    fr: 'Oignon',
-    es: 'Cebolla',
-    de: 'Zwiebel',
-  },
-  garlic: {
-    en: 'Garlic',
-    fr: 'Ail',
-    es: 'Ajo',
-    de: 'Knoblauch',
-  },
-  tomato: {
-    en: 'Tomato',
-    fr: 'Tomate',
-    es: 'Tomate',
-    de: 'Tomate',
-  },
-  chicken: {
-    en: 'Chicken',
-    fr: 'Poulet',
-    es: 'Pollo',
-    de: 'Hähnchen',
-  },
-  beef: {
-    en: 'Beef',
-    fr: 'Bœuf',
-    es: 'Carne de res',
-    de: 'Rindfleisch',
-  },
-  rice: {
-    en: 'Rice',
-    fr: 'Riz',
-    es: 'Arroz',
-    de: 'Reis',
-  },
-  pasta: {
-    en: 'Pasta',
-    fr: 'Pâtes',
-    es: 'Pasta',
-    de: 'Nudeln',
-  },
-  cheese: {
-    en: 'Cheese',
-    fr: 'Fromage',
-    es: 'Queso',
-    de: 'Käse',
-  },
-}
+// Export the original hook as well for backward compatibility
+export { useTolgeeTranslate as useTranslate }
