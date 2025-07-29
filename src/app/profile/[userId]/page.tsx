@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../../../lib/translations'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
@@ -50,7 +50,7 @@ interface PublicProfile {
 
 export default function PublicProfilePage() {
   const { data: session } = useSession()
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
   const params = useParams()
   const userId = params.userId as string
   
