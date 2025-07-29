@@ -3,14 +3,15 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { useTranslate, useTolgee } from '@tolgee/react'
+import { useTolgee } from '@tolgee/react'
+import { useTranslateWithFallback } from '../../../lib/translations'
 import { RecipeIngredientInput, MEASUREMENT_UNITS } from '@/types/recipe'
 import { getUnitName } from '@/lib/translations'
 
 export default function CreateRecipe() {
   const { data: session } = useSession()
   const router = useRouter()
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
   const tolgee = useTolgee()
   const currentLanguage = tolgee.getLanguage()
   
