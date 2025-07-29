@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../lib/translations'
 
 // Mock data for top recipes
 const topRecipes = [
@@ -31,7 +31,7 @@ const topRecipes = [
 
 export default function Home() {
   const { data: session } = useSession()
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
