@@ -104,7 +104,7 @@ export default function ProfilePage() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="min-h-screen bg-base-200 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </div>
     )
@@ -116,7 +116,7 @@ export default function ProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-base-200 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('common.error')}</h1>
           <p className="text-gray-600 mb-4">{error}</p>
@@ -133,7 +133,7 @@ export default function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-base-200 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('profile.not_found')}</h1>
           <Link href="/" className="btn btn-primary">
@@ -145,7 +145,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-base-200 py-8">
+    <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
