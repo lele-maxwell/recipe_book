@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { useTranslate } from '@tolgee/react'
+import { useTranslate, useTolgee } from '@tolgee/react'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import { getUnitName } from '@/lib/translations'
 
 // Type definitions
 interface Rating {
@@ -121,6 +122,8 @@ export default function RecipePage() {
   const router = useRouter()
   const { data: session, status } = useSession()
   const { t } = useTranslate()
+  const tolgee = useTolgee()
+  const currentLanguage = tolgee.getLanguage()
   const [recipe, setRecipe] = useState<Recipe | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -214,7 +217,7 @@ export default function RecipePage() {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this recipe?')) return
+    if (!confirm(t('recipe.confirm_delete'))) return
     router.push('/recipes')
   }
 
@@ -252,9 +255,9 @@ export default function RecipePage() {
     return (
       <div className="min-h-screen bg-white flex flex-col justify-center items-center">
         <div className="text-6xl mb-4">😞</div>
-        <h2 className="text-2xl font-bold mb-2 text-gray-900">{error || 'Recipe not found'}</h2>
+        <h2 className="text-2xl font-bold mb-2 text-gray-900">{error || t('recipe.not_found')}</h2>
         <button onClick={() => router.back()} className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
-          Go Back
+          {t('common.back')}
         </button>
       </div>
     )
@@ -279,12 +282,12 @@ export default function RecipePage() {
         {/* Recipe Title and Author */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">{recipe.title}</h1>
-          <p className="text-gray-600 text-sm">by Chef {recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</p>
+          <p className="text-gray-600 text-sm">{t('recipe.created_by')} {recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</p>
         </div>
 
         {/* Ingredients Section */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Ingredients</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('recipe.ingredients')}</h2>
           <div className="space-y-3">
             {recipe.ingredients.map((recipeIngredient: RecipeIngredient) => (
               <label 
@@ -298,7 +301,7 @@ export default function RecipePage() {
                   className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5"
                 />
                 <span className={`text-gray-700 text-sm leading-relaxed ${checkedIngredients[recipeIngredient.id] ? 'line-through text-gray-400' : ''}`}>
-                  {recipeIngredient.quantity} {recipeIngredient.unit} {recipeIngredient.ingredient.name}
+                  {recipeIngredient.quantity} {getUnitName(recipeIngredient.unit, currentLanguage)} {recipeIngredient.ingredient.name}
                 </span>
               </label>
             ))}
@@ -307,7 +310,7 @@ export default function RecipePage() {
 
         {/* Instructions Section */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Instructions</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('recipe.instructions')}</h2>
           <div className="prose prose-sm prose-gray max-w-none text-gray-700 leading-relaxed">
             <ReactMarkdown>{recipe.instructions}</ReactMarkdown>
           </div>
@@ -315,7 +318,7 @@ export default function RecipePage() {
 
         {/* Rating Section */}
         <div className="border-t border-gray-200 pt-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">Rate this recipe</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">{t('recipe.rate_recipe')}</h2>
           
           {/* Overall Rating */}
           <div className="flex items-center space-x-4 mb-6">
@@ -327,7 +330,7 @@ export default function RecipePage() {
                 {renderStars(recipe.averageRating || 0)}
               </div>
               <div className="text-sm text-gray-600">
-                {recipe._count.ratings} reviews
+                {recipe._count.ratings} {t('recipe.reviews')}
               </div>
             </div>
           </div>
@@ -356,12 +359,12 @@ export default function RecipePage() {
           {/* User Rating */}
           {session && !isOwner && (
             <div className="border-t border-gray-200 pt-6">
-              <p className="text-gray-700 mb-3 text-sm">Rate this recipe:</p>
+              <p className="text-gray-700 mb-3 text-sm">{t('recipe.rate_this_recipe')}:</p>
               <div className="flex items-center space-x-2">
                 {renderStars(userRating, true, handleRating)}
                 {userRating > 0 && (
                   <span className="text-sm text-gray-600 ml-4">
-                    Your rating: {userRating}/5
+                    {t('recipe.your_rating')}: {userRating}/5
                   </span>
                 )}
               </div>
@@ -371,7 +374,7 @@ export default function RecipePage() {
           {!session && (
             <div className="border-t border-gray-200 pt-6">
               <p className="text-gray-600 text-sm">
-                <a href="/auth/signin" className="text-blue-600 hover:text-blue-700 underline">Sign in</a> to rate this recipe
+                <a href="/auth/signin" className="text-blue-600 hover:text-blue-700 underline">{t('navigation.sign_in')}</a> {t('recipe.to_rate_recipe')}
               </p>
             </div>
           )}
@@ -384,13 +387,13 @@ export default function RecipePage() {
               onClick={() => router.push(`/recipes/${recipe.id}/edit`)}
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm"
             >
-              Edit Recipe
+              {t('recipe.edit_recipe')}
             </button>
             <button
               onClick={handleDelete}
               className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 text-sm"
             >
-              Delete Recipe
+              {t('recipe.delete_recipe')}
             </button>
           </div>
         )}
