@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../../../lib/translations'
 import Link from 'next/link'
 
 interface UserProfile {
@@ -23,7 +23,7 @@ interface UserProfile {
 export default function EditProfilePage() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
