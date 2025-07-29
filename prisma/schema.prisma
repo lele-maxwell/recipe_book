@@ -57,6 +57,16 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // Profile fields
+  bio                String?   @db.Text
+  location           String?
+  website            String?
+  cookingExperience  String?   // "beginner", "intermediate", "advanced", "professional"
+  favoritesCuisines  String?   @db.Text // JSON array of favorite cuisines
+  dietaryRestrictions String?  @db.Text // JSON array of dietary restrictions
+  profilePicture     String?   @db.Text // URL to profile picture
+  isPublicProfile    Boolean   @default(true)
+  
   // NextAuth relations
   accounts Account[]
   sessions Session[]
