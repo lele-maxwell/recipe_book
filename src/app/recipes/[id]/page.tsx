@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { useTranslate, useTolgee } from '@tolgee/react'
+import { useTolgee } from '@tolgee/react'
+import { useTranslateWithFallback, getUnitName } from '../../../lib/translations'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
-import { getUnitName } from '@/lib/translations'
 
 // Type definitions
 interface Rating {
@@ -121,7 +121,7 @@ export default function RecipePage() {
   const params = useParams()
   const router = useRouter()
   const { data: session, status } = useSession()
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
   const tolgee = useTolgee()
   const currentLanguage = tolgee.getLanguage()
   const [recipe, setRecipe] = useState<Recipe | null>(null)
