@@ -11,7 +11,9 @@
     "next": "Siguiente",
     "previous": "Anterior",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "error": "Error",
+    "try_again": "Intentar de Nuevo"
   },
   "navigation": {
     "home": "Inicio",
@@ -165,6 +167,57 @@
     "view_recipe": "Ver Receta",
     "go_to_my_recipes": "Ir a Mis Recetas",
     "create_another": "Crear Otra Receta"
+  },
+  "profile": {
+    "title": "Perfil",
+    "edit_profile": "Editar Perfil",
+    "about": "Acerca de",
+    "statistics": "Estadísticas",
+    "recipes_created": "Recetas Creadas",
+    "ratings_given": "Calificaciones Dadas",
+    "member_since": "Miembro Desde",
+    "cooking_experience": "Experiencia Culinaria",
+    "favorite_cuisines": "Cocinas Favoritas",
+    "dietary_restrictions": "Restricciones Dietéticas",
+    "recent_recipes": "Recetas Recientes",
+    "view_all_recipes": "Ver Todas las Recetas",
+    "recent_recipes_placeholder": "Tus recetas recientes aparecerán aquí",
+    "anonymous_user": "Usuario Anónimo",
+    "not_found": "Perfil no encontrado",
+    "experience": {
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado",
+      "professional": "Profesional",
+      "not_specified": "No especificado"
+    },
+    "edit": {
+      "title": "Editar Perfil",
+      "save_changes": "Guardar Cambios",
+      "cancel": "Cancelar",
+      "personal_info": "Información Personal",
+      "name": "Nombre",
+      "name_placeholder": "Ingresa tu nombre",
+      "bio": "Biografía",
+      "bio_placeholder": "Cuéntanos sobre ti y tu viaje culinario...",
+      "location": "Ubicación",
+      "location_placeholder": "Ciudad, País",
+      "website": "Sitio Web",
+      "website_placeholder": "https://tu-sitio-web.com",
+      "cooking_preferences": "Preferencias Culinarias",
+      "experience_level": "Nivel de Experiencia",
+      "select_experience": "Selecciona tu experiencia culinaria",
+      "cuisines": "Cocinas Favoritas",
+      "cuisines_placeholder": "Italiana, Mexicana, Asiática...",
+      "dietary": "Restricciones Dietéticas",
+      "dietary_placeholder": "Vegetariano, Vegano, Sin gluten...",
+      "privacy": "Configuración de Privacidad",
+      "public_profile": "Hacer perfil público",
+      "public_profile_help": "Permitir que otros usuarios vean tu perfil y recetas",
+      "saving": "Guardando...",
+      "save_error": "Error al guardar los cambios. Por favor intenta de nuevo.",
+      "save_success": "¡Perfil actualizado exitosamente!"
+    }
   },
   "footer": {
     "tagline": "Recetas Simplificadas",

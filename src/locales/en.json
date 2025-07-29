@@ -11,7 +11,9 @@
     "next": "Next",
     "previous": "Previous",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "error": "Error",
+    "try_again": "Try Again"
   },
   "navigation": {
     "home": "Home",
@@ -165,6 +167,57 @@
     "view_recipe": "View Recipe",
     "go_to_my_recipes": "Go to My Recipes",
     "create_another": "Create Another Recipe"
+  },
+  "profile": {
+    "title": "Profile",
+    "edit_profile": "Edit Profile",
+    "about": "About",
+    "statistics": "Statistics",
+    "recipes_created": "Recipes Created",
+    "ratings_given": "Ratings Given",
+    "member_since": "Member Since",
+    "cooking_experience": "Cooking Experience",
+    "favorite_cuisines": "Favorite Cuisines",
+    "dietary_restrictions": "Dietary Restrictions",
+    "recent_recipes": "Recent Recipes",
+    "view_all_recipes": "View All Recipes",
+    "recent_recipes_placeholder": "Your recent recipes will appear here",
+    "anonymous_user": "Anonymous User",
+    "not_found": "Profile not found",
+    "experience": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "professional": "Professional",
+      "not_specified": "Not specified"
+    },
+    "edit": {
+      "title": "Edit Profile",
+      "save_changes": "Save Changes",
+      "cancel": "Cancel",
+      "personal_info": "Personal Information",
+      "name": "Name",
+      "name_placeholder": "Enter your name",
+      "bio": "Bio",
+      "bio_placeholder": "Tell us about yourself and your cooking journey...",
+      "location": "Location",
+      "location_placeholder": "City, Country",
+      "website": "Website",
+      "website_placeholder": "https://your-website.com",
+      "cooking_preferences": "Cooking Preferences",
+      "experience_level": "Experience Level",
+      "select_experience": "Select your cooking experience",
+      "cuisines": "Favorite Cuisines",
+      "cuisines_placeholder": "Italian, Mexican, Asian...",
+      "dietary": "Dietary Restrictions",
+      "dietary_placeholder": "Vegetarian, Vegan, Gluten-free...",
+      "privacy": "Privacy Settings",
+      "public_profile": "Make profile public",
+      "public_profile_help": "Allow other users to view your profile and recipes",
+      "saving": "Saving...",
+      "save_error": "Failed to save changes. Please try again.",
+      "save_success": "Profile updated successfully!"
+    }
   },
   "footer": {
     "tagline": "Recipes Made Simple",

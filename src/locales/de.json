@@ -11,7 +11,9 @@
     "next": "Weiter",
     "previous": "Vorherige",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "error": "Fehler",
+    "try_again": "Erneut Versuchen"
   },
   "navigation": {
     "home": "Startseite",
@@ -165,6 +167,57 @@
     "view_recipe": "Rezept Anzeigen",
     "go_to_my_recipes": "Zu Meinen Rezepten",
     "create_another": "Weiteres Rezept Erstellen"
+  },
+  "profile": {
+    "title": "Profil",
+    "edit_profile": "Profil Bearbeiten",
+    "about": "Über",
+    "statistics": "Statistiken",
+    "recipes_created": "Rezepte Erstellt",
+    "ratings_given": "Bewertungen Abgegeben",
+    "member_since": "Mitglied Seit",
+    "cooking_experience": "Kocherfahrung",
+    "favorite_cuisines": "Lieblings-Küchen",
+    "dietary_restrictions": "Ernährungseinschränkungen",
+    "recent_recipes": "Neueste Rezepte",
+    "view_all_recipes": "Alle Rezepte Anzeigen",
+    "recent_recipes_placeholder": "Ihre neuesten Rezepte werden hier angezeigt",
+    "anonymous_user": "Anonymer Benutzer",
+    "not_found": "Profil nicht gefunden",
+    "experience": {
+      "beginner": "Anfänger",
+      "intermediate": "Fortgeschritten",
+      "advanced": "Erfahren",
+      "professional": "Professionell",
+      "not_specified": "Nicht angegeben"
+    },
+    "edit": {
+      "title": "Profil Bearbeiten",
+      "save_changes": "Änderungen Speichern",
+      "cancel": "Abbrechen",
+      "personal_info": "Persönliche Informationen",
+      "name": "Name",
+      "name_placeholder": "Geben Sie Ihren Namen ein",
+      "bio": "Biografie",
+      "bio_placeholder": "Erzählen Sie uns von sich und Ihrer kulinarischen Reise...",
+      "location": "Standort",
+      "location_placeholder": "Stadt, Land",
+      "website": "Website",
+      "website_placeholder": "https://ihre-website.com",
+      "cooking_preferences": "Koch-Präferenzen",
+      "experience_level": "Erfahrungslevel",
+      "select_experience": "Wählen Sie Ihre Kocherfahrung",
+      "cuisines": "Lieblings-Küchen",
+      "cuisines_placeholder": "Italienisch, Mexikanisch, Asiatisch...",
+      "dietary": "Ernährungseinschränkungen",
+      "dietary_placeholder": "Vegetarisch, Vegan, Glutenfrei...",
+      "privacy": "Datenschutz-Einstellungen",
+      "public_profile": "Profil öffentlich machen",
+      "public_profile_help": "Anderen Benutzern erlauben, Ihr Profil und Ihre Rezepte zu sehen",
+      "saving": "Speichern...",
+      "save_error": "Fehler beim Speichern der Änderungen. Bitte versuchen Sie es erneut.",
+      "save_success": "Profil erfolgreich aktualisiert!"
+    }
   },
   "footer": {
     "tagline": "Rezepte Leicht Gemacht",
