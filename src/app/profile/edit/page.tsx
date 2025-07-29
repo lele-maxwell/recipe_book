@@ -183,7 +183,7 @@ export default function EditProfilePage() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </div>
     )
@@ -194,7 +194,7 @@ export default function EditProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-100 py-8">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
@@ -247,7 +247,7 @@ export default function EditProfilePage() {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder={t('profile.edit.name_placeholder')}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 text-gray-900"
                 />
               </div>
 
@@ -262,7 +262,7 @@ export default function EditProfilePage() {
                   value={formData.bio}
                   onChange={handleInputChange}
                   placeholder={t('profile.edit.bio_placeholder')}
-                  className="textarea textarea-bordered w-full"
+                  className="textarea textarea-bordered w-full bg-gray-50 text-gray-900"
                 />
               </div>
 
@@ -277,7 +277,7 @@ export default function EditProfilePage() {
                   value={formData.location}
                   onChange={handleInputChange}
                   placeholder={t('profile.edit.location_placeholder')}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 text-gray-900"
                 />
               </div>
 
@@ -292,7 +292,7 @@ export default function EditProfilePage() {
                   value={formData.website}
                   onChange={handleInputChange}
                   placeholder={t('profile.edit.website_placeholder')}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 text-gray-900"
                 />
               </div>
             </div>
@@ -391,7 +391,7 @@ export default function EditProfilePage() {
                   name="cookingExperience"
                   value={formData.cookingExperience}
                   onChange={handleInputChange}
-                  className="select select-bordered w-full"
+                  className="select select-bordered w-full bg-gray-50 text-gray-900"
                 >
                   <option value="">{t('profile.edit.select_experience')}</option>
                   <option value="beginner">{t('profile.experience.beginner')}</option>
@@ -411,7 +411,7 @@ export default function EditProfilePage() {
                   value={formData.favoritesCuisines.join(', ')}
                   onChange={(e) => handleArrayInputChange('favoritesCuisines', e.target.value)}
                   placeholder={t('profile.edit.cuisines_placeholder')}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 text-gray-900"
                 />
               </div>
 
@@ -425,7 +425,7 @@ export default function EditProfilePage() {
                   value={formData.dietaryRestrictions.join(', ')}
                   onChange={(e) => handleArrayInputChange('dietaryRestrictions', e.target.value)}
                   placeholder={t('profile.edit.dietary_placeholder')}
-                  className="input input-bordered w-full"
+                  className="input input-bordered w-full bg-gray-50 text-gray-900"
                 />
               </div>
             </div>
