@@ -282,7 +282,7 @@ export default function RecipePage() {
         {/* Recipe Title and Author */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">{recipe.title}</h1>
-          <p className="text-gray-600 text-sm">{t('recipe.created_by')} {recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</p>
+          <p className="text-gray-600 text-sm">{t('recipe.created_by')} <Link href={`/profile/${recipe.user.id}`} className="font-medium text-orange-600 hover:text-orange-700 hover:underline cursor-pointer">{recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</Link></p>
         </div>
 
         {/* Ingredients Section */}
