@@ -74,6 +74,10 @@ model User {
   // App relations
   recipes Recipe[]
   ratings Rating[]
+  
+  // Follow relationships
+  following Follow[] @relation("UserFollowing")
+  followers Follow[] @relation("UserFollowers")
 }
 
 model Recipe {
@@ -152,4 +156,19 @@ model Rating {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([recipeId, userId]) // One rating per user per recipe
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String   // User who is following
+  followingId String   // User being followed
+  createdAt   DateTime @default(now())
+
+  // Relations
+  follower  User @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId]) // One follow relationship per pair
+  @@index([followerId])
+  @@index([followingId])
 }
