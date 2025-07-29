@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../lib/translations'
 
 export function Footer() {
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
 
   return (
     <footer className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
