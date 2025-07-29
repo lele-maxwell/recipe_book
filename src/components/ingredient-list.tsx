@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslate } from '@tolgee/react'
+import { useTranslateWithFallback } from '../lib/translations'
 import { RecipeWithDetails } from '@/types/recipe'
-import { getIngredientName, getUnitName } from '@/lib/translations'
+import { getUnitName } from '@/lib/translations'
 
 interface IngredientListProps {
   recipe: RecipeWithDetails
@@ -11,7 +11,7 @@ interface IngredientListProps {
 }
 
 export function IngredientList({ recipe, locale = 'en' }: IngredientListProps) {
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
 
   return (
     <div className="card bg-base-100 shadow-lg">
@@ -19,7 +19,7 @@ export function IngredientList({ recipe, locale = 'en' }: IngredientListProps) {
         <h3 className="card-title text-lg">{t('recipe.ingredients')}</h3>
         <ul className="space-y-2">
           {recipe.ingredients.map((recipeIngredient) => {
-            const ingredientName = getIngredientName(recipeIngredient.ingredient, locale)
+            const ingredientName = recipeIngredient.ingredient.name
             const unitName = getUnitName(recipeIngredient.unit, locale)
             
             return (
@@ -48,7 +48,7 @@ export function IngredientTranslationManager({
   currentName, 
   onTranslationAdded 
 }: IngredientTranslationManagerProps) {
-  const { t } = useTranslate()
+  const { t } = useTranslateWithFallback()
   const [isOpen, setIsOpen] = useState(false)
   const [locale, setLocale] = useState('fr')
   const [translatedName, setTranslatedName] = useState('')

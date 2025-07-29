@@ -33,10 +33,17 @@ export function useTranslateWithFallback() {
     const checkApiAvailability = async () => {
       try {
         // Try to get a simple translation from API
-        const testTranslation = tolgeeTranslate('common.loading')
-        if (!testTranslation || testTranslation === 'common.loading') {
-          // If translation is not found or returns the key, API might not be working
+        const testTranslation = tolgeeTranslate('navigation.home')
+        console.log('Tolgee API test translation:', testTranslation)
+        
+        // Only mark API as unavailable if we get an error or undefined
+        // Don't mark as unavailable just because it returns the key
+        if (testTranslation === undefined || testTranslation === null) {
+          console.warn('Tolgee API test returned null/undefined, using static fallback')
           setIsApiAvailable(false)
+        } else {
+          console.log('Tolgee API is available')
+          setIsApiAvailable(true)
         }
       } catch (error) {
         console.warn('Tolgee API not available, using static fallback:', error)
@@ -62,7 +69,21 @@ export function useTranslateWithFallback() {
 
   const translate = (key: TranslationKey, params?: TranslationParams): string => {
     try {
-      // First, try to get translation from Tolgee API
+      // Always try static translations first for reliability
+      const staticData = staticTranslations[currentLanguage as keyof typeof staticTranslations] || staticTranslations.en
+      const staticTranslation = getNestedTranslation(staticData, key)
+      
+      if (staticTranslation) {
+        // Simple parameter replacement for static translations
+        if (params) {
+          return Object.keys(params).reduce((text, paramKey) => {
+            return text.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(params[paramKey]))
+          }, staticTranslation)
+        }
+        return staticTranslation
+      }
+
+      // If static translation not found, try Tolgee API as fallback
       if (isApiAvailable) {
         const apiTranslation = tolgeeTranslate(key, params)
         
@@ -70,20 +91,6 @@ export function useTranslateWithFallback() {
         if (apiTranslation && apiTranslation !== key) {
           return apiTranslation
         }
-      }
-
-      // Fallback to static translations
-      const staticData = staticTranslations[currentLanguage as keyof typeof staticTranslations] || staticTranslations.en
-      const translation = getNestedTranslation(staticData, key)
-      
-      if (translation) {
-        // Simple parameter replacement for static translations
-        if (params) {
-          return Object.keys(params).reduce((text, paramKey) => {
-            return text.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(params[paramKey]))
-          }, translation)
-        }
-        return translation
       }
 
       // If no translation found anywhere, return the key
@@ -112,6 +119,45 @@ function getNestedTranslation(obj: Record<string, unknown>, key: string): string
   }
 
   return typeof current === 'string' ? current : null
+}
+
+// Helper function to get unit names with translation support
+export function getUnitName(unit: string, language: string = 'en'): string {
+  if (!unit) return ''
+  
+  // Unit translation mapping
+  const unitTranslations: Record<string, Record<string, string>> = {
+    // Weight units
+    'g': { en: 'g', fr: 'g', es: 'g', de: 'g' },
+    'kg': { en: 'kg', fr: 'kg', es: 'kg', de: 'kg' },
+    'lb': { en: 'lb', fr: 'lb', es: 'lb', de: 'Pfund' },
+    'oz': { en: 'oz', fr: 'oz', es: 'oz', de: 'Unze' },
+    
+    // Volume units
+    'ml': { en: 'ml', fr: 'ml', es: 'ml', de: 'ml' },
+    'l': { en: 'l', fr: 'l', es: 'l', de: 'l' },
+    'liter': { en: 'liter', fr: 'litre', es: 'litro', de: 'Liter' },
+    'cup': { en: 'cup', fr: 'tasse', es: 'taza', de: 'Tasse' },
+    'cups': { en: 'cups', fr: 'tasses', es: 'tazas', de: 'Tassen' },
+    'tbsp': { en: 'tbsp', fr: 'c. à s.', es: 'cda', de: 'EL' },
+    'tsp': { en: 'tsp', fr: 'c. à c.', es: 'cdta', de: 'TL' },
+    
+    // Count units
+    'piece': { en: 'piece', fr: 'pièce', es: 'pieza', de: 'Stück' },
+    'pieces': { en: 'pieces', fr: 'pièces', es: 'piezas', de: 'Stück' },
+    'clove': { en: 'clove', fr: 'gousse', es: 'diente', de: 'Zehe' },
+    'cloves': { en: 'cloves', fr: 'gousses', es: 'dientes', de: 'Zehen' },
+  }
+  
+  const normalizedUnit = unit.toLowerCase().trim()
+  const translations = unitTranslations[normalizedUnit]
+  
+  if (translations && translations[language]) {
+    return translations[language]
+  }
+  
+  // Return original unit if no translation found
+  return unit
 }
 
 // Export the original hook as well for backward compatibility
