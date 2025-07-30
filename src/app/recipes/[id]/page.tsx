@@ -7,6 +7,8 @@ import { useTolgee } from '@tolgee/react'
 import { useTranslateWithFallback, getUnitName } from '../../../lib/translations'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import OptimizedImage from '../../../components/OptimizedImage'
+import { RecommendationSection } from '../../../components/RecommendationSection'
 
 // Type definitions
 interface Rating {
@@ -52,7 +54,7 @@ interface Recipe {
 const mockRecipe = {
   id: '1',
   title: 'Creamy Mushroom Soup',
-  imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=400&fit=crop&crop=center',
+  imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=600&fit=crop&crop=center',
   user: {
     id: '1',
     name: 'Chef Maria'
@@ -270,11 +272,14 @@ export default function RecipePage() {
       <div className="max-w-2xl mx-auto px-6 py-8">
         {/* Hero Image */}
         {recipe.imageUrl && (
-          <div className="mb-6">
-            <img
+          <div className="mb-6 relative h-64 w-full rounded-lg overflow-hidden">
+            <OptimizedImage
               src={recipe.imageUrl}
               alt={recipe.title}
-              className="w-full h-64 object-cover rounded-lg"
+              fill
+              className="rounded-lg"
+              sizes="(max-width: 768px) 100vw, 672px"
+              priority={true} // Hero image should load first
             />
           </div>
         )}
@@ -395,6 +400,20 @@ export default function RecipePage() {
             >
               {t('recipe.delete_recipe')}
             </button>
+          </div>
+        )}
+
+        {/* Similar Recipes Section */}
+        {recipe && (
+          <div className="border-t border-gray-200 pt-8 mt-8">
+            <RecommendationSection
+              type="similar"
+              baseRecipeId={recipe.id}
+              title="🔍 Similar Recipes"
+              subtitle="You might also enjoy these recipes"
+              limit={4}
+              className="mb-8"
+            />
           </div>
         )}
       </div>
