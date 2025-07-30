@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+import { withRateLimit, RateLimitConfigs } from '@/lib/rateLimiting'
 
-export async function POST(request: NextRequest) {
+async function registerHandler(request: NextRequest) {
   try {
     const { name, email, password } = await request.json()
 
@@ -64,3 +65,6 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+// Apply strict rate limiting to registration endpoint
+export const POST = withRateLimit(RateLimitConfigs.auth, registerHandler)
