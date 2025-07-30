@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { uploadImage } from '@/lib/minio'
+import { withRateLimit, RateLimitConfigs } from '@/lib/rateLimiting'
 
-export async function POST(request: NextRequest) {
+async function uploadHandler(request: NextRequest) {
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File
@@ -49,3 +50,6 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+// Apply strict rate limiting to upload endpoint
+export const POST = withRateLimit(RateLimitConfigs.upload, uploadHandler)
