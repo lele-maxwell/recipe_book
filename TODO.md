@@ -92,11 +92,23 @@
 ### 🎯 HIGH PRIORITY (Next 2-4 weeks)
 
 #### 🔍 Enhanced Recipe Discovery
-- [ ] **Advanced Search Filters** - Filter by cuisine, time, difficulty, dietary restrictions
-- [ ] **Recipe Recommendations** - AI-powered personalized suggestions
-- [ ] **Trending Recipes** - Most popular recipes (daily/weekly/monthly)
+- [x] **Advanced Search Filters** - Filter by cuisine, time, difficulty, dietary restrictions
+- [x] **Recipe Recommendations** - AI-powered personalized suggestions
+- [x] **Trending Recipes** - Most popular recipes (daily/weekly/monthly)
 - [ ] **Seasonal Suggestions** - Holiday and seasonal recipe recommendations
 - [ ] **Ingredient-Based Search** - "What can I make with these ingredients?"
+
+#### 🧑‍🍳 Social Media Integration for Creators
+- [ ] **Social Media Links Database Schema** - Design and implement SocialMediaLink model
+- [ ] **Platform Support** - YouTube, TikTok, Instagram, Telegram, Facebook, Twitter/X, Personal Website
+- [ ] **Social Media Management UI** - Add/edit/remove social links in profile settings
+- [ ] **Profile Display Integration** - Show social media links on public profiles
+- [ ] **Recipe Page Integration** - Display creator's social links on recipe pages
+- [ ] **Link Validation & Sanitization** - Ensure valid URLs and security
+- [ ] **Social Media Icons** - Platform-specific icons and styling
+- [ ] **Click Analytics** - Track engagement with external links
+- [ ] **Verification System** - Verify social media accounts for trust badges
+- [ ] **Content Preview Integration** - Embed previews from YouTube, Instagram, etc.
 
 #### 📱 Mobile Experience
 - [ ] **Progressive Web App (PWA)** - Install as mobile app
@@ -164,7 +176,24 @@
 - [ ] **Chef Masterclasses** - Premium cooking education
 - [ ] **Certification System** - Cooking skill certifications
 
-#### 🏪 Restaurant Integration
+#### 🍽️ Restaurant Mode (Business Features)
+- [ ] **Restaurant Profile System** - Separate business profiles for restaurants
+- [ ] **Business Verification** - Verify restaurant accounts with business licenses
+- [ ] **Restaurant Dish Management** - Professional dish listings separate from recipes
+- [ ] **Menu Categories** - Organize dishes by categories (appetizers, mains, desserts)
+- [ ] **Pricing & Availability** - Real-time pricing and stock status
+- [ ] **Location & Hours** - Business address and operating hours
+- [ ] **Restaurant Discovery** - Location-based restaurant search
+- [ ] **Advanced Filtering** - Filter by cuisine, price range, dietary options
+- [ ] **Restaurant Analytics** - Business insights and customer engagement metrics
+- [ ] **Inventory Management** - Track dish availability and stock levels
+- [ ] **Promotional Tools** - Featured listings and special offers
+- [ ] **External Integration** - Links to booking systems, delivery apps
+- [ ] **Customer Reviews** - Restaurant-specific review system
+- [ ] **Photo Gallery** - Multiple high-quality dish photos
+- [ ] **Business Dashboard** - Restaurant owner management interface
+
+#### 🏪 Restaurant Integration (Legacy)
 - [ ] **Restaurant Partnerships** - Featured recipes from local restaurants
 - [ ] **Menu Integration** - Restaurant menu recipes
 - [ ] **Reservation System** - Book tables at partner restaurants
