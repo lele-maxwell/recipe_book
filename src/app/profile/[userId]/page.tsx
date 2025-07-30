@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useTranslateWithFallback } from '../../../lib/translations'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import OptimizedImage from '../../../components/OptimizedImage'
 
 interface Recipe {
   id: string
@@ -202,10 +203,13 @@ export default function PublicProfilePage() {
           <div className="flex justify-center mb-6">
             <div className="w-40 h-40 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg">
               {profile.profilePicture ? (
-                <img
+                <OptimizedImage
                   src={profile.profilePicture}
                   alt={profile.name || 'Profile'}
-                  className="w-full h-full object-cover"
+                  width={160}
+                  height={160}
+                  className="rounded-full"
+                  priority={true}
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
@@ -239,10 +243,12 @@ export default function PublicProfilePage() {
               >
                 <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center">
                   {profile.profilePicture ? (
-                    <img
+                    <OptimizedImage
                       src={profile.profilePicture}
                       alt="Profile"
-                      className="w-full h-full object-cover"
+                      width={32}
+                      height={32}
+                      className="rounded-full"
                     />
                   ) : (
                     <span className={`text-sm font-bold ${isFollowing ? 'text-gray-700' : 'text-orange-500'}`}>
