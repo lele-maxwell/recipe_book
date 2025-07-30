@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslateWithFallback } from '../../lib/translations'
 import Link from 'next/link'
+import OptimizedImage from '../../components/OptimizedImage'
 
 interface UserProfile {
   id: string
@@ -154,10 +155,13 @@ export default function ProfilePage() {
             <div className="flex-shrink-0">
               <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                 {profile.profilePicture || profile.image ? (
-                  <img
+                  <OptimizedImage
                     src={profile.profilePicture || profile.image || ''}
                     alt={profile.name || 'Profile'}
-                    className="w-full h-full object-cover"
+                    width={96}
+                    height={96}
+                    className="rounded-full"
+                    priority={true}
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
