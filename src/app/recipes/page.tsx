@@ -6,6 +6,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslateWithFallback } from '../../lib/translations'
 import { RecipeWithDetails } from '@/types/recipe'
+import OptimizedImage from '../../components/OptimizedImage'
+import { RecommendationSection } from '../../components/RecommendationSection'
 
 // Mock data for recipes
 const mockRecipes: RecipeWithDetails[] = [
@@ -18,7 +20,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 30,
     servings: 4,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=600&fit=crop&crop=center',
     userId: '1',
     createdAt: new Date('2024-01-15'),
     updatedAt: new Date('2024-01-15'),
@@ -55,7 +57,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 25,
     servings: 6,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&h=600&fit=crop&crop=center',
     userId: '2',
     createdAt: new Date('2024-01-14'),
     updatedAt: new Date('2024-01-14'),
@@ -92,7 +94,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 12,
     servings: 4,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&h=600&fit=crop&crop=center',
     userId: '3',
     createdAt: new Date('2024-01-13'),
     updatedAt: new Date('2024-01-13'),
@@ -129,7 +131,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 8,
     servings: 4,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&h=600&fit=crop&crop=center',
     userId: '4',
     createdAt: new Date('2024-01-12'),
     updatedAt: new Date('2024-01-12'),
@@ -166,7 +168,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 10,
     servings: 2,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=600&fit=crop&crop=center',
     userId: '5',
     createdAt: new Date('2024-01-11'),
     updatedAt: new Date('2024-01-11'),
@@ -203,7 +205,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 5,
     servings: 4,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=800&h=600&fit=crop&crop=center',
     userId: '6',
     createdAt: new Date('2024-01-10'),
     updatedAt: new Date('2024-01-10'),
@@ -240,7 +242,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 15,
     servings: 6,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1551782450-17144efb9c50?w=800&h=600&fit=crop&crop=center',
     userId: '7',
     createdAt: new Date('2024-01-09'),
     updatedAt: new Date('2024-01-09'),
@@ -277,7 +279,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 25,
     servings: 5,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&h=600&fit=crop&crop=center',
     userId: '8',
     createdAt: new Date('2024-01-08'),
     updatedAt: new Date('2024-01-08'),
@@ -314,7 +316,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 10,
     servings: 4,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&h=600&fit=crop&crop=center',
     userId: '9',
     createdAt: new Date('2024-01-07'),
     updatedAt: new Date('2024-01-07'),
@@ -351,7 +353,7 @@ const mockRecipes: RecipeWithDetails[] = [
     cookTime: 30,
     servings: 4,
     published: true,
-    imageUrl: 'https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=400&h=400&fit=crop&crop=center',
+    imageUrl: 'https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=800&h=600&fit=crop&crop=center',
     userId: '10',
     createdAt: new Date('2024-01-06'),
     updatedAt: new Date('2024-01-06'),
@@ -389,7 +391,145 @@ export default function RecipesPage() {
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortOrder, setSortOrder] = useState('desc')
+  
+  // Advanced filtering states
+  const [selectedCuisine, setSelectedCuisine] = useState('')
+  const [selectedDietary, setSelectedDietary] = useState('')
+  const [maxCookTime, setMaxCookTime] = useState('')
+  const [selectedMealType, setSelectedMealType] = useState('')
+  const [minRating, setMinRating] = useState('')
+  const [showFilters, setShowFilters] = useState(false)
+  
   const { t } = useTranslateWithFallback()
+
+  // Filter options
+  const cuisineTypes = ['Italian', 'Asian', 'Mexican', 'Mediterranean', 'American', 'French', 'Indian', 'Thai', 'Chinese', 'Japanese']
+  const dietaryOptions = ['Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Keto', 'Low-Carb', 'Paleo', 'Halal', 'Kosher']
+  const mealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Dessert', 'Appetizer', 'Side Dish', 'Beverage']
+  const cookTimeOptions = ['15', '30', '45', '60', '90']
+
+  // Enhanced filtering function
+  const applyAdvancedFilters = (recipesToFilter: RecipeWithDetails[]) => {
+    let filteredRecipes = [...recipesToFilter]
+
+    // Apply search filter
+    if (search) {
+      filteredRecipes = filteredRecipes.filter(recipe =>
+        recipe.title.toLowerCase().includes(search.toLowerCase()) ||
+        (recipe.description && recipe.description.toLowerCase().includes(search.toLowerCase())) ||
+        (recipe.user.name && recipe.user.name.toLowerCase().includes(search.toLowerCase()))
+      )
+    }
+
+    // Apply cuisine filter (mock implementation - in real app this would be a recipe field)
+    if (selectedCuisine) {
+      filteredRecipes = filteredRecipes.filter(recipe => {
+        const title = recipe.title.toLowerCase()
+        const description = recipe.description?.toLowerCase() || ''
+        const cuisineKeywords = {
+          'Italian': ['pasta', 'parmesan', 'italian'],
+          'Asian': ['stir fry', 'asian', 'soy sauce'],
+          'Mexican': ['tacos', 'salsa', 'mexican'],
+          'Mediterranean': ['mediterranean', 'olives', 'feta'],
+          'American': ['burger', 'bbq', 'american'],
+          'French': ['french', 'toast', 'cream'],
+          'Indian': ['curry', 'spices', 'indian'],
+          'Thai': ['thai', 'coconut'],
+          'Chinese': ['chinese', 'stir'],
+          'Japanese': ['japanese', 'sushi']
+        }
+        const keywords = cuisineKeywords[selectedCuisine as keyof typeof cuisineKeywords] || []
+        return keywords.some(keyword => title.includes(keyword) || description.includes(keyword))
+      })
+    }
+
+    // Apply dietary filter (mock implementation)
+    if (selectedDietary) {
+      filteredRecipes = filteredRecipes.filter(recipe => {
+        const title = recipe.title.toLowerCase()
+        const description = recipe.description?.toLowerCase() || ''
+        const dietaryKeywords = {
+          'Vegetarian': ['vegetable', 'mushroom', 'salad'],
+          'Vegan': ['vegetable', 'coconut'],
+          'Gluten-Free': ['salmon', 'grilled'],
+          'Dairy-Free': ['coconut', 'dairy-free'],
+          'Keto': ['salmon', 'low-carb'],
+          'Low-Carb': ['salmon', 'grilled'],
+          'Paleo': ['salmon', 'grilled'],
+          'Halal': ['halal'],
+          'Kosher': ['kosher']
+        }
+        const keywords = dietaryKeywords[selectedDietary as keyof typeof dietaryKeywords] || []
+        return keywords.some(keyword => title.includes(keyword) || description.includes(keyword))
+      })
+    }
+
+    // Apply cooking time filter
+    if (maxCookTime) {
+      const maxTime = parseInt(maxCookTime)
+      filteredRecipes = filteredRecipes.filter(recipe =>
+        (recipe.prepTime || 0) + (recipe.cookTime || 0) <= maxTime
+      )
+    }
+
+    // Apply meal type filter (mock implementation)
+    if (selectedMealType) {
+      filteredRecipes = filteredRecipes.filter(recipe => {
+        const title = recipe.title.toLowerCase()
+        const mealKeywords = {
+          'Breakfast': ['toast', 'breakfast'],
+          'Lunch': ['salad', 'pasta', 'soup'],
+          'Dinner': ['salmon', 'chicken', 'beef', 'curry'],
+          'Snack': ['snack'],
+          'Dessert': ['cake', 'chocolate', 'dessert'],
+          'Appetizer': ['appetizer'],
+          'Side Dish': ['side'],
+          'Beverage': ['drink', 'beverage']
+        }
+        const keywords = mealKeywords[selectedMealType as keyof typeof mealKeywords] || []
+        return keywords.some(keyword => title.includes(keyword))
+      })
+    }
+
+    // Apply minimum rating filter
+    if (minRating) {
+      const minRatingValue = parseFloat(minRating)
+      filteredRecipes = filteredRecipes.filter(recipe =>
+        (recipe.averageRating || 0) >= minRatingValue
+      )
+    }
+
+    // Apply sorting
+    filteredRecipes.sort((a, b) => {
+      let aValue, bValue
+      
+      switch (sortBy) {
+        case 'title':
+          aValue = a.title
+          bValue = b.title
+          break
+        case 'rating':
+          aValue = a.averageRating || 0
+          bValue = b.averageRating || 0
+          break
+        case 'cookTime':
+          aValue = (a.prepTime || 0) + (a.cookTime || 0)
+          bValue = (b.prepTime || 0) + (b.cookTime || 0)
+          break
+        default:
+          aValue = a.createdAt
+          bValue = b.createdAt
+      }
+      
+      if (sortOrder === 'asc') {
+        return aValue > bValue ? 1 : -1
+      } else {
+        return aValue < bValue ? 1 : -1
+      }
+    })
+
+    return filteredRecipes
+  }
 
   useEffect(() => {
     // Load recipes regardless of authentication status
@@ -415,58 +555,27 @@ export default function RecipesPage() {
             recipesToShow = [...data, ...additionalMockRecipes]
           }
           
-          setRecipes(recipesToShow)
+          // Apply advanced filters
+          const filteredRecipes = applyAdvancedFilters(recipesToShow)
+          setRecipes(filteredRecipes)
         } else {
           console.error('Failed to fetch recipes')
-          // Fallback to mock data if API fails
-          let filteredRecipes = [...mockRecipes]
-          
-          // Apply search filter
-          if (search) {
-            filteredRecipes = filteredRecipes.filter(recipe =>
-              recipe.title.toLowerCase().includes(search.toLowerCase()) ||
-              (recipe.description && recipe.description.toLowerCase().includes(search.toLowerCase()))
-            )
-          }
-          
-          // Apply sorting
-          filteredRecipes.sort((a, b) => {
-            let aValue, bValue
-            
-            switch (sortBy) {
-              case 'title':
-                aValue = a.title
-                bValue = b.title
-                break
-              case 'rating':
-                aValue = a.averageRating || 0
-                bValue = b.averageRating || 0
-                break
-              default:
-                aValue = a.createdAt
-                bValue = b.createdAt
-            }
-            
-            if (sortOrder === 'asc') {
-              return aValue > bValue ? 1 : -1
-            } else {
-              return aValue < bValue ? 1 : -1
-            }
-          })
-          
+          // Fallback to mock data if API fails and apply advanced filters
+          const filteredRecipes = applyAdvancedFilters(mockRecipes)
           setRecipes(filteredRecipes)
         }
       } catch (error) {
         console.error('Error fetching recipes:', error)
-        // Fallback to mock data
-        setRecipes(mockRecipes)
+        // Fallback to mock data and apply advanced filters
+        const filteredRecipes = applyAdvancedFilters(mockRecipes)
+        setRecipes(filteredRecipes)
       } finally {
         setLoading(false)
       }
     }
 
     fetchRecipes()
-  }, [search, sortBy, sortOrder])
+  }, [search, sortBy, sortOrder, selectedCuisine, selectedDietary, maxCookTime, selectedMealType, minRating])
 
   const handleViewRecipe = (recipeId: string) => {
     if (!session) {
@@ -531,43 +640,205 @@ export default function RecipesPage() {
           </div>
         </div>
 
-        {/* Filter Controls and Create Button */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <div className="flex flex-wrap gap-4">
+        {/* Quick Filter Tags */}
+        <div className="mb-6">
+          <div className="flex flex-wrap gap-2 mb-4">
+            <button
+              onClick={() => setMaxCookTime(maxCookTime === '30' ? '' : '30')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+                maxCookTime === '30'
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              🕐 Quick Meals (≤30min)
+            </button>
+            <button
+              onClick={() => setSelectedDietary(selectedDietary === 'Vegetarian' ? '' : 'Vegetarian')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+                selectedDietary === 'Vegetarian'
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              🥬 Vegetarian
+            </button>
+            <button
+              onClick={() => setMinRating(minRating === '4' ? '' : '4')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+                minRating === '4'
+                  ? 'bg-yellow-500 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              ⭐ Highly Rated (4+)
+            </button>
+            <button
+              onClick={() => setSelectedMealType(selectedMealType === 'Dessert' ? '' : 'Dessert')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+                selectedMealType === 'Dessert'
+                  ? 'bg-pink-500 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              🍰 Desserts
+            </button>
+          </div>
+        </div>
+
+        {/* Advanced Filter Controls and Create Button */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full lg:w-auto">
+            {/* Sort By */}
             <select
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 min-w-[140px]"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="createdAt">{t('recipes.category')}</option>
-              <option value="title">{t('recipes.title')}</option>
-              <option value="rating">{t('recipes.rating')}</option>
+              <option value="createdAt">Sort by Date</option>
+              <option value="title">Sort by Title</option>
+              <option value="rating">Sort by Rating</option>
+              <option value="cookTime">Sort by Cook Time</option>
             </select>
 
-            <select className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500">
-              <option>{t('recipes.language')}</option>
-              <option>{t('recipes.english')}</option>
-              <option>{t('recipes.spanish')}</option>
-              <option>{t('recipes.french')}</option>
-            </select>
-
+            {/* Sort Order */}
             <select
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500 min-w-[120px]"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
             >
-              <option value="desc">{t('recipes.rating')}</option>
-              <option value="asc">{t('recipes.ascending')}</option>
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
             </select>
+
+            {/* Advanced Filters Toggle */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`px-4 py-2 border rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 ${
+                showFilters
+                  ? 'bg-orange-500 text-white border-orange-500'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.707A1 1 0 013 7V4z" />
+              </svg>
+              Filters
+              {(selectedCuisine || selectedDietary || maxCookTime || selectedMealType || minRating) && (
+                <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {[selectedCuisine, selectedDietary, maxCookTime, selectedMealType, minRating].filter(Boolean).length}
+                </span>
+              )}
+            </button>
           </div>
 
           <button
             onClick={handleCreateRecipe}
-            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium"
+            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium w-full sm:w-auto"
           >
             {t('recipes.create_recipe')}
           </button>
         </div>
+
+        {/* Advanced Filters Panel */}
+        {showFilters && (
+          <div className="bg-white rounded-lg border border-gray-200 p-6 mb-8 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              {/* Cuisine Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Cuisine Type</label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  value={selectedCuisine}
+                  onChange={(e) => setSelectedCuisine(e.target.value)}
+                >
+                  <option value="">All Cuisines</option>
+                  {cuisineTypes.map(cuisine => (
+                    <option key={cuisine} value={cuisine}>{cuisine}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Dietary Restrictions */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Dietary</label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  value={selectedDietary}
+                  onChange={(e) => setSelectedDietary(e.target.value)}
+                >
+                  <option value="">All Diets</option>
+                  {dietaryOptions.map(diet => (
+                    <option key={diet} value={diet}>{diet}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Max Cook Time */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Max Cook Time</label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  value={maxCookTime}
+                  onChange={(e) => setMaxCookTime(e.target.value)}
+                >
+                  <option value="">Any Time</option>
+                  {cookTimeOptions.map(time => (
+                    <option key={time} value={time}>≤ {time} minutes</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Meal Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Meal Type</label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  value={selectedMealType}
+                  onChange={(e) => setSelectedMealType(e.target.value)}
+                >
+                  <option value="">All Meals</option>
+                  {mealTypes.map(meal => (
+                    <option key={meal} value={meal}>{meal}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Minimum Rating */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Min Rating</label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+                  value={minRating}
+                  onChange={(e) => setMinRating(e.target.value)}
+                >
+                  <option value="">Any Rating</option>
+                  <option value="3">3+ Stars</option>
+                  <option value="4">4+ Stars</option>
+                  <option value="4.5">4.5+ Stars</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Clear Filters Button */}
+            {(selectedCuisine || selectedDietary || maxCookTime || selectedMealType || minRating) && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <button
+                  onClick={() => {
+                    setSelectedCuisine('')
+                    setSelectedDietary('')
+                    setMaxCookTime('')
+                    setSelectedMealType('')
+                    setMinRating('')
+                  }}
+                  className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                >
+                  Clear All Filters
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Recipes Grid */}
         {recipes.length === 0 ? (
@@ -588,12 +859,15 @@ export default function RecipesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {recipes.map((recipe) => (
               <div key={recipe.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">
+                <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden rounded-t-xl h-64 md:h-72 lg:h-80">
                   {recipe.imageUrl ? (
-                    <img
+                    <OptimizedImage
                       src={recipe.imageUrl}
                       alt={recipe.title}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      fill
+                      className="transition-transform duration-300 hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      priority={recipes.indexOf(recipe) < 4} // Prioritize first 4 images
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full text-gray-400">
@@ -653,6 +927,55 @@ export default function RecipesPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Recommendation Sections */}
+        {recipes.length > 0 && (
+          <div className="mt-16 space-y-12">
+            {/* Trending Recipes */}
+            <RecommendationSection
+              type="trending"
+              title="🔥 Trending Recipes"
+              subtitle="Popular recipes that everyone is talking about"
+              limit={6}
+              excludeIds={recipes.map(r => r.id)}
+              className="mb-12"
+            />
+
+            {/* Personalized Recommendations (only for authenticated users) */}
+            {session && (
+              <RecommendationSection
+                type="personalized"
+                title="✨ Recommended for You"
+                subtitle="Recipes tailored to your taste preferences"
+                limit={6}
+                excludeIds={recipes.map(r => r.id)}
+                className="mb-12"
+              />
+            )}
+
+            {/* Quick Meals */}
+            <RecommendationSection
+              type="occasion"
+              occasion="quick_meals"
+              title="⚡ Quick & Easy Meals"
+              subtitle="Delicious recipes ready in 30 minutes or less"
+              limit={6}
+              excludeIds={recipes.map(r => r.id)}
+              className="mb-12"
+            />
+
+            {/* Comfort Food */}
+            <RecommendationSection
+              type="occasion"
+              occasion="comfort_food"
+              title="🏠 Comfort Food Classics"
+              subtitle="Hearty, soul-warming dishes for cozy moments"
+              limit={6}
+              excludeIds={recipes.map(r => r.id)}
+              className="mb-12"
+            />
           </div>
         )}
       </div>
