@@ -160,7 +160,10 @@ export function Footer() {
                     placeholder={t('footer.email_placeholder')}
                     className="flex-1 px-3 py-2 text-sm text-gray-900 bg-white rounded-l-md border-0 focus:ring-2 focus:ring-orange-300 focus:outline-none"
                   />
-                  <button className="px-4 py-2 bg-orange-700 hover:bg-orange-800 text-white text-sm font-medium rounded-r-md transition-colors duration-200">
+                  <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-r-md font-bold px-4 py-2 flex items-center gap-2 transition-colors duration-200">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/>
+                    </svg>
                     {t('footer.subscribe')}
                   </button>
                 </div>
