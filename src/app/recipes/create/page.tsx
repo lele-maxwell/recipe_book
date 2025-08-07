@@ -321,7 +321,7 @@ export default function CreateRecipe() {
                   type="text"
                   placeholder={t('create_recipe.recipe_title_placeholder')}
                   value={formData.title}
-                  onChange={(value) => handleInputChange({ target: { name: 'title', value } } as any)}
+                  onChange={(value) => handleInputChange({ target: { name: 'title', value } } as React.ChangeEvent<HTMLInputElement>)}
                   required
                   error={validationErrors.title}
                   success={fieldSuccess.title}
@@ -372,7 +372,7 @@ export default function CreateRecipe() {
                   type="textarea"
                   placeholder={t('create_recipe.description_placeholder')}
                   value={formData.description}
-                  onChange={(value) => handleInputChange({ target: { name: 'description', value } } as any)}
+                  onChange={(value) => handleInputChange({ target: { name: 'description', value } } as React.ChangeEvent<HTMLTextAreaElement>)}
                   rows={3}
                   error={validationErrors.description}
                   success={fieldSuccess.description}
@@ -460,13 +460,13 @@ export default function CreateRecipe() {
                   type="textarea"
                   placeholder={t('create_recipe.instructions_placeholder')}
                   value={formData.instructions}
-                  onChange={(value) => handleInputChange({ target: { name: 'instructions', value } } as any)}
+                  onChange={(value) => handleInputChange({ target: { name: 'instructions', value } } as React.ChangeEvent<HTMLTextAreaElement>)}
                   rows={6}
                   required
                   error={validationErrors.instructions}
                   success={fieldSuccess.instructions}
-                  children={<div className="text-sm text-gray-500 mb-2">{t('create_recipe.markdown_info')}</div>}
                 />
+                <div className="text-sm text-gray-500 mb-2">{t('create_recipe.markdown_info')}</div>
                 {/* Advanced Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <FormField
@@ -475,7 +475,7 @@ export default function CreateRecipe() {
                     type="number"
                     placeholder={t('create_recipe.prep_time_placeholder')}
                     value={formData.prepTime}
-                    onChange={(value) => handleInputChange({ target: { name: 'prepTime', value } } as any)}
+                    onChange={(value) => handleInputChange({ target: { name: 'prepTime', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={0}
                     error={validationErrors.prepTime}
                     success={fieldSuccess.prepTime}
@@ -486,7 +486,7 @@ export default function CreateRecipe() {
                     type="number"
                     placeholder={t('create_recipe.cook_time_placeholder')}
                     value={formData.cookTime}
-                    onChange={(value) => handleInputChange({ target: { name: 'cookTime', value } } as any)}
+                    onChange={(value) => handleInputChange({ target: { name: 'cookTime', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={0}
                     error={validationErrors.cookTime}
                     success={fieldSuccess.cookTime}
@@ -497,7 +497,7 @@ export default function CreateRecipe() {
                     type="number"
                     placeholder={t('create_recipe.servings_placeholder')}
                     value={formData.servings}
-                    onChange={(value) => handleInputChange({ target: { name: 'servings', value } } as any)}
+                    onChange={(value) => handleInputChange({ target: { name: 'servings', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={1}
                     error={validationErrors.servings}
                     success={fieldSuccess.servings}
