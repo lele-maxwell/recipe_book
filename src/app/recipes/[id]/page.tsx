@@ -9,6 +9,8 @@ import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
 import OptimizedImage from '../../../components/OptimizedImage'
 import { RecommendationSection } from '../../../components/RecommendationSection'
+import StarRating from '../../../components/StarRating'
+import LoadingSpinner from '../../../components/LoadingSpinner'
 
 // Type definitions
 interface Rating {
@@ -177,11 +179,7 @@ export default function RecipePage() {
 
   // Don't render anything while checking authentication or loading recipe
   if (status === 'loading' || loading) {
-    return (
-      <div className="min-h-screen bg-white flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-      </div>
-    )
+    return <LoadingSpinner size="lg" text={t('recipe.loading_recipe')} />
   }
 
   const handleRating = async (rating: number) => {
@@ -228,21 +226,6 @@ export default function RecipePage() {
       ...prev,
       [ingredientId]: !prev[ingredientId]
     }))
-  }
-
-  const renderStars = (rating: number, interactive = false, onRate?: (rating: number) => void) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <button
-        key={i}
-        className={`text-lg ${
-          i < rating ? 'text-yellow-400' : 'text-gray-300'
-        } ${interactive ? 'hover:text-yellow-300 cursor-pointer' : 'cursor-default'}`}
-        onClick={() => interactive && onRate && onRate(i + 1)}
-        disabled={!interactive || isRating}
-      >
-        ★
-      </button>
-    ))
   }
 
   if (loading) {
@@ -332,7 +315,7 @@ export default function RecipePage() {
             </div>
             <div>
               <div className="flex items-center mb-1">
-                {renderStars(recipe.averageRating || 0)}
+                <StarRating rating={recipe.averageRating || 0} />
               </div>
               <div className="text-sm text-gray-600">
                 {recipe._count.ratings} {t('recipe.reviews')}
@@ -366,7 +349,7 @@ export default function RecipePage() {
             <div className="border-t border-gray-200 pt-6">
               <p className="text-gray-700 mb-3 text-sm">{t('recipe.rate_this_recipe')}:</p>
               <div className="flex items-center space-x-2">
-                {renderStars(userRating, true, handleRating)}
+                <StarRating rating={userRating} interactive={true} onRate={handleRating} />
                 {userRating > 0 && (
                   <span className="text-sm text-gray-600 ml-4">
                     {t('recipe.your_rating')}: {userRating}/5
