@@ -6,6 +6,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslateWithFallback } from '../../lib/translations'
 import { RecipeWithDetails } from '@/types/recipe'
+import StarRating from '../../components/StarRating'
+import LoadingSpinner from '../../components/LoadingSpinner'
 
 export default function MyRecipesPage() {
   const { data: session, status } = useSession()
@@ -101,8 +103,7 @@ export default function MyRecipesPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-6 py-12">
           <div className="flex flex-col justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-            <p className="text-gray-600 mt-4">{t('common.loading')}</p>
+            <LoadingSpinner size="lg" text={t('my_recipes.loading_recipes')} />
           </div>
         </div>
       </div>
@@ -114,26 +115,12 @@ export default function MyRecipesPage() {
     return null
   }
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span
-        key={i}
-        className={`text-sm ${
-          i < Math.floor(rating) ? 'text-yellow-400' : 'text-gray-300'
-        }`}
-      >
-        ★
-      </span>
-    ))
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-6 py-12">
           <div className="flex flex-col justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-            <p className="text-gray-600 mt-4">{t('my_recipes.loading_recipes')}</p>
+            <LoadingSpinner size="lg" text={t('my_recipes.loading_recipes')} />
           </div>
         </div>
       </div>
@@ -241,9 +228,7 @@ export default function MyRecipesPage() {
                   
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-1">
-                      <div className="flex items-center">
-                        {renderStars(recipe.averageRating || 0)}
-                      </div>
+                      <StarRating rating={recipe.averageRating || 0} />
                       <span className="text-sm font-medium text-gray-700 ml-1">
                         {recipe.averageRating?.toFixed(1) || '0.0'}
                       </span>

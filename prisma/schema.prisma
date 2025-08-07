@@ -78,6 +78,9 @@ model User {
   // Follow relationships
   following Follow[] @relation("UserFollowing")
   followers Follow[] @relation("UserFollowers")
+  
+  // Social media links
+  socialMediaLinks SocialMediaLink[]
 }
 
 model Recipe {
@@ -156,6 +159,25 @@ model Rating {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([recipeId, userId]) // One rating per user per recipe
+}
+
+model SocialMediaLink {
+  id        String   @id @default(cuid())
+  userId    String
+  platform  String   // "youtube", "tiktok", "instagram", "telegram", "facebook", "twitter", "website"
+  url       String   @db.Text
+  username  String?  // Optional: extracted username/handle
+  verified  Boolean  @default(false) // Future: verification system
+  clickCount Int     @default(0) // Analytics
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, platform]) // One link per platform per user
+  @@index([userId])
+  @@index([platform])
 }
 
 model Follow {
