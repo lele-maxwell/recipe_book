@@ -62,31 +62,31 @@ export default function EditProfilePage() {
   ]
 
   useEffect(() => {
-    const fetchProfile = async () => {
+  const fetchProfile = async () => {
       if (!session?.user?.id) return
 
-      try {
-        const response = await fetch('/api/profile')
-        if (response.ok) {
-          const data = await response.json()
-          setFormData({
-            name: data.name || '',
-            bio: data.bio || '',
-            location: data.location || '',
-            website: data.website || '',
-            cookingExperience: data.cookingExperience || '',
+    try {
+      const response = await fetch('/api/profile')
+      if (response.ok) {
+        const data = await response.json()
+        setFormData({
+          name: data.name || '',
+          bio: data.bio || '',
+          location: data.location || '',
+          website: data.website || '',
+          cookingExperience: data.cookingExperience || '',
             favoritesCuisines: data.favoritesCuisines || [],
             dietaryRestrictions: data.dietaryRestrictions || [],
-            profilePicture: data.profilePicture || '',
+          profilePicture: data.profilePicture || '',
             isPublicProfile: data.isPublicProfile !== false
-          })
-        }
+        })
+      }
       } catch (err) {
         console.error('Error fetching profile:', err)
-      } finally {
-        setIsLoading(false)
-      }
+    } finally {
+      setIsLoading(false)
     }
+  }
 
     fetchProfile()
   }, [session])
@@ -161,14 +161,14 @@ export default function EditProfilePage() {
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-600">{error}</p>
-              </div>
-            )}
+          </div>
+        )}
 
             {successMessage && (
               <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <p className="text-green-600">{successMessage}</p>
-              </div>
-            )}
+          </div>
+        )}
 
             <form onSubmit={handleSocialMediaSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -252,19 +252,19 @@ export default function EditProfilePage() {
                 />
 
                 <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
+                <input
+                  type="checkbox"
                     id="isPublicProfile"
-                    name="isPublicProfile"
-                    checked={formData.isPublicProfile}
-                    onChange={handleInputChange}
-                    className="toggle toggle-primary"
-                  />
+                  name="isPublicProfile"
+                  checked={formData.isPublicProfile}
+                  onChange={handleInputChange}
+                  className="toggle toggle-primary"
+                />
                   <label htmlFor="isPublicProfile" className="text-sm text-gray-700">
                     {t('profile.edit.public_profile')}
-                  </label>
-                </div>
-              </div>
+              </label>
+            </div>
+          </div>
 
               <div className="flex justify-end space-x-4">
                 <button
@@ -274,15 +274,15 @@ export default function EditProfilePage() {
                 >
                   {t('common.cancel')}
                 </button>
-                <button
-                  type="submit"
-                  disabled={isSaving}
+            <button
+              type="submit"
+              disabled={isSaving}
                   className="bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-                >
+            >
                   {isSaving ? t('common.saving') : t('common.save')}
-                </button>
-              </div>
-            </form>
+            </button>
+          </div>
+        </form>
           </div>
         </div>
       </div>

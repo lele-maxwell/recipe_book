@@ -131,12 +131,12 @@ export default function RecipesPage() {
 
         {/* Recommendations */}
         <div className="mt-12">
-          <RecommendationSection
+            <RecommendationSection
             type="similar"
             title="You might also like"
             excludeIds={filteredRecipes.slice(0, 6).map(r => r.id)}
-          />
-        </div>
+            />
+          </div>
       </div>
     </div>
   )
