@@ -2,6 +2,8 @@
 
 import { SessionProvider } from 'next-auth/react'
 import { TolgeeProvider, tolgee } from '@/lib/tolgee'
+import { RecipeProvider } from '../contexts/RecipeContext'
+import ErrorBoundary from './ErrorBoundary'
 
 interface ProvidersProps {
   children: React.ReactNode
@@ -9,10 +11,14 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <SessionProvider>
-      <TolgeeProvider tolgee={tolgee}>
-        {children}
-      </TolgeeProvider>
-    </SessionProvider>
+    <ErrorBoundary>
+      <SessionProvider>
+        <TolgeeProvider tolgee={tolgee}>
+          <RecipeProvider>
+            {children}
+          </RecipeProvider>
+        </TolgeeProvider>
+      </SessionProvider>
+    </ErrorBoundary>
   )
 }
