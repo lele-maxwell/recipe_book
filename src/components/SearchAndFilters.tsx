@@ -5,14 +5,21 @@ import { useDebounce } from '../hooks/useDebounce'
 
 interface SearchAndFiltersProps {
   onSearchChange: (search: string) => void
-  onFilterChange: (filters: any) => void
+  onFilterChange: (filters: FilterOptions) => void
+}
+
+interface FilterOptions {
+  cuisine: string
+  difficulty: string
+  maxTime: string
+  rating: string
 }
 
 export default function SearchAndFilters({ onSearchChange, onFilterChange }: SearchAndFiltersProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [showFilters, setShowFilters] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<FilterOptions>({
     cuisine: '',
     difficulty: '',
     maxTime: '',
@@ -29,7 +36,7 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
       // Simulate search delay for better UX
       setTimeout(() => setIsSearching(false), 200)
     }
-  }, [debouncedSearch, onSearchChange])
+  }, [debouncedSearch, onSearchChange, searchTerm])
 
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -41,14 +48,14 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
     onSearchChange('')
   }, [onSearchChange])
 
-  const handleFilterChange = useCallback((key: string, value: string) => {
+  const handleFilterChange = useCallback((key: keyof FilterOptions, value: string) => {
     const newFilters = { ...filters, [key]: value }
     setFilters(newFilters)
     onFilterChange(newFilters)
   }, [filters, onFilterChange])
 
   const clearFilters = useCallback(() => {
-    const clearedFilters = {
+    const clearedFilters: FilterOptions = {
       cuisine: '',
       difficulty: '',
       maxTime: '',
