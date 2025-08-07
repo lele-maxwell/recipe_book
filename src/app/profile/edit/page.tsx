@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslateWithFallback } from '../../../lib/translations'
 import Link from 'next/link'
 import SocialMediaManager from '../../../components/SocialMediaManager'
-import FormField from '../../components/FormField'
+import FormField from '@/components/FormField'
 
 interface UserProfile {
   id: string
