@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand, HeadBucketCommand } from '@aws-sdk/client-s3'
+import { S3Client, PutObjectCommand, DeleteObjectCommand, HeadBucketCommand, GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
 const s3Client = new S3Client({
@@ -32,8 +32,8 @@ export async function uploadImage(file: Buffer, fileName: string, contentType: s
       Body: file,
       ContentType: contentType,
     }))
-    // Generate a presigned URL for the uploaded image (valid for 7 days)
-    const imageUrl = await getSignedUrl(s3Client, new PutObjectCommand({
+    // Generate a presigned GET URL for the uploaded image (valid for 7 days)
+    const imageUrl = await getSignedUrl(s3Client, new GetObjectCommand({
       Bucket: bucketName,
       Key: objectName,
     }), { expiresIn: 7 * 24 * 60 * 60 })
@@ -62,7 +62,7 @@ export async function deleteImage(imageUrl: string): Promise<void> {
 
 export async function getImageUrl(objectName: string): Promise<string> {
   try {
-    const imageUrl = await getSignedUrl(s3Client, new PutObjectCommand({
+    const imageUrl = await getSignedUrl(s3Client, new GetObjectCommand({
       Bucket: bucketName,
       Key: objectName,
     }), { expiresIn: 7 * 24 * 60 * 60 })
