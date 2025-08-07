@@ -48,6 +48,12 @@ const nextConfig: NextConfig = {
         hostname: 'avatars.githubusercontent.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 's3.cubbit.eu',
+        port: '',
+        pathname: '/**',
       }
     ],
     
