@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useTranslateWithFallback } from '../../../lib/translations'
 import Link from 'next/link'
+import SocialMediaManager from '../../../components/SocialMediaManager'
+import FormField from '../../components/FormField'
 
 interface UserProfile {
   id: string
@@ -236,65 +238,42 @@ export default function EditProfilePage() {
             <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('profile.edit.personal_info')}</h2>
             
             <div className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.name')}
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder={t('profile.edit.name_placeholder')}
-                  className="input input-bordered w-full bg-gray-50 text-gray-900"
-                />
-              </div>
+              <FormField
+                label={t('profile.edit.name')}
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={(value) => handleInputChange({ target: { name: 'name', value } } as any)}
+                placeholder={t('profile.edit.name_placeholder')}
+              />
 
-              <div>
-                <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.bio')}
-                </label>
-                <textarea
-                  id="bio"
-                  name="bio"
-                  rows={4}
-                  value={formData.bio}
-                  onChange={handleInputChange}
-                  placeholder={t('profile.edit.bio_placeholder')}
-                  className="textarea textarea-bordered w-full bg-gray-50 text-gray-900"
-                />
-              </div>
+              <FormField
+                label={t('profile.edit.bio')}
+                name="bio"
+                type="textarea"
+                value={formData.bio}
+                onChange={(value) => handleInputChange({ target: { name: 'bio', value } } as any)}
+                placeholder={t('profile.edit.bio_placeholder')}
+                rows={4}
+              />
 
-              <div>
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.location')}
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  placeholder={t('profile.edit.location_placeholder')}
-                  className="input input-bordered w-full bg-gray-50 text-gray-900"
-                />
-              </div>
+              <FormField
+                label={t('profile.edit.location')}
+                name="location"
+                type="text"
+                value={formData.location}
+                onChange={(value) => handleInputChange({ target: { name: 'location', value } } as any)}
+                placeholder={t('profile.edit.location_placeholder')}
+              />
 
-              <div>
-                <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.website')}
-                </label>
-                <input
-                  type="url"
-                  id="website"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleInputChange}
-                  placeholder={t('profile.edit.website_placeholder')}
-                  className="input input-bordered w-full bg-gray-50 text-gray-900"
-                />
-              </div>
+              <FormField
+                label={t('profile.edit.website')}
+                name="website"
+                type="url"
+                value={formData.website}
+                onChange={(value) => handleInputChange({ target: { name: 'website', value } } as any)}
+                placeholder={t('profile.edit.website_placeholder')}
+              />
             </div>
           </div>
 
@@ -382,52 +361,38 @@ export default function EditProfilePage() {
             <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('profile.edit.cooking_preferences')}</h2>
             
             <div className="space-y-4">
-              <div>
-                <label htmlFor="cookingExperience" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.experience_level')}
-                </label>
-                <select
-                  id="cookingExperience"
-                  name="cookingExperience"
-                  value={formData.cookingExperience}
-                  onChange={handleInputChange}
-                  className="select select-bordered w-full bg-gray-50 text-gray-900"
-                >
-                  <option value="">{t('profile.edit.select_experience')}</option>
-                  <option value="beginner">{t('profile.experience.beginner')}</option>
-                  <option value="intermediate">{t('profile.experience.intermediate')}</option>
-                  <option value="advanced">{t('profile.experience.advanced')}</option>
-                  <option value="professional">{t('profile.experience.professional')}</option>
-                </select>
-              </div>
+              <FormField
+                label={t('profile.edit.experience_level')}
+                name="cookingExperience"
+                type="select"
+                value={formData.cookingExperience}
+                onChange={(value) => handleInputChange({ target: { name: 'cookingExperience', value } } as any)}
+                options={[
+                  { value: '', label: t('profile.edit.select_experience') },
+                  { value: 'beginner', label: t('profile.experience.beginner') },
+                  { value: 'intermediate', label: t('profile.experience.intermediate') },
+                  { value: 'advanced', label: t('profile.experience.advanced') },
+                  { value: 'professional', label: t('profile.experience.professional') },
+                ]}
+              />
 
-              <div>
-                <label htmlFor="favoritesCuisines" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.cuisines')}
-                </label>
-                <input
-                  type="text"
-                  id="favoritesCuisines"
-                  value={formData.favoritesCuisines.join(', ')}
-                  onChange={(e) => handleArrayInputChange('favoritesCuisines', e.target.value)}
-                  placeholder={t('profile.edit.cuisines_placeholder')}
-                  className="input input-bordered w-full bg-gray-50 text-gray-900"
-                />
-              </div>
+              <FormField
+                label={t('profile.edit.cuisines')}
+                name="favoritesCuisines"
+                type="text"
+                value={formData.favoritesCuisines.join(', ')}
+                onChange={(value) => handleArrayInputChange('favoritesCuisines', value)}
+                placeholder={t('profile.edit.cuisines_placeholder')}
+              />
 
-              <div>
-                <label htmlFor="dietaryRestrictions" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('profile.edit.dietary')}
-                </label>
-                <input
-                  type="text"
-                  id="dietaryRestrictions"
-                  value={formData.dietaryRestrictions.join(', ')}
-                  onChange={(e) => handleArrayInputChange('dietaryRestrictions', e.target.value)}
-                  placeholder={t('profile.edit.dietary_placeholder')}
-                  className="input input-bordered w-full bg-gray-50 text-gray-900"
-                />
-              </div>
+              <FormField
+                label={t('profile.edit.dietary')}
+                name="dietaryRestrictions"
+                type="text"
+                value={formData.dietaryRestrictions.join(', ')}
+                onChange={(value) => handleArrayInputChange('dietaryRestrictions', value)}
+                placeholder={t('profile.edit.dietary_placeholder')}
+              />
             </div>
           </div>
 
@@ -453,6 +418,9 @@ export default function EditProfilePage() {
               </label>
             </div>
           </div>
+
+          {/* Social Media Links */}
+          <SocialMediaManager />
 
           {/* Submit Button */}
           <div className="flex justify-end">
