@@ -267,5 +267,59 @@
     "privacy_policy": "Privacy Policy",
     "terms_of_service": "Terms of Service",
     "cookie_policy": "Cookie Policy"
+  },
+  "social_media": {
+    "title": "Social Media Links",
+    "description": "Connect your social media accounts to help users discover your content",
+    "add_link": "Add Link",
+    "platform": "Platform",
+    "url": "URL",
+    "username": "Username",
+    "remove": "Remove",
+    "edit": "Edit",
+    "follow_creator": "Follow the Creator",
+    "connect_with": "Connect with",
+    "select_platform": "Select a platform",
+    "enter_url": "Enter URL",
+    "no_links": "No social media links yet",
+    "add_first_link": "Add your first social media link to connect with your audience",
+    "platforms": {
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "telegram": "Telegram",
+      "facebook": "Facebook",
+      "twitter": "Twitter/X",
+      "website": "Website"
+    },
+    "placeholders": {
+      "youtube": "https://youtube.com/@username",
+      "tiktok": "https://tiktok.com/@username",
+      "instagram": "https://instagram.com/username",
+      "telegram": "https://t.me/username",
+      "facebook": "https://facebook.com/username",
+      "twitter": "https://twitter.com/username",
+      "website": "https://yourwebsite.com"
+    },
+    "validation": {
+      "invalid_url": "Please enter a valid URL",
+      "invalid_platform": "URL doesn't match the selected platform",
+      "already_exists": "You already have a link for this platform",
+      "required": "URL is required"
+    },
+    "messages": {
+      "added_successfully": "Social media link added successfully",
+      "updated_successfully": "Social media link updated successfully",
+      "removed_successfully": "Social media link removed successfully",
+      "failed_to_add": "Failed to add social media link",
+      "failed_to_update": "Failed to update social media link",
+      "failed_to_remove": "Failed to remove social media link"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "confirm_delete": "Are you sure you want to delete this item?"
   }
 }
