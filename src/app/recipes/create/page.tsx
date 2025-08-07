@@ -7,7 +7,7 @@ import { useTolgee } from '@tolgee/react'
 import { useTranslateWithFallback } from '../../../lib/translations'
 import { RecipeIngredientInput, MEASUREMENT_UNITS } from '@/types/recipe'
 import { getUnitName } from '@/lib/translations'
-import FormField from '../../../components/FormField'
+import FormField from '@/components/FormField'
 
 export default function CreateRecipe() {
   const { data: session } = useSession()
