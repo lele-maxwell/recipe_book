@@ -267,5 +267,59 @@
     "privacy_policy": "Política de Privacidad",
     "terms_of_service": "Términos de Servicio",
     "cookie_policy": "Política de Cookies"
+  },
+  "social_media": {
+    "title": "Enlaces de Redes Sociales",
+    "description": "Conecta tus cuentas de redes sociales para ayudar a los usuarios a descubrir tu contenido",
+    "add_link": "Agregar Enlace",
+    "platform": "Plataforma",
+    "url": "URL",
+    "username": "Nombre de usuario",
+    "remove": "Eliminar",
+    "edit": "Editar",
+    "follow_creator": "Seguir al Creador",
+    "connect_with": "Conectar con",
+    "platforms": {
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "telegram": "Telegram",
+      "facebook": "Facebook",
+      "twitter": "Twitter/X",
+      "website": "Sitio Web"
+    },
+    "placeholders": {
+      "youtube": "https://youtube.com/@nombreusuario",
+      "tiktok": "https://tiktok.com/@nombreusuario",
+      "instagram": "https://instagram.com/nombreusuario",
+      "telegram": "https://t.me/nombreusuario",
+      "facebook": "https://facebook.com/nombreusuario",
+      "twitter": "https://twitter.com/nombreusuario",
+      "website": "https://tusitio.com"
+    },
+    "validation": {
+      "invalid_url": "Por favor ingresa una URL válida",
+      "invalid_platform": "La URL no coincide con la plataforma seleccionada",
+      "already_exists": "Ya tienes un enlace para esta plataforma",
+      "required": "La URL es requerida"
+    },
+    "messages": {
+      "added_successfully": "Enlace de red social agregado exitosamente",
+      "updated_successfully": "Enlace de red social actualizado exitosamente",
+      "removed_successfully": "Enlace de red social eliminado exitosamente",
+      "failed_to_add": "Error al agregar enlace de red social",
+      "failed_to_update": "Error al actualizar enlace de red social",
+      "failed_to_remove": "Error al eliminar enlace de red social"
+    },
+    "select_platform": "Seleccionar una plataforma",
+    "enter_url": "Ingresar URL",
+    "no_links": "Aún no hay enlaces de redes sociales",
+    "add_first_link": "Agrega tu primer enlace de redes sociales para conectar con tu audiencia"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "saving": "Guardando...",
+    "confirm_delete": "¿Estás seguro de que quieres eliminar este elemento?"
   }
 }
