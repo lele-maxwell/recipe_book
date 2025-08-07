@@ -68,20 +68,20 @@ export function Navigation() {
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-2 gap-2">
+        <ul className="menu menu-horizontal px-2 gap-6">
           <li>
-            <Link href="/" className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-xl font-bold text-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <Link href="/" className="text-orange-600 hover:text-orange-700 font-bold text-lg transition-colors duration-200">
               {t('navigation.home')}
             </Link>
           </li>
           <li>
-            <Link href="/recipes" className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl font-bold text-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <Link href="/recipes" className="text-orange-600 hover:text-orange-700 font-bold text-lg transition-colors duration-200">
               {t('navigation.recipes')}
             </Link>
           </li>
           <li>
-            <Link href="/trending" className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl font-bold text-xl hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
-              🔥 {t('navigation.trending')}
+            <Link href="/trending" className="text-orange-600 hover:text-orange-700 font-bold text-lg transition-colors duration-200">
+              {t('navigation.trending')}
             </Link>
           </li>
         </ul>
