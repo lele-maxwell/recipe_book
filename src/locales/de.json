@@ -267,5 +267,59 @@
     "privacy_policy": "Datenschutzrichtlinie",
     "terms_of_service": "Nutzungsbedingungen",
     "cookie_policy": "Cookie-Richtlinie"
+  },
+  "social_media": {
+    "title": "Social Media Links",
+    "description": "Verbinden Sie Ihre Social Media Konten, um Nutzern zu helfen, Ihre Inhalte zu entdecken",
+    "add_link": "Link Hinzufügen",
+    "platform": "Plattform",
+    "url": "URL",
+    "username": "Benutzername",
+    "remove": "Entfernen",
+    "edit": "Bearbeiten",
+    "follow_creator": "Dem Ersteller Folgen",
+    "connect_with": "Verbinden mit",
+    "platforms": {
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "telegram": "Telegram",
+      "facebook": "Facebook",
+      "twitter": "Twitter/X",
+      "website": "Website"
+    },
+    "placeholders": {
+      "youtube": "https://youtube.com/@benutzername",
+      "tiktok": "https://tiktok.com/@benutzername",
+      "instagram": "https://instagram.com/benutzername",
+      "telegram": "https://t.me/benutzername",
+      "facebook": "https://facebook.com/benutzername",
+      "twitter": "https://twitter.com/benutzername",
+      "website": "https://ihre-website.com"
+    },
+    "validation": {
+      "invalid_url": "Bitte geben Sie eine gültige URL ein",
+      "invalid_platform": "URL stimmt nicht mit der ausgewählten Plattform überein",
+      "already_exists": "Sie haben bereits einen Link für diese Plattform",
+      "required": "URL ist erforderlich"
+    },
+    "messages": {
+      "added_successfully": "Social Media Link erfolgreich hinzugefügt",
+      "updated_successfully": "Social Media Link erfolgreich aktualisiert",
+      "removed_successfully": "Social Media Link erfolgreich entfernt",
+      "failed_to_add": "Fehler beim Hinzufügen des Social Media Links",
+      "failed_to_update": "Fehler beim Aktualisieren des Social Media Links",
+      "failed_to_remove": "Fehler beim Entfernen des Social Media Links"
+    },
+    "select_platform": "Plattform auswählen",
+    "enter_url": "URL eingeben",
+    "no_links": "Noch keine Social Media Links",
+    "add_first_link": "Fügen Sie Ihren ersten Social Media Link hinzu, um sich mit Ihrem Publikum zu verbinden"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "saving": "Speichern...",
+    "confirm_delete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?"
   }
 }
