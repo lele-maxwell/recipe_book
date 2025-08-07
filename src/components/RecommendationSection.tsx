@@ -5,6 +5,7 @@ import Link from 'next/link'
 import OptimizedImage from './OptimizedImage'
 import { StarIcon, ClockIcon, UsersIcon } from '@heroicons/react/24/solid'
 import { StarIcon as StarOutlineIcon } from '@heroicons/react/24/outline'
+import StarRating from './StarRating'
 
 interface Recipe {
   id: string
@@ -85,35 +86,6 @@ export function RecommendationSection({
   useEffect(() => {
     fetchRecommendations()
   }, [fetchRecommendations])
-
-  const renderStars = (rating: number) => {
-    const stars = []
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
-
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(
-          <StarIcon key={i} className="h-4 w-4 text-yellow-400" />
-        )
-      } else if (i === fullStars && hasHalfStar) {
-        stars.push(
-          <div key={i} className="relative">
-            <StarOutlineIcon className="h-4 w-4 text-gray-300" />
-            <div className="absolute inset-0 overflow-hidden w-1/2">
-              <StarIcon className="h-4 w-4 text-yellow-400" />
-            </div>
-          </div>
-        )
-      } else {
-        stars.push(
-          <StarOutlineIcon key={i} className="h-4 w-4 text-gray-300" />
-        )
-      }
-    }
-
-    return stars
-  }
 
   if (loading) {
     return (
@@ -264,9 +236,7 @@ export function RecommendationSection({
 
                   {recipe.averageRating > 0 && (
                     <div className="flex items-center space-x-1">
-                      <div className="flex items-center">
-                        {renderStars(recipe.averageRating)}
-                      </div>
+                      <StarRating rating={recipe.averageRating} />
                       <span className="text-xs text-gray-500">
                         ({recipe.ratingsCount})
                       </span>
