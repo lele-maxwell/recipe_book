@@ -1,25 +1,28 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useTranslateWithFallback } from '../../lib/translations'
-import { RecipeWithDetails } from '@/types/recipe'
-import { useRecipeContext } from '../../contexts/RecipeContext'
-import { useAuth } from '../../hooks/useAuth'
-import SearchAndFilters from '../../components/SearchAndFilters'
-import RecipeList from '../../components/RecipeList'
-import LoadingSpinner from '../../components/LoadingSpinner'
-import OptimizedImage from '../../components/OptimizedImage'
-import { RecommendationSection } from '../../components/RecommendationSection'
+import { useTranslateWithFallback } from '@/lib/translations'
+import { useRecipeContext } from '@/contexts/RecipeContext'
+import { useAuth } from '@/hooks/useAuth'
+import SearchAndFilters from '@/components/SearchAndFilters'
+import RecipeList from '@/components/RecipeList'
+import LoadingSpinner from '@/components/LoadingSpinner'
+import { RecommendationSection } from '@/components/RecommendationSection'
+
+interface FilterOptions {
+  cuisine: string
+  difficulty: string
+  maxTime: string
+  rating: string
+}
 
 export default function RecipesPage() {
   const { t } = useTranslateWithFallback()
-  const { isAuthenticated, requireAuth } = useAuth()
+  const { isAuthenticated } = useAuth()
   const router = useRouter()
   const { state, dispatch, filteredRecipes } = useRecipeContext()
-  const { recipes, loading, error } = state
+  const { loading, error } = state
 
   // Fetch recipes on component mount
   useEffect(() => {
@@ -49,8 +52,14 @@ export default function RecipesPage() {
     dispatch({ type: 'SET_FILTERS', payload: { search } })
   }, [dispatch])
 
-  const handleFilterChange = useCallback((filters: any) => {
-    dispatch({ type: 'SET_FILTERS', payload: filters })
+  const handleFilterChange = useCallback((filters: FilterOptions) => {
+    dispatch({ 
+      type: 'SET_FILTERS', 
+      payload: {
+        ...filters,
+        maxTime: filters.maxTime ? parseInt(filters.maxTime) : null
+      }
+    })
   }, [dispatch])
 
   const handleRecipeClick = useCallback((recipeId: string) => {
@@ -62,11 +71,12 @@ export default function RecipesPage() {
   }, [isAuthenticated, router])
 
   const handleCreateRecipe = useCallback(() => {
-    if (!requireAuth()) {
+    if (!isAuthenticated) {
+      router.push('/auth/signin')
       return
     }
     router.push('/recipes/create')
-  }, [requireAuth, router])
+  }, [isAuthenticated, router])
 
   if (loading) {
     return (
@@ -88,8 +98,12 @@ export default function RecipesPage() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight leading-tight">{t('recipes.title')}</h1>
-            <p className="text-lg text-gray-500 mb-8">{t('recipes.subtitle')}</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              {t('recipes.title')}
+            </h1>
+            <p className="text-gray-600">
+              {t('recipes.subtitle')}
+            </p>
           </div>
           <button
             onClick={handleCreateRecipe}
@@ -117,10 +131,12 @@ export default function RecipesPage() {
 
         {/* Recommendations */}
         <div className="mt-12">
-            <RecommendationSection
+          <RecommendationSection
+            type="similar"
+            title="You might also like"
             excludeIds={filteredRecipes.slice(0, 6).map(r => r.id)}
-            />
-          </div>
+          />
+        </div>
       </div>
     </div>
   )
