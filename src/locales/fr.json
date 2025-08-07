@@ -267,5 +267,59 @@
     "privacy_policy": "Politique de Confidentialité",
     "terms_of_service": "Conditions d'Utilisation",
     "cookie_policy": "Politique des Cookies"
+  },
+  "social_media": {
+    "title": "Liens Réseaux Sociaux",
+    "description": "Connectez vos comptes de réseaux sociaux pour aider les utilisateurs à découvrir votre contenu",
+    "add_link": "Ajouter un Lien",
+    "platform": "Plateforme",
+    "url": "URL",
+    "username": "Nom d'utilisateur",
+    "remove": "Supprimer",
+    "edit": "Modifier",
+    "follow_creator": "Suivre le Créateur",
+    "connect_with": "Se connecter avec",
+    "platforms": {
+      "youtube": "YouTube",
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "telegram": "Telegram",
+      "facebook": "Facebook",
+      "twitter": "Twitter/X",
+      "website": "Site Web"
+    },
+    "placeholders": {
+      "youtube": "https://youtube.com/@nomutilisateur",
+      "tiktok": "https://tiktok.com/@nomutilisateur",
+      "instagram": "https://instagram.com/nomutilisateur",
+      "telegram": "https://t.me/nomutilisateur",
+      "facebook": "https://facebook.com/nomutilisateur",
+      "twitter": "https://twitter.com/nomutilisateur",
+      "website": "https://votresite.com"
+    },
+    "validation": {
+      "invalid_url": "Veuillez entrer une URL valide",
+      "invalid_platform": "L'URL ne correspond pas à la plateforme sélectionnée",
+      "already_exists": "Vous avez déjà un lien pour cette plateforme",
+      "required": "L'URL est requise"
+    },
+    "messages": {
+      "added_successfully": "Lien de réseau social ajouté avec succès",
+      "updated_successfully": "Lien de réseau social mis à jour avec succès",
+      "removed_successfully": "Lien de réseau social supprimé avec succès",
+      "failed_to_add": "Échec de l'ajout du lien de réseau social",
+      "failed_to_update": "Échec de la mise à jour du lien de réseau social",
+      "failed_to_remove": "Échec de la suppression du lien de réseau social"
+    },
+    "select_platform": "Sélectionner une plateforme",
+    "enter_url": "Entrer l'URL",
+    "no_links": "Aucun lien de réseau social pour le moment",
+    "add_first_link": "Ajoutez votre premier lien de réseau social pour vous connecter avec votre audience"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer cet élément ?"
   }
 }
