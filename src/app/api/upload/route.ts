@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { uploadImage } from '@/lib/minio'
+import { uploadImage } from '@/lib/minio' // Now uses Cubbit DS3
 import { withRateLimit, RateLimitConfigs } from '@/lib/rateLimiting'
 
 async function uploadHandler(request: NextRequest) {
@@ -33,7 +33,7 @@ async function uploadHandler(request: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    // Upload to MinIO
+    // Upload to Cubbit DS3
     const imageUrl = await uploadImage(buffer, file.name, file.type)
 
     return NextResponse.json({ 
