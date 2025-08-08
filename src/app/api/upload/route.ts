@@ -4,6 +4,23 @@ import { withRateLimit, RateLimitConfigs } from '@/lib/rateLimiting'
 
 async function uploadHandler(request: NextRequest) {
   try {
+    // Check if required environment variables are set
+    const requiredEnvVars = [
+      'CUBBIT_S3_ENDPOINT',
+      'CUBBIT_S3_ACCESS_KEY_ID', 
+      'CUBBIT_S3_SECRET_ACCESS_KEY',
+      'CUBBIT_S3_BUCKET'
+    ]
+    
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName])
+    if (missingVars.length > 0) {
+      console.error('Missing environment variables:', missingVars)
+      return NextResponse.json(
+        { error: 'Upload service not configured properly' },
+        { status: 500 }
+      )
+    }
+
     const formData = await request.formData()
     const file = formData.get('file') as File
     
@@ -33,8 +50,17 @@ async function uploadHandler(request: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
+    console.log('Uploading file:', {
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      bucket: process.env.CUBBIT_S3_BUCKET
+    })
+
     // Upload to Cubbit DS3
     const imageUrl = await uploadImage(buffer, file.name, file.type)
+
+    console.log('Upload successful:', imageUrl)
 
     return NextResponse.json({ 
       success: true, 
@@ -44,8 +70,25 @@ async function uploadHandler(request: NextRequest) {
 
   } catch (error) {
     console.error('Upload error:', error)
+    
+    // Return more specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes('credentials')) {
+        return NextResponse.json(
+          { error: 'Storage service authentication failed' },
+          { status: 500 }
+        )
+      }
+      if (error.message.includes('network')) {
+        return NextResponse.json(
+          { error: 'Storage service connection failed' },
+          { status: 500 }
+        )
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to upload image' },
+      { error: 'Failed to upload image. Please try again.' },
       { status: 500 }
     )
   }
