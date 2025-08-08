@@ -318,54 +318,54 @@ export default function CreateRecipe() {
                 <FormField
                   label={t('create_recipe.recipe_title')}
                   name="title"
-                  type="text"
-                  placeholder={t('create_recipe.recipe_title_placeholder')}
-                  value={formData.title}
+                type="text"
+                placeholder={t('create_recipe.recipe_title_placeholder')}
+                value={formData.title}
                   onChange={(value) => handleInputChange({ target: { name: 'title', value } } as React.ChangeEvent<HTMLInputElement>)}
-                  required
+                required
                   error={validationErrors.title}
                   success={fieldSuccess.title}
-                />
-                {/* Image Upload */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {t('create_recipe.recipe_image')}
+              />
+            {/* Image Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t('create_recipe.recipe_image')}
+              </label>
+              <div className="space-y-4">
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    id="image-upload"
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className="flex items-center justify-center w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 cursor-pointer hover:bg-gray-200 focus-within:bg-white focus-within:ring-2 focus-within:ring-orange-500 transition-all"
+                  >
+                    <span className="mr-3 px-4 py-2 bg-orange-50 text-orange-700 rounded-md text-sm font-medium hover:bg-orange-100 transition-colors">
+                      {t('create_recipe.choose_image')}
+                    </span>
+                    <span className="text-gray-500 text-sm">
+                      {imageFile ? imageFile.name : t('create_recipe.no_image_chosen')}
+                    </span>
                   </label>
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        id="image-upload"
-                      />
-                      <label
-                        htmlFor="image-upload"
-                        className="flex items-center justify-center w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 cursor-pointer hover:bg-gray-200 focus-within:bg-white focus-within:ring-2 focus-within:ring-orange-500 transition-all"
-                      >
-                        <span className="mr-3 px-4 py-2 bg-orange-50 text-orange-700 rounded-md text-sm font-medium hover:bg-orange-100 transition-colors">
-                          {t('create_recipe.choose_image')}
-                        </span>
-                        <span className="text-gray-500 text-sm">
-                          {imageFile ? imageFile.name : t('create_recipe.no_image_chosen')}
-                        </span>
-                      </label>
-                    </div>
-                    {imagePreview && (
-                      <div className="mt-4">
-                        <img
-                          src={imagePreview}
-                          alt="Recipe preview"
-                          className="w-full h-48 object-cover rounded-md border border-gray-200"
-                        />
-                      </div>
-                    )}
-                    <div className="text-sm text-gray-500">
-                      {t('create_recipe.supported_formats')}
-                    </div>
-                  </div>
                 </div>
+                {imagePreview && (
+                  <div className="mt-4">
+                    <img
+                      src={imagePreview}
+                      alt="Recipe preview"
+                      className="w-full h-48 object-cover rounded-md border border-gray-200"
+                    />
+                  </div>
+                )}
+                <div className="text-sm text-gray-500">
+                  {t('create_recipe.supported_formats')}
+                </div>
+              </div>
+            </div>
                 <FormField
                   label={t('create_recipe.description')}
                   name="description"
@@ -393,29 +393,29 @@ export default function CreateRecipe() {
             {step === 2 && (
               <>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Step 2: Ingredients & Details</h2>
-                {/* Ingredients */}
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                      {t('create_recipe.ingredients')}
-                    </label>
-                    <button
-                      type="button"
-                      onClick={addIngredient}
-                      className="text-sm text-orange-600 hover:text-orange-700 font-medium"
-                    >
-                      {t('create_recipe.add_ingredient')}
-                    </button>
-                  </div>
-                  <div className="space-y-3">
-                    {ingredients.map((ingredient, index) => (
-                      <div key={index} className="grid grid-cols-2 gap-3">
+            {/* Ingredients */}
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <label className="block text-sm font-medium text-gray-700">
+                  {t('create_recipe.ingredients')}
+                </label>
+                <button
+                  type="button"
+                  onClick={addIngredient}
+                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
+                >
+                  {t('create_recipe.add_ingredient')}
+                </button>
+              </div>
+              <div className="space-y-3">
+                {ingredients.map((ingredient, index) => (
+                  <div key={index} className="grid grid-cols-2 gap-3">
                         <FormField
                           label={t('create_recipe.ingredient')}
                           name={`ingredient-${index}`}
-                          type="text"
-                          placeholder={t('create_recipe.ingredient_placeholder')}
-                          value={ingredient.ingredientName}
+                        type="text"
+                        placeholder={t('create_recipe.ingredient_placeholder')}
+                        value={ingredient.ingredientName}
                           onChange={(value) => handleIngredientChange(index, 'ingredientName', value)}
                           required
                           className="mb-0"
@@ -423,36 +423,36 @@ export default function CreateRecipe() {
                         <FormField
                           label={t('create_recipe.measurement')}
                           name={`quantity-${index}`}
-                          type="text"
-                          placeholder={t('create_recipe.measurement_placeholder')}
-                          value={ingredient.quantity || ''}
+                        type="text"
+                        placeholder={t('create_recipe.measurement_placeholder')}
+                        value={ingredient.quantity || ''}
                           onChange={(value) => handleIngredientChange(index, 'quantity', parseFloat(value) || 0)}
                           required
                           className="mb-0"
-                        />
-                      </div>
+                      />
+                    </div>
                     ))}
                   </div>
-                  {/* Unit Selection */}
-                  <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t('create_recipe.unit')}
-                    </label>
-                    <select
-                      className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
-                      value={ingredients[0]?.unit || 'cups'}
-                      onChange={(e) => {
-                        setIngredients(prev => prev.map(ing => ({ ...ing, unit: e.target.value })))
-                      }}
-                    >
-                      {MEASUREMENT_UNITS.map(unit => (
-                        <option key={unit} value={unit}>
-                          {getUnitName(unit, currentLanguage)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+              {/* Unit Selection */}
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('create_recipe.unit')}
+                </label>
+                <select
+                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+                  value={ingredients[0]?.unit || 'cups'}
+                  onChange={(e) => {
+                    setIngredients(prev => prev.map(ing => ({ ...ing, unit: e.target.value })))
+                  }}
+                >
+                  {MEASUREMENT_UNITS.map(unit => (
+                    <option key={unit} value={unit}>
+                      {getUnitName(unit, currentLanguage)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
                 {/* Instructions */}
                 <FormField
                   label={t('create_recipe.instructions')}
@@ -472,9 +472,9 @@ export default function CreateRecipe() {
                   <FormField
                     label={t('create_recipe.prep_time')}
                     name="prepTime"
-                    type="number"
-                    placeholder={t('create_recipe.prep_time_placeholder')}
-                    value={formData.prepTime}
+                type="number"
+                placeholder={t('create_recipe.prep_time_placeholder')}
+                value={formData.prepTime}
                     onChange={(value) => handleInputChange({ target: { name: 'prepTime', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={0}
                     error={validationErrors.prepTime}
@@ -483,9 +483,9 @@ export default function CreateRecipe() {
                   <FormField
                     label={t('create_recipe.cook_time')}
                     name="cookTime"
-                    type="number"
-                    placeholder={t('create_recipe.cook_time_placeholder')}
-                    value={formData.cookTime}
+                type="number"
+                placeholder={t('create_recipe.cook_time_placeholder')}
+                value={formData.cookTime}
                     onChange={(value) => handleInputChange({ target: { name: 'cookTime', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={0}
                     error={validationErrors.cookTime}
@@ -494,15 +494,15 @@ export default function CreateRecipe() {
                   <FormField
                     label={t('create_recipe.servings')}
                     name="servings"
-                    type="number"
-                    placeholder={t('create_recipe.servings_placeholder')}
-                    value={formData.servings}
+                type="number"
+                placeholder={t('create_recipe.servings_placeholder')}
+                value={formData.servings}
                     onChange={(value) => handleInputChange({ target: { name: 'servings', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={1}
                     error={validationErrors.servings}
                     success={fieldSuccess.servings}
-                  />
-                </div>
+              />
+            </div>
                 <div className="pt-4 flex justify-between">
                   <button
                     type="button"
@@ -511,14 +511,14 @@ export default function CreateRecipe() {
                   >
                     {t('common.previous')}
                   </button>
-                  <button
-                    type="submit"
-                    disabled={isLoading || uploadingImage}
+              <button
+                type="submit"
+                disabled={isLoading || uploadingImage}
                     className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-6 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {uploadingImage ? t('create_recipe.uploading_image') : isLoading ? t('create_recipe.saving') : t('create_recipe.save_recipe')}
-                  </button>
-                </div>
+              >
+                {uploadingImage ? t('create_recipe.uploading_image') : isLoading ? t('create_recipe.saving') : t('create_recipe.save_recipe')}
+              </button>
+            </div>
               </>
             )}
           </form>
