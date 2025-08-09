@@ -16,7 +16,7 @@ export function Navigation() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl">
-              <span>apps_dev</span>
+              <span>ChefMaster</span>
               <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
@@ -42,7 +42,7 @@ export function Navigation() {
           {/* Right side */}
           <div className="flex items-center gap-4">
             <LanguageSelector />
-            {session ? (
+            {session && (
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                   <div className="w-10 h-10 rounded-full">
@@ -72,13 +72,6 @@ export function Navigation() {
                   </li>
                 </ul>
               </div>
-            ) : (
-              <button
-                onClick={() => signIn()}
-                className="border border-white/20 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/10 transition-colors"
-              >
-                {t('navigation.sign_up')}
-              </button>
             )}
           </div>
         </div>
