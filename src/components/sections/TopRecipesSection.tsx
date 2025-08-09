@@ -150,11 +150,11 @@ export default function TopRecipesSection({
       </h2>
       
       {/* Responsive grid container */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 px-6">
         {recipes.map((recipe, index) => (
           <div 
             key={recipe.id} 
-            className={`w-full h-96 relative group cursor-pointer transition-all duration-700 ease-out ${
+            className={`w-full max-w-sm mx-auto h-80 relative group cursor-pointer transition-all duration-700 ease-out ${
               animatedCards.includes(index) 
                 ? 'opacity-100 translate-y-0 scale-100' 
                 : 'opacity-0 translate-y-8 scale-95'
