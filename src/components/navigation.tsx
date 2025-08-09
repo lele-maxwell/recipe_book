@@ -23,22 +23,19 @@ export function Navigation() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Only Home and Recipes */}
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/" className="text-orange-500 font-medium hover:text-orange-400 transition-colors">
+            <Link href="/" className="text-orange-500 font-medium hover:text-orange-400 transition-colors flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
               {t('navigation.home')}
             </Link>
-            <Link href="/recipes" className="text-white/80 hover:text-white transition-colors">
+            <Link href="/recipes" className="text-white/80 hover:text-white transition-colors flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+              </svg>
               {t('navigation.recipes')}
-            </Link>
-            <Link href="/trending" className="text-white/80 hover:text-white transition-colors">
-              {t('navigation.trending')}
-            </Link>
-            <Link href="/about" className="text-white/80 hover:text-white transition-colors">
-              About Us
-            </Link>
-            <Link href="/contact" className="text-white/80 hover:text-white transition-colors">
-              Contact Us
             </Link>
           </div>
 
@@ -90,14 +87,17 @@ export function Navigation() {
         <div className="md:hidden mt-4">
           <div className="flex items-center justify-between">
             <div className="flex gap-4">
-              <Link href="/" className="text-orange-500 font-medium">
+              <Link href="/" className="text-orange-500 font-medium flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
                 {t('navigation.home')}
               </Link>
-              <Link href="/recipes" className="text-white/80">
+              <Link href="/recipes" className="text-white/80 flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
                 {t('navigation.recipes')}
-              </Link>
-              <Link href="/trending" className="text-white/80">
-                {t('navigation.trending')}
               </Link>
             </div>
           </div>
