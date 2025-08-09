@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Recipe Book - Multilingual Recipe Sharing",
-  description: "Share and discover recipes from around the world with multilingual support",
+  title: "ChefMaster - Multilingual Recipe Sharing Platform",
+  description: "Share and discover recipes from around the world with ChefMaster's multilingual support",
 };
 
 export default function RootLayout({

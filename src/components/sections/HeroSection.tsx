@@ -43,18 +43,18 @@ export default function HeroSection({
         <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-24 lg:py-28 min-h-[85vh] flex flex-col justify-center">
           <div className="max-w-3xl">
             <h1 className="text-4xl leading-tight font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
-              Discover Culinary Excellence
+              Master Your Culinary Journey
             </h1>
             <p className="mt-6 text-base md:text-lg text-gray-300 max-w-xl leading-relaxed">
-              Explore world-class recipes from renowned chefs. From quick meals to gourmet experiences, 
-              find your next culinary adventure.
+              Welcome to ChefMaster - where culinary passion meets perfection. Explore world-class recipes, 
+              learn from renowned chefs, and create extraordinary dining experiences.
             </p>
             <div className="mt-8 flex gap-4">
               <Link 
                 href="/recipes"
                 className="rounded-full bg-orange-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-orange-600/25 transition-all duration-200 hover:bg-orange-500 hover:shadow-orange-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
               >
-                Get Started
+                Sign Up
               </Link>
               <Link 
                 href="/auth/signin"

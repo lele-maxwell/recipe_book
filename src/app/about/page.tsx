@@ -1,31 +1,75 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
+import { useTranslateWithFallback } from '../../lib/translations'
 
 export const metadata: Metadata = {
-  title: 'About Us - Recipe Book',
-  description: 'Learn more about Recipe Book, our mission, and our community of food lovers.',
+  title: 'About Us - ChefMaster',
+  description: 'Learn more about ChefMaster, our mission, and our community of food lovers.',
 }
 
-export default async function AboutPage() {
+export default function About() {
+  const { t } = useTranslateWithFallback()
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              About Recipe Book
-            </h1>
-            <p className="text-xl text-gray-600">
-              Connecting food lovers through the joy of cooking
+    <div className="min-h-screen py-12 px-6 bg-gradient-to-br from-orange-50 to-orange-100">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            About ChefMaster
+          </h1>
+          <div className="w-24 h-1 bg-orange-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-semibold text-gray-700">Our Story</h2>
+            <p className="text-gray-600 leading-relaxed">
+              ChefMaster is more than just a recipe website—it's a thriving community of passionate cooks,
+              culinary enthusiasts, and food lovers from around the globe. Born from a simple idea that great
+              food brings people together, we've created a space where culinary traditions meet modern innovation.
+            </p>
+            <p className="text-gray-600 leading-relaxed">
+              Whether you're a seasoned chef or just starting your culinary journey, ChefMaster provides
+              the tools, inspiration, and community support you need to create memorable dining experiences.
             </p>
           </div>
+          <div className="relative">
+            <img 
+              src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3" 
+              alt="Chef cooking in kitchen"
+              className="rounded-lg shadow-lg w-full h-80 object-cover"
+            />
+          </div>
+        </div>
 
-          {/* Main Content */}
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="relative order-2 md:order-1">
+            <img 
+              src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-4.0.3" 
+              alt="Community cooking together"
+              className="rounded-lg shadow-lg w-full h-80 object-cover"
+            />
+          </div>
+          <div className="space-y-6 order-1 md:order-2">
+            <h2 className="text-3xl font-semibold text-gray-700">Our Mission</h2>
+            <p className="text-gray-600 leading-relaxed">
+              ChefMaster is more than just a recipe website—it's a thriving community of passionate cooks,
+              culinary enthusiasts, and food lovers from around the globe. We believe that cooking is an art form that should be
+              accessible to everyone, regardless of skill level or background.
+            </p>
+            <p className="text-gray-600 leading-relaxed">
+              Our mission is to democratize culinary knowledge, preserve traditional cooking methods, and foster innovation in the kitchen. We
+              provide a platform where cultures converge through food, where home cooks can learn from professional chefs, and where every meal becomes an opportunity to
+              express creativity, and create lasting memories. Our platform is designed to inspire and empower
+              cooks of all levels to explore new flavors, techniques, and cuisines.
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
             <div className="prose prose-lg max-w-none">
               <p className="text-gray-700 mb-6">
-                Recipe Book is more than just a recipe website—it&apos;s a thriving community of passionate cooks, 
+                ChefMaster is more than just a recipe website—it&apos;s a thriving community of passionate cooks, 
                 food photographers, and culinary enthusiasts. Whether you&apos;re looking for quick weeknight dinners, 
                 impressive dinner party dishes, or traditional family recipes, you&apos;ll find inspiration and support here.
               </p>
@@ -43,7 +87,7 @@ export default async function AboutPage() {
                 Our Community
               </h2>
               <p className="text-gray-700 mb-6">
-                Recipe Book is more than just a recipe website—it&apos;s a thriving community of passionate cooks, 
+                ChefMaster is more than just a recipe website—it&apos;s a thriving community of passionate cooks, 
                 food photographers, and culinary enthusiasts. Whether you&apos;re looking for quick weeknight dinners, 
                 impressive dinner party dishes, or traditional family recipes, you&apos;ll find inspiration and support here.
               </p>
@@ -72,7 +116,6 @@ export default async function AboutPage() {
               </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   )

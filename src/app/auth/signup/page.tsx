@@ -111,8 +111,8 @@ export default function SignUp() {
             <h2 className="text-2xl font-semibold text-gray-900">
               Create your account
             </h2>
-            <p className="text-gray-600 mt-2">
-              Join ChefMaster Recipes to share and discover amazing recipes
+            <p className="text-gray-600 text-center">
+              Join ChefMaster to share and discover amazing recipes from our community of passionate food lovers
             </p>
           </div>
 

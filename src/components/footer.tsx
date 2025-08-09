@@ -15,12 +15,15 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#0b0f1c] to-[#0a0d1a] border-t border-white/10 overflow-hidden">
+    <footer className="relative bg-gradient-to-b from-[#0b0f1c] via-orange-950/20 to-[#0a0d1a] border-t border-orange-500/20 overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-500/3 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/2 rounded-full blur-2xl animate-pulse delay-500"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/8 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-400/6 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-600/4 rounded-full blur-2xl animate-pulse delay-500"></div>
+        {/* Additional soft orange overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-transparent to-orange-500/5"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-orange-900/10 to-transparent"></div>
       </div>
 
       <div className="relative z-10 max-w-8xl mx-auto px-8 py-16">

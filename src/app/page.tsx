@@ -49,11 +49,11 @@ export default function Home() {
               <h3 className="text-2xl font-semibold text-orange-400 mb-4">
                 Discover Culinary Excellence
               </h3>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                {t('home.about_us_text') || 'ChefMaster is your gateway to world-class recipes from renowned chefs around the globe. Whether you\'re a beginner or a seasoned cook, our platform offers everything you need to create extraordinary dishes.'}
+              <p className="text-gray-300 leading-relaxed">
+                {'ChefMaster is your gateway to culinary mastery. Whether you\'re a beginner or a seasoned cook, our platform offers everything you need to create extraordinary dishes.'}
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                From quick weekday meals to elaborate gourmet experiences, our curated collection spans all cuisines and skill levels. Join our community of food enthusiasts and elevate your cooking journey.
+              <p className="text-gray-300 leading-relaxed">
+                Join our community of passionate food lovers, share your favorite recipes, and discover new culinary adventures from around the world.
               </p>
               <div className="flex gap-4 pt-4">
                 <div className="text-center">
