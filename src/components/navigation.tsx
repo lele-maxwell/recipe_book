@@ -10,131 +10,97 @@ export function Navigation() {
   const { t } = useTranslateWithFallback()
 
   return (
-    <nav className="navbar navbar-glass sticky top-0 z-50">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden navbar-nav-item">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+    <nav className="sticky top-0 z-50 bg-[#0b0f1c]/95 backdrop-blur-md border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl">
+              <span>apps_dev</span>
+              <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </Link>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content card-glass z-[1] mt-3 w-64 p-4 shadow-xl"
-          >
-            <li>
-              <Link href="/" className="navbar-nav-item text-xl py-3">{t('navigation.home')}</Link>
-            </li>
-            <li>
-              <Link href="/recipes" className="navbar-nav-item text-xl py-3">{t('navigation.recipes')}</Link>
-            </li>
-            <li>
-              <Link href="/trending" className="navbar-nav-item text-xl py-3">{t('navigation.trending')}</Link>
-            </li>
-            {session && (
-              <li>
-                <Link href="/my-recipes" className="navbar-nav-item text-xl py-3">{t('navigation.my_recipes')}</Link>
-              </li>
-            )}
-          </ul>
-        </div>
-        <Link href="/" className="navbar-brand flex items-center gap-3">
-          <img
-            src="/chef-logo-simple.svg"
-            alt="ChefMaster Recipes Logo"
-            className="h-16 w-auto object-contain"
-            onError={(e) => {
-              // Fallback to emoji if image fails to load
-              e.currentTarget.style.display = 'none';
-              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
-              if (nextElement) {
-                nextElement.style.display = 'inline';
-              }
-            }}
-          />
-          <span style={{display: 'none'}}>🍳</span>
-        </Link>
-      </div>
 
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-2 gap-6">
-          <li>
-            <Link href="/" className="text-orange-600 hover:text-orange-700 font-bold text-lg transition-colors duration-200">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/" className="text-orange-500 font-medium hover:text-orange-400 transition-colors">
               {t('navigation.home')}
             </Link>
-          </li>
-          <li>
-            <Link href="/recipes" className="text-orange-600 hover:text-orange-700 font-bold text-lg transition-colors duration-200">
+            <Link href="/recipes" className="text-white/80 hover:text-white transition-colors">
               {t('navigation.recipes')}
             </Link>
-          </li>
-          <li>
-            <Link href="/trending" className="text-orange-600 hover:text-orange-700 font-bold text-lg transition-colors duration-200">
+            <Link href="/trending" className="text-white/80 hover:text-white transition-colors">
               {t('navigation.trending')}
             </Link>
-          </li>
-        </ul>
-      </div>
-
-      <div className="navbar-end">
-        <div className="flex items-center gap-4">
-          {session && (
-            <Link
-              href="/my-recipes"
-              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 text-lg transform hover:scale-105 shadow-lg hover:from-blue-600 hover:to-blue-700"
-            >
-              {t('navigation.my_recipes')}
+            <Link href="/about" className="text-white/80 hover:text-white transition-colors">
+              About Us
             </Link>
-          )}
-          <LanguageSelector />
-          {session ? (
-            <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-14 h-14 rounded-full">
-                  {session.user?.image ? (
-                    <img
-                      alt={session.user.name || 'User'}
-                      src={session.user.image}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <div className="bg-gradient-to-r from-orange-500 to-orange-700 text-white w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold shadow-lg">
-                      {session.user?.name?.[0] || session.user?.email?.[0] || 'U'}
-                    </div>
-                  )}
+            <Link href="/contact" className="text-white/80 hover:text-white transition-colors">
+              Contact Us
+            </Link>
+          </div>
+
+          {/* Right side */}
+          <div className="flex items-center gap-4">
+            <LanguageSelector />
+            {session ? (
+              <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 h-10 rounded-full">
+                    {session.user?.image ? (
+                      <img
+                        alt={session.user.name || 'User'}
+                        src={session.user.image}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold">
+                        {session.user?.name?.[0] || session.user?.email?.[0] || 'U'}
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <ul tabIndex={0} className="dropdown-content menu bg-[#0b0f1c]/95 backdrop-blur-md border border-white/10 rounded-lg z-[1] mt-3 w-48 p-2 shadow-xl">
+                  <li>
+                    <Link href="/profile" className="text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-3 py-2">
+                      {t('navigation.profile')}
+                    </Link>
+                  </li>
+                  <li>
+                    <button onClick={() => signOut()} className="text-white/80 hover:text-white hover:bg-white/10 rounded-lg px-3 py-2 text-left w-full">
+                      {t('navigation.sign_out')}
+                    </button>
+                  </li>
+                </ul>
               </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content card-glass z-[1] mt-3 w-64 p-4 shadow-xl"
+            ) : (
+              <button
+                onClick={() => signIn()}
+                className="border border-white/20 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/10 transition-colors"
               >
-                <li>
-                  <Link href="/profile" className="navbar-nav-item text-xl py-3">{t('navigation.profile')}</Link>
-                </li>
-                <li>
-                  <button onClick={() => signOut()} className="navbar-nav-item text-xl py-3">{t('navigation.sign_out')}</button>
-                </li>
-              </ul>
+                {t('navigation.sign_up')}
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden mt-4">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-4">
+              <Link href="/" className="text-orange-500 font-medium">
+                {t('navigation.home')}
+              </Link>
+              <Link href="/recipes" className="text-white/80">
+                {t('navigation.recipes')}
+              </Link>
+              <Link href="/trending" className="text-white/80">
+                {t('navigation.trending')}
+              </Link>
             </div>
-          ) : (
-            <button
-              onClick={() => signIn()}
-              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-6 py-2 rounded-lg font-semibold transition-colors duration-200 border border-white/30 text-lg transform hover:scale-105 shadow-lg"
-            >
-              {t('navigation.sign_in')}
-            </button>
-          )}
+          </div>
         </div>
       </div>
     </nav>
@@ -163,15 +129,19 @@ function LanguageSelector() {
 
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="transition-all duration-200 transform hover:scale-110 cursor-pointer">
-        <span className="text-4xl">🌐</span>
+      <div tabIndex={0} role="button" className="text-white/80 hover:text-white transition-colors">
+        <span className="text-lg">🌐</span>
       </div>
-      <ul tabIndex={0} className="dropdown-content menu bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg z-[1] w-64 p-4 shadow-xl">
+      <ul tabIndex={0} className="dropdown-content menu bg-[#0b0f1c]/95 backdrop-blur-md border border-white/10 rounded-lg z-[1] w-48 p-2 shadow-xl">
         {languages.map((language) => (
           <li key={language.code}>
             <button
               onClick={() => handleLanguageChange(language.code)}
-              className={`text-gray-800 hover:bg-orange-100 hover:text-orange-800 text-lg py-3 px-4 rounded-lg transition-colors duration-200 ${currentLanguage === language.code ? 'bg-orange-100 text-orange-800 font-semibold' : ''}`}
+              className={`text-left w-full px-3 py-2 rounded-lg transition-colors ${
+                currentLanguage === language.code 
+                  ? 'text-orange-500 bg-orange-500/10' 
+                  : 'text-white/80 hover:text-white hover:bg-white/10'
+              }`}
             >
               {language.name}
             </button>
