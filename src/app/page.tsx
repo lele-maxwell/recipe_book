@@ -1,22 +1,37 @@
 'use client'
 
+import { useState } from 'react'
 import { useTranslateWithFallback } from '../lib/translations'
 import HeroSection from '../components/sections/HeroSection'
 import TopRecipesSection from '../components/sections/TopRecipesSection'
-import RatingsSection from '../components/sections/RatingsSection'
 
 export default function Home() {
   const { t } = useTranslateWithFallback()
+  const [showRecipes, setShowRecipes] = useState(false)
+
+  const handleScrollToRecipes = () => {
+    setShowRecipes(true)
+    // Smooth scroll to recipes section
+    setTimeout(() => {
+      const recipesSection = document.getElementById('recipes-section')
+      if (recipesSection) {
+        recipesSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        })
+      }
+    }, 100)
+  }
 
   return (
     <div className="min-h-screen bg-[#0b0f1c]">
       {/* Full-bleed hero */}
-      <HeroSection />
+      <HeroSection onScrollToRecipes={handleScrollToRecipes} />
 
       {/* Content sections */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-8xl mx-auto px-8 py-16">
         {/* About Us Section */}
-        <div className="mb-12">
+        <div className="mb-20">
           <h2 className="text-3xl font-bold text-white mb-4">
             {t('home.about_us_title')}
           </h2>
@@ -26,10 +41,9 @@ export default function Home() {
         </div>
 
         {/* Top Recipes Section */}
-        <TopRecipesSection />
-
-        {/* Ratings Section */}
-        <RatingsSection />
+        <div id="recipes-section">
+          <TopRecipesSection isVisible={showRecipes} />
+        </div>
       </div>
     </div>
   )

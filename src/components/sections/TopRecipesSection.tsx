@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react'
 import { useTranslateWithFallback } from '../../lib/translations'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 interface Recipe {
   id: string
@@ -16,6 +17,7 @@ interface Recipe {
 interface TopRecipesSectionProps {
   recipes?: Recipe[]
   className?: string
+  isVisible?: boolean
 }
 
 const defaultRecipes: Recipe[] = [
@@ -113,10 +115,25 @@ const getDifficultyIcon = (difficulty: string) => {
 
 export default function TopRecipesSection({ 
   recipes = defaultRecipes, 
-  className = '' 
+  className = '',
+  isVisible = true
 }: TopRecipesSectionProps) {
   const { data: session } = useSession()
   const { t } = useTranslateWithFallback()
+  const [animatedCards, setAnimatedCards] = useState<number[]>([])
+
+  useEffect(() => {
+    if (isVisible) {
+      // Animate cards one by one with a delay
+      recipes.forEach((_, index) => {
+        setTimeout(() => {
+          setAnimatedCards(prev => [...prev, index])
+        }, index * 200) // 200ms delay between each card
+      })
+    } else {
+      setAnimatedCards([])
+    }
+  }, [isVisible, recipes.length])
 
   const handleRecipeClick = (recipeId: string) => {
     if (!session) {
@@ -131,33 +148,39 @@ export default function TopRecipesSection({
       <h2 className="text-3xl font-bold text-white mb-8">
         Preference and Skill Level
       </h2>
-      <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-        {recipes.map((recipe) => (
+      
+      {/* Responsive grid container */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4">
+        {recipes.map((recipe, index) => (
           <div 
             key={recipe.id} 
-            className="flex-shrink-0 w-80 h-96 relative group cursor-pointer"
+            className={`w-full h-96 relative group cursor-pointer transition-all duration-700 ease-out ${
+              animatedCards.includes(index) 
+                ? 'opacity-100 translate-y-0 scale-100' 
+                : 'opacity-0 translate-y-8 scale-95'
+            }`}
             onClick={() => handleRecipeClick(recipe.id)}
           >
             {/* Recipe Card */}
-            <div className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-b from-transparent to-black/60">
+            <div className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-b from-transparent to-black/60 group-hover:shadow-2xl group-hover:shadow-orange-500/20 transition-all duration-500">
               {/* Background Image */}
               <img
                 src={recipe.image}
                 alt={recipe.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
               />
               
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent group-hover:from-black/90 transition-all duration-500" />
               
               {/* Tags */}
               <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg">
+                <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg group-hover:bg-orange-600/80 group-hover:scale-105 transition-all duration-300">
                   {getCategoryIcon(recipe.category)}
                   <span>{recipe.category}</span>
                 </div>
                 {recipe.difficulty && (
-                  <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg">
+                  <div className="flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg group-hover:bg-orange-600/80 group-hover:scale-105 transition-all duration-300">
                     {getDifficultyIcon(recipe.difficulty)}
                     <span>{recipe.difficulty}</span>
                   </div>
@@ -166,10 +189,19 @@ export default function TopRecipesSection({
               
               {/* Recipe Title */}
               <div className="absolute bottom-4 left-4 right-4">
-                <h3 className="text-white font-semibold text-lg leading-tight">
+                <h3 className="text-white font-semibold text-lg leading-tight group-hover:text-orange-300 transition-colors duration-300">
                   {recipe.title}
                 </h3>
+                <p className="text-gray-300 text-sm mt-1 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                  by {recipe.chef}
+                </p>
               </div>
+
+              {/* Hover Overlay Effect */}
+              <div className="absolute inset-0 bg-gradient-to-t from-orange-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Glow Effect */}
+              <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-orange-500/20 via-transparent to-orange-500/20 blur-xl" />
             </div>
           </div>
         ))}
