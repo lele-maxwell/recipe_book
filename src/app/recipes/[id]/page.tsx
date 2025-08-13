@@ -34,7 +34,11 @@ interface RecipeIngredient {
 interface Recipe {
   id: string
   title: string
+  description?: string
   imageUrl?: string
+  prepTime?: string
+  cookTime?: string
+  servings?: string
   userId: string
   user: {
     id: string
@@ -49,14 +53,19 @@ interface Recipe {
   _count: {
     ratings: number
   }
-  published?: boolean
+  createdAt?: string
+  updatedAt?: string
 }
 
 // Mock recipe data that matches the FlavorVerse reference design
 const mockRecipe = {
   id: '1',
   title: 'Creamy Mushroom Soup',
+  description: 'A rich and velvety mushroom soup that combines earthy flavors with a luxurious cream base. Perfect for cozy evenings and special occasions.',
   imageUrl: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=600&fit=crop&crop=center',
+  prepTime: '15 min',
+  cookTime: '30 min',
+  servings: '4',
   user: {
     id: '1',
     name: 'Chef Maria'
@@ -251,107 +260,227 @@ export default function RecipePage() {
   const isOwner = session?.user?.id === recipe.userId
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-2xl mx-auto px-6 py-8">
-        {/* Hero Image */}
-        {recipe.imageUrl && (
-          <div className="mb-6 relative h-64 w-full rounded-lg overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#0b0f1c] via-[#0d1121] to-[#0b0f1c]">
+      {/* Hero Section with Recipe Image */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-orange-950/20 to-transparent">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/8 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-400/6 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-8 py-16">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Recipe Image */}
+            <div className="relative group">
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-white/10">
+                {recipe.imageUrl ? (
             <OptimizedImage
               src={recipe.imageUrl}
               alt={recipe.title}
-              fill
-              className="rounded-lg"
-              sizes="(max-width: 768px) 100vw, 672px"
-              priority={true} // Hero image should load first
-            />
-          </div>
-        )}
+                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+                    <div className="text-center">
+                      <svg className="w-24 h-24 text-orange-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <p className="text-orange-600 font-medium">Recipe Image</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* Floating decorative elements */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-500/20 rounded-full blur-xl"></div>
+              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-orange-500/10 rounded-full blur-xl"></div>
+            </div>
 
-        {/* Recipe Title and Author */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{recipe.title}</h1>
-          <p className="text-gray-600 text-sm">{t('recipe.created_by')} <Link href={`/profile/${recipe.user.id}`} className="font-medium text-orange-600 hover:text-orange-700 hover:underline cursor-pointer">{recipe.user.email?.split('@')[0] || recipe.user.name || 'Anonymous'}</Link></p>
+            {/* Recipe Header Info */}
+            <div className="space-y-8">
+              {/* Title and Chef */}
+              <div>
+                <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                  {recipe.title}
+                </h1>
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="flex items-center space-x-3">
+                    {recipe.user.image ? (
+                      <img 
+                        src={recipe.user.image} 
+                        alt={recipe.user.name} 
+                        className="w-12 h-12 rounded-full border-2 border-orange-500/30"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+                        <span className="text-white font-semibold text-lg">
+                          {recipe.user.name?.charAt(0) || 'C'}
+                        </span>
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-orange-400 font-semibold">{recipe.user.name}</p>
+                      <p className="text-gray-400 text-sm">Chef</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Rating */}
+                <div className="flex items-center space-x-4 mb-8">
+                  <div className="flex items-center space-x-2">
+                    <StarRating rating={recipe.averageRating || 0} />
+                    <span className="text-xl font-bold text-white">
+                      {recipe.averageRating?.toFixed(1) || '0.0'}
+                    </span>
+                  </div>
+                  <span className="text-gray-400">
+                    ({recipe._count.ratings} {t('recipe.reviews')})
+                  </span>
+                </div>
+              </div>
+
+              {/* Recipe Stats */}
+              <div className="grid grid-cols-3 gap-6">
+                <div className="text-center bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                  <div className="text-2xl font-bold text-orange-400 mb-1">{recipe.prepTime || '30 min'}</div>
+                  <div className="text-gray-300 text-sm">Prep Time</div>
+                </div>
+                <div className="text-center bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                  <div className="text-2xl font-bold text-orange-400 mb-1">{recipe.cookTime || '45 min'}</div>
+                  <div className="text-gray-300 text-sm">Cook Time</div>
+                </div>
+                <div className="text-center bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                  <div className="text-2xl font-bold text-orange-400 mb-1">{recipe.servings || '4'}</div>
+                  <div className="text-gray-300 text-sm">Servings</div>
+                </div>
+              </div>
+
+              {/* Description */}
+              {recipe.description && (
+                <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                  <p className="text-gray-300 leading-relaxed text-lg">{recipe.description}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
         </div>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-8 py-16">
+        <div className="grid lg:grid-cols-3 gap-12">
         {/* Ingredients Section */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('recipe.ingredients')}</h2>
-          <div className="space-y-3">
-            {recipe.ingredients.map((recipeIngredient: RecipeIngredient) => (
-              <label 
-                key={recipeIngredient.id} 
-                className="flex items-start space-x-3 cursor-pointer group"
-              >
-                <input
-                  type="checkbox"
-                  checked={checkedIngredients[recipeIngredient.id] || false}
-                  onChange={() => toggleIngredient(recipeIngredient.id)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5"
-                />
-                <span className={`text-gray-700 text-sm leading-relaxed ${checkedIngredients[recipeIngredient.id] ? 'line-through text-gray-400' : ''}`}>
-                  {recipeIngredient.quantity} {getUnitName(recipeIngredient.unit, currentLanguage)} {recipeIngredient.ingredient.name}
+          <div className="lg:col-span-1">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 sticky top-8">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+                <svg className="w-6 h-6 text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                {t('recipe.ingredients')}
+              </h2>
+              <div className="space-y-4">
+                {recipe.ingredients.map((ingredient, index) => (
+                  <div key={ingredient.id} className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 transition-colors duration-200">
+                    <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-orange-400 text-sm font-semibold">{index + 1}</span>
+                    </div>
+                    <div className="flex-1">
+                      <span className="text-orange-400 font-medium">
+                        {ingredient.quantity} {getUnitName(ingredient.unit)}
                 </span>
-              </label>
+                      <span className="text-gray-300 ml-2">{ingredient.ingredient.name}</span>
+                    </div>
+                  </div>
             ))}
+              </div>
           </div>
         </div>
 
         {/* Instructions Section */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('recipe.instructions')}</h2>
-          <div className="prose prose-sm prose-gray max-w-none text-gray-700 leading-relaxed">
-            <ReactMarkdown>{recipe.instructions}</ReactMarkdown>
+          <div className="lg:col-span-2">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+                <svg className="w-6 h-6 text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                {t('recipe.instructions')}
+              </h2>
+              <div className="prose prose-lg prose-invert max-w-none">
+                <div className="text-gray-300 leading-relaxed space-y-4">
+                  <ReactMarkdown
+                    components={{
+                      h1: ({children}) => <h1 className="text-2xl font-bold text-white mb-4">{children}</h1>,
+                      h2: ({children}) => <h2 className="text-xl font-semibold text-orange-400 mb-3">{children}</h2>,
+                      h3: ({children}) => <h3 className="text-lg font-medium text-white mb-2">{children}</h3>,
+                      p: ({children}) => <p className="text-gray-300 mb-4 leading-relaxed">{children}</p>,
+                      ol: ({children}) => <ol className="list-decimal list-inside space-y-3 text-gray-300">{children}</ol>,
+                      ul: ({children}) => <ul className="list-disc list-inside space-y-2 text-gray-300">{children}</ul>,
+                      li: ({children}) => <li className="text-gray-300 leading-relaxed">{children}</li>,
+                      strong: ({children}) => <strong className="text-orange-400 font-semibold">{children}</strong>,
+                      em: ({children}) => <em className="text-orange-300 italic">{children}</em>,
+                    }}
+                  >
+                    {recipe.instructions}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Rating Section */}
-        <div className="border-t border-gray-200 pt-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">{t('recipe.rate_recipe')}</h2>
-          
+        <div className="mt-16">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+            <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+              <svg className="w-6 h-6 text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+              {t('recipe.rate_recipe')}
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-8">
           {/* Overall Rating */}
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="text-3xl font-bold text-gray-900">
+              <div className="text-center">
+                <div className="text-6xl font-bold text-orange-400 mb-2">
               {recipe.averageRating?.toFixed(1) || '0.0'}
             </div>
-            <div>
-              <div className="flex items-center mb-1">
-                <StarRating rating={recipe.averageRating || 0} />
+                <div className="flex items-center justify-center mb-2">
+                  <StarRating rating={recipe.averageRating || 0} size="lg" />
               </div>
-              <div className="text-sm text-gray-600">
+                <div className="text-gray-400">
                 {recipe._count.ratings} {t('recipe.reviews')}
-              </div>
             </div>
           </div>
 
           {/* Rating Breakdown */}
-          <div className="space-y-2 mb-8">
+              <div className="space-y-3">
             {[5, 4, 3, 2, 1].map((stars) => {
               const count = recipe.ratings?.filter((r: Rating) => r.value === stars).length || 0
               const percentage = recipe._count.ratings > 0 ? (count / recipe._count.ratings) * 100 : 0
               
               return (
-                <div key={stars} className="flex items-center space-x-3">
-                  <span className="text-sm text-gray-600 w-2">{stars}</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-gray-800 h-2 rounded-full transition-all duration-300" 
+                    <div key={stars} className="flex items-center space-x-4">
+                      <span className="text-gray-300 w-4">{stars}</span>
+                      <div className="flex-1 bg-white/10 rounded-full h-3">
+                        <div 
+                          className="bg-gradient-to-r from-orange-500 to-orange-400 h-3 rounded-full transition-all duration-500" 
                       style={{ width: `${percentage}%` }}
                     ></div>
                   </div>
-                  <span className="text-sm text-gray-600 w-8">{percentage.toFixed(0)}%</span>
+                      <span className="text-gray-400 w-12 text-sm">{percentage.toFixed(0)}%</span>
                 </div>
               )
             })}
+              </div>
           </div>
 
           {/* User Rating */}
           {session && !isOwner && (
-            <div className="border-t border-gray-200 pt-6">
-              <p className="text-gray-700 mb-3 text-sm">{t('recipe.rate_this_recipe')}:</p>
-              <div className="flex items-center space-x-2">
-                <StarRating rating={userRating} interactive={true} onRate={handleRating} />
+              <div className="border-t border-white/10 pt-8 mt-8">
+                <p className="text-gray-300 mb-4 text-lg">{t('recipe.rate_this_recipe')}:</p>
+                <div className="flex items-center space-x-4">
+                  <StarRating rating={userRating} interactive={true} onRate={handleRating} size="lg" />
                 {userRating > 0 && (
-                  <span className="text-sm text-gray-600 ml-4">
+                    <span className="text-orange-400 font-semibold">
                     {t('recipe.your_rating')}: {userRating}/5
                   </span>
                 )}
@@ -360,26 +489,29 @@ export default function RecipePage() {
           )}
 
           {!session && (
-            <div className="border-t border-gray-200 pt-6">
-              <p className="text-gray-600 text-sm">
-                <a href="/auth/signin" className="text-blue-600 hover:text-blue-700 underline">{t('navigation.sign_in')}</a> {t('recipe.to_rate_recipe')}
+              <div className="border-t border-white/10 pt-8 mt-8">
+                <p className="text-gray-400">
+                  <Link href="/auth/signin" className="text-orange-400 hover:text-orange-300 underline font-medium">
+                    {t('navigation.sign_in')}
+                  </Link> {t('recipe.to_rate_recipe')}
               </p>
             </div>
           )}
+          </div>
         </div>
 
         {/* Owner Actions */}
         {isOwner && (
-          <div className="border-t border-gray-200 pt-6 flex space-x-4">
+          <div className="mt-8 flex justify-center space-x-4">
             <button
               onClick={() => router.push(`/recipes/${recipe.id}/edit`)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg hover:shadow-orange-500/25"
             >
               {t('recipe.edit_recipe')}
             </button>
             <button
               onClick={handleDelete}
-              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 text-sm"
+              className="bg-gradient-to-r from-red-500 to-red-600 text-white px-8 py-3 rounded-full font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-red-500/25"
             >
               {t('recipe.delete_recipe')}
             </button>
@@ -388,12 +520,16 @@ export default function RecipePage() {
 
         {/* Similar Recipes Section */}
         {recipe && (
-          <div className="border-t border-gray-200 pt-8 mt-8">
+          <div className="mt-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">Similar Recipes</h2>
+              <p className="text-gray-400">You might also enjoy these culinary creations</p>
+            </div>
             <RecommendationSection
               type="similar"
               baseRecipeId={recipe.id}
-              title="🔍 Similar Recipes"
-              subtitle="You might also enjoy these recipes"
+              title=""
+              subtitle=""
               limit={4}
               className="mb-8"
             />

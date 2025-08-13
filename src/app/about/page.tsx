@@ -1,11 +1,7 @@
-import { Metadata } from 'next'
+'use client'
+
 import Link from 'next/link'
 import { useTranslateWithFallback } from '../../lib/translations'
-
-export const metadata: Metadata = {
-  title: 'About Us - ChefMaster',
-  description: 'Learn more about ChefMaster, our mission, and our community of food lovers.',
-}
 
 export default function About() {
   const { t } = useTranslateWithFallback()
