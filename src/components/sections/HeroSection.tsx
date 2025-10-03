@@ -2,6 +2,7 @@
 
 import { useTranslateWithFallback } from '../../lib/translations'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 
 interface HeroSectionProps {
   heroBg?: string
@@ -13,6 +14,7 @@ export default function HeroSection({
   onScrollToRecipes
 }: HeroSectionProps) {
   const { t } = useTranslateWithFallback()
+  const { data: session, status } = useSession()
 
   return (
     <section className="relative isolate overflow-hidden">
@@ -49,20 +51,22 @@ export default function HeroSection({
               Welcome to ChefMaster - where culinary passion meets perfection. Explore world-class recipes, 
               learn from renowned chefs, and create extraordinary dining experiences.
             </p>
-            <div className="mt-8 flex gap-4">
-              <Link 
-                href="/recipes"
-                className="rounded-full bg-orange-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-orange-600/25 transition-all duration-200 hover:bg-orange-500 hover:shadow-orange-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
-              >
-                Sign Up
-              </Link>
-              <Link 
-                href="/auth/signin"
-                className="rounded-full border border-white/20 bg-white/10 px-8 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:border-white/30"
-              >
-                Sign In
-              </Link>
-            </div>
+            {status !== 'authenticated' && (
+              <div className="mt-6 flex gap-3">
+                <Link 
+                  href="/recipes"
+                  className="rounded-full bg-orange-600 px-6 py-2.5 text-sm md:text-base font-semibold text-white shadow-lg shadow-orange-600/25 transition-all duration-200 hover:bg-orange-500 hover:shadow-orange-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+                >
+                  Sign Up
+                </Link>
+                <Link 
+                  href="/auth/signin"
+                  className="rounded-full border border-white/20 bg-white/10 px-6 py-2.5 text-sm md:text-base font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:border-white/30"
+                >
+                  Sign In
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 

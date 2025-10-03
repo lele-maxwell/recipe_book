@@ -69,16 +69,29 @@ export default function EditProfilePage() {
       const response = await fetch('/api/profile')
       if (response.ok) {
         const data = await response.json()
+        
+        // Parse arrays that might be stored as JSON strings
+        const parseArrayField = (field: any) => {
+          if (typeof field === 'string') {
+            try {
+              return JSON.parse(field)
+            } catch {
+              return []
+            }
+          }
+          return Array.isArray(field) ? field : []
+        }
+        
         setFormData({
           name: data.name || '',
           bio: data.bio || '',
           location: data.location || '',
           website: data.website || '',
           cookingExperience: data.cookingExperience || '',
-            favoritesCuisines: data.favoritesCuisines || [],
-            dietaryRestrictions: data.dietaryRestrictions || [],
+          favoritesCuisines: parseArrayField(data.favoritesCuisines),
+          dietaryRestrictions: parseArrayField(data.dietaryRestrictions),
           profilePicture: data.profilePicture || '',
-            isPublicProfile: data.isPublicProfile !== false
+          isPublicProfile: data.isPublicProfile !== false
         })
       }
       } catch (err) {
@@ -143,32 +156,32 @@ export default function EditProfilePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0b0f1c] flex items-center justify-center">
         <LoadingSpinner size="lg" text={t('profile.edit.loading')} />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0b0f1c]">
       <div className="container mx-auto px-6 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8">
+            <h1 className="text-3xl font-bold text-white mb-8">
               {t('profile.edit.title')}
             </h1>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-600">{error}</p>
-          </div>
-        )}
+              <div className="mb-6 p-4 bg-red-900/50 border border-red-700 rounded-lg">
+                <p className="text-red-300">{error}</p>
+              </div>
+            )}
 
             {successMessage && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-600">{successMessage}</p>
-          </div>
-        )}
+              <div className="mb-6 p-4 bg-green-900/50 border border-green-700 rounded-lg">
+                <p className="text-green-300">{successMessage}</p>
+              </div>
+            )}
 
             <form onSubmit={handleSocialMediaSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -228,7 +241,7 @@ export default function EditProfilePage() {
                   label={t('profile.edit.cuisines')}
                   name="favoritesCuisines"
                   type="text"
-                  value={formData.favoritesCuisines.join(', ')}
+                  value={Array.isArray(formData.favoritesCuisines) ? formData.favoritesCuisines.join(', ') : ''}
                   onChange={(value) => handleArrayInputChange('favoritesCuisines', value)}
                   placeholder={t('profile.edit.cuisines_placeholder')}
                 />
@@ -237,7 +250,7 @@ export default function EditProfilePage() {
                   label={t('profile.edit.dietary')}
                   name="dietaryRestrictions"
                   type="text"
-                  value={formData.dietaryRestrictions.join(', ')}
+                  value={Array.isArray(formData.dietaryRestrictions) ? formData.dietaryRestrictions.join(', ') : ''}
                   onChange={(value) => handleArrayInputChange('dietaryRestrictions', value)}
                   placeholder={t('profile.edit.dietary_placeholder')}
                 />
@@ -252,37 +265,37 @@ export default function EditProfilePage() {
                 />
 
                 <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
+                  <input
+                    type="checkbox"
                     id="isPublicProfile"
-                  name="isPublicProfile"
-                  checked={formData.isPublicProfile}
-                  onChange={handleInputChange}
-                  className="toggle toggle-primary"
-                />
-                  <label htmlFor="isPublicProfile" className="text-sm text-gray-700">
+                    name="isPublicProfile"
+                    checked={formData.isPublicProfile}
+                    onChange={handleInputChange}
+                    className="toggle toggle-primary"
+                  />
+                  <label htmlFor="isPublicProfile" className="text-sm text-gray-300">
                     {t('profile.edit.public_profile')}
-              </label>
-            </div>
-          </div>
+                  </label>
+                </div>
+              </div>
 
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
                   onClick={() => router.back()}
-                  className="px-6 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                  className="px-6 py-2 text-gray-300 hover:text-white transition-colors"
                 >
                   {t('common.cancel')}
                 </button>
-            <button
-              type="submit"
-              disabled={isSaving}
-                  className="bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400 text-white px-6 py-2 rounded-lg font-medium transition-colors"
-            >
+                <button
+                  type="submit"
+                  disabled={isSaving}
+                  className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 disabled:from-orange-400 disabled:to-orange-300 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200"
+                >
                   {isSaving ? t('common.saving') : t('common.save')}
-            </button>
-          </div>
-        </form>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

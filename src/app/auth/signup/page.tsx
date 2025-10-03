@@ -89,9 +89,9 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="bg-white rounded-lg shadow-sm p-8">
+    <div className="min-h-screen bg-[#0b0f1c] flex items-center justify-center py-12 px-4">
+      <div className="w-full max-w-md">
+        <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
               <img

@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
         : 0,
     }))
 
-    return NextResponse.json(recipesWithRatings)
+    return NextResponse.json({ recipes: recipesWithRatings })
   } catch (error) {
     console.error('Error fetching recipes:', error)
     return NextResponse.json(

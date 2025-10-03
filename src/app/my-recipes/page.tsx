@@ -45,12 +45,15 @@ export default function MyRecipesPage() {
         const response = await fetch(`/api/recipes?${params}`)
         if (response.ok) {
           const data = await response.json()
-          setRecipes(data)
+          // Extract recipes array from the response
+          setRecipes(data.recipes || [])
         } else {
           console.error('Failed to fetch recipes')
+          setRecipes([])
         }
       } catch (error) {
         console.error('Error fetching recipes:', error)
+        setRecipes([])
       } finally {
         setLoading(false)
       }
@@ -83,7 +86,7 @@ export default function MyRecipesPage() {
         const refreshResponse = await fetch(`/api/recipes?${params}`)
         if (refreshResponse.ok) {
           const refreshedData = await refreshResponse.json()
-          setRecipes(refreshedData)
+          setRecipes(refreshedData.recipes || [])
         }
       } else {
         const errorData = await response.json()
@@ -100,7 +103,7 @@ export default function MyRecipesPage() {
   // Don't render anything while checking authentication
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#0b0f1c]">
         <div className="container mx-auto px-6 py-12">
           <div className="flex flex-col justify-center items-center min-h-[400px]">
             <LoadingSpinner size="lg" text={t('my_recipes.loading_recipes')} />
@@ -117,7 +120,7 @@ export default function MyRecipesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#0b0f1c]">
         <div className="container mx-auto px-6 py-12">
           <div className="flex flex-col justify-center items-center min-h-[400px]">
             <LoadingSpinner size="lg" text={t('my_recipes.loading_recipes')} />
@@ -128,12 +131,12 @@ export default function MyRecipesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0b0f1c]">
       <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('my_recipes.title')}</h1>
-          <p className="text-gray-600">{t('my_recipes.subtitle')}</p>
+          <h1 className="text-3xl font-bold text-white mb-2">{t('my_recipes.title')}</h1>
+          <p className="text-gray-300">{t('my_recipes.subtitle')}</p>
         </div>
 
         {/* Search Bar */}
@@ -147,7 +150,7 @@ export default function MyRecipesPage() {
             <input
               type="text"
               placeholder={t('my_recipes.search_placeholder')}
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 text-lg"
+              className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg leading-5 bg-gray-800/50 placeholder-gray-400 focus:outline-none focus:placeholder-gray-300 focus:ring-1 focus:ring-orange-500 focus:border-orange-500 text-lg text-white"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -158,7 +161,7 @@ export default function MyRecipesPage() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div className="flex flex-wrap gap-4">
             <select
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-600 rounded-lg bg-gray-800/50 text-white focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -168,7 +171,7 @@ export default function MyRecipesPage() {
             </select>
 
             <select
-              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+              className="px-4 py-2 border border-gray-600 rounded-lg bg-gray-800/50 text-white focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
             >
@@ -179,23 +182,23 @@ export default function MyRecipesPage() {
 
           <Link
             href="/recipes/create"
-            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium"
+            className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-6 py-2 rounded-lg transition-all duration-200 font-medium"
           >
             {t('my_recipes.create_new_recipe')}
           </Link>
         </div>
 
         {/* Recipes Grid */}
-        {recipes.length === 0 ? (
+        {!Array.isArray(recipes) || recipes.length === 0 ? (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🍽️</div>
-            <h2 className="text-2xl font-bold mb-2 text-gray-800">{t('my_recipes.no_recipes_yet')}</h2>
-            <p className="text-gray-600 mb-6">
+            <h2 className="text-2xl font-bold mb-2 text-white">{t('my_recipes.no_recipes_yet')}</h2>
+            <p className="text-gray-300 mb-6">
               {t('my_recipes.start_creating')}
             </p>
             <Link
               href="/recipes/create"
-              className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium"
+              className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-6 py-3 rounded-lg transition-all duration-200 font-medium"
             >
               {t('my_recipes.create_first_recipe')}
             </Link>
@@ -203,8 +206,8 @@ export default function MyRecipesPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {recipes.map((recipe) => (
-              <div key={recipe.id} className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="relative aspect-[4/3] bg-gray-200 overflow-hidden">
+              <div key={recipe.id} className="bg-black/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-white/10 hover:shadow-orange-500/20 hover:border-orange-500/30 transition-all duration-300 transform hover:-translate-y-1">
+                <div className="relative aspect-[4/3] bg-gray-800 overflow-hidden">
                   {recipe.imageUrl ? (
                     <img
                       src={recipe.imageUrl}
@@ -220,29 +223,17 @@ export default function MyRecipesPage() {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="font-bold text-xl text-gray-900 mb-2 line-clamp-2 min-h-[3.5rem]">{recipe.title}</h3>
+                  <h3 className="font-bold text-xl text-white mb-2 line-clamp-2 min-h-[3.5rem]">{recipe.title}</h3>
                   
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
+                  <p className="text-gray-300 text-sm mb-4 line-clamp-2 min-h-[2.5rem]">
                     {recipe.description}
                   </p>
                   
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-1">
-                      <StarRating rating={recipe.averageRating || 0} />
-                      <span className="text-sm font-medium text-gray-700 ml-1">
-                        {recipe.averageRating?.toFixed(1) || '0.0'}
-                      </span>
-                      <span className="text-xs text-gray-500 ml-1">
-                        ({recipe._count.ratings} reviews)
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-400">
                       {t('my_recipes.created')} {new Date(recipe.createdAt).toLocaleDateString()}
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-gray-500">
+                    <div className="flex items-center gap-3 text-xs text-gray-400">
                       {recipe.prepTime && recipe.cookTime && (
                         <span className="flex items-center gap-1">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,23 +256,23 @@ export default function MyRecipesPage() {
                   <div className="flex gap-2">
                     <Link
                       href={`/recipes/${recipe.id}`}
-                      className="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center py-2 px-4 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
+                      className="flex-1 bg-gradient-to-r from-orange-600 to-orange-500 text-white text-center py-2 px-4 rounded-lg font-semibold hover:from-orange-500 hover:to-orange-400 transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-orange-500/25"
                     >
                       {t('my_recipes.view_recipe')}
                     </Link>
                     <Link
                       href={`/recipes/${recipe.id}/edit`}
-                      className="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-semibold transition-colors duration-200"
+                      className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white py-1.5 px-3 rounded-lg font-medium transition-all duration-200 text-sm"
                     >
                       {t('my_recipes.edit')}
                     </Link>
                     <button
                       onClick={() => handlePublishRecipe(recipe.id)}
                       disabled={publishingRecipe === recipe.id}
-                      className={`py-2 px-4 rounded-lg font-semibold transition-colors duration-200 ${
+                      className={`py-1.5 px-3 rounded-lg font-medium transition-all duration-200 text-sm ${
                         recipe.published
-                          ? 'bg-red-100 hover:bg-red-200 text-red-700'
-                          : 'bg-green-100 hover:bg-green-200 text-green-700'
+                          ? 'bg-red-900/50 hover:bg-red-800/50 text-red-300 border border-red-500/30'
+                          : 'bg-green-900/50 hover:bg-green-800/50 text-green-300 border border-green-500/30'
                       } ${publishingRecipe === recipe.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                       {publishingRecipe === recipe.id

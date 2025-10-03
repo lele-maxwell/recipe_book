@@ -8,7 +8,6 @@ import { useAuth } from '@/hooks/useAuth'
 import SearchAndFilters from '@/components/SearchAndFilters'
 import RecipeList from '@/components/RecipeList'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import { RecommendationSection } from '@/components/RecommendationSection'
 
 interface FilterOptions {
   cuisine: string
@@ -80,7 +79,7 @@ export default function RecipesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#0b0f1c]">
         <div className="container mx-auto px-6 py-12">
           <LoadingSpinner 
             size="lg" 
@@ -93,25 +92,29 @@ export default function RecipesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-6 py-8">
+    <div className="min-h-screen bg-[#0b0f1c]">
+      <div className="container mx-auto px-6 py-16 pb-32">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {t('recipes.title')}
+        <div className="relative mb-16">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-white mb-4">
+              Recipes
             </h1>
-            <p className="text-gray-600">
-              {t('recipes.subtitle')}
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+              Discover, create, and share amazing recipes from around the world. Explore culinary excellence with our community of passionate food lovers.
             </p>
           </div>
-          <button
-            onClick={handleCreateRecipe}
-            className="mt-4 md:mt-0 bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
-          >
-            <span>+</span>
-            {t('recipes.create_recipe')}
-          </button>
+          
+          {/* Create Recipe Button - Top Right */}
+          <div className="absolute top-0 right-0">
+            <button
+              onClick={handleCreateRecipe}
+              className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-orange-500/25"
+            >
+              <span>+</span>
+              {t('recipes.create_recipe')}
+            </button>
+          </div>
         </div>
 
         {/* Search and Filters */}
@@ -128,15 +131,6 @@ export default function RecipesPage() {
           onRecipeClick={handleRecipeClick}
           variant="grid"
         />
-
-        {/* Recommendations */}
-        <div className="mt-12">
-            <RecommendationSection
-            type="similar"
-            title="You might also like"
-            excludeIds={filteredRecipes.slice(0, 6).map(r => r.id)}
-            />
-          </div>
       </div>
     </div>
   )

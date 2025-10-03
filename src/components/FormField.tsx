@@ -42,12 +42,12 @@ export default function FormField({
   children
 }: FormFieldProps) {
   const getInputClasses = () => {
-    let baseClasses = "w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+    let baseClasses = "w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:bg-gray-800 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:outline-none transition-all"
     
     if (error) {
-      baseClasses += " border-2 border-red-500 bg-red-50"
+      baseClasses += " border-red-500 bg-red-900/50"
     } else if (success) {
-      baseClasses += " border-2 border-green-500 bg-green-50"
+      baseClasses += " border-green-500 bg-green-900/50"
     }
     
     if (disabled) {
@@ -133,9 +133,9 @@ export default function FormField({
 
   return (
     <div className={`relative ${className}`}>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium text-gray-300 mb-2">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-red-400 ml-1">*</span>}
       </label>
       
       <div className="relative">
@@ -146,7 +146,7 @@ export default function FormField({
       {children}
       
       {error && (
-        <div className="mt-2 flex items-center gap-2 text-sm text-red-600">
+        <div className="mt-2 flex items-center gap-2 text-sm text-red-300">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -155,7 +155,7 @@ export default function FormField({
       )}
       
       {success && !error && (
-        <div className="mt-2 flex items-center gap-2 text-sm text-green-600">
+        <div className="mt-2 flex items-center gap-2 text-sm text-green-300">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>

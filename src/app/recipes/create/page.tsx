@@ -257,36 +257,36 @@ export default function CreateRecipe() {
   // Show success message if recipe was created successfully
   if (success && createdRecipe) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-[#0b0f1c] py-8">
         <div className="max-w-2xl mx-auto px-6">
-          <div className="bg-white rounded-lg shadow-sm p-8">
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8">
             <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
-                <svg className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-900/50 border border-green-500 mb-6">
+                <svg className="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h1 className="text-2xl font-semibold text-gray-900 mb-4">{t('create_recipe.success_title')}</h1>
-              <p className="text-gray-600 mb-8">
+              <h1 className="text-2xl font-semibold text-white mb-4">{t('create_recipe.success_title')}</h1>
+              <p className="text-gray-300 mb-8">
                 {t('create_recipe.success_message', { title: createdRecipe.title })}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => router.push(`/recipes/${createdRecipe.id}`)}
-                  className="px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                  className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black/80"
                 >
                   {t('create_recipe.view_recipe')}
                 </button>
                 <button
                   onClick={() => router.push('/my-recipes')}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black/80"
                 >
                   {t('create_recipe.go_to_my_recipes')}
                 </button>
                 <button
                   onClick={handleCreateAnother}
-                  className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  className="bg-gradient-to-r from-gray-600 to-gray-500 hover:from-gray-500 hover:to-gray-400 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-black/80"
                 >
                   {t('create_recipe.create_another')}
                 </button>
@@ -299,14 +299,14 @@ export default function CreateRecipe() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#0b0f1c] py-8">
       <div className="max-w-2xl mx-auto px-6">
-        <div className="bg-white rounded-lg shadow-sm p-8">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-8">{t('create_recipe.title')}</h1>
+        <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8">
+          <h1 className="text-2xl font-semibold text-white mb-8">{t('create_recipe.title')}</h1>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+              <div className="bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -314,58 +314,58 @@ export default function CreateRecipe() {
             {/* Step 1: Basic Info */}
             {step === 1 && (
               <>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Step 1: Basic Info</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Step 1: Basic Info</h2>
                 <FormField
                   label={t('create_recipe.recipe_title')}
                   name="title"
-                type="text"
-                placeholder={t('create_recipe.recipe_title_placeholder')}
-                value={formData.title}
+                  type="text"
+                  placeholder={t('create_recipe.recipe_title_placeholder')}
+                  value={formData.title}
                   onChange={(value) => handleInputChange({ target: { name: 'title', value } } as React.ChangeEvent<HTMLInputElement>)}
-                required
+                  required
                   error={validationErrors.title}
                   success={fieldSuccess.title}
-              />
-            {/* Image Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t('create_recipe.recipe_image')}
-              </label>
-              <div className="space-y-4">
-                <div className="relative">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    id="image-upload"
-                  />
-                  <label
-                    htmlFor="image-upload"
-                    className="flex items-center justify-center w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 cursor-pointer hover:bg-gray-200 focus-within:bg-white focus-within:ring-2 focus-within:ring-orange-500 transition-all"
-                  >
-                    <span className="mr-3 px-4 py-2 bg-orange-50 text-orange-700 rounded-md text-sm font-medium hover:bg-orange-100 transition-colors">
-                      {t('create_recipe.choose_image')}
-                    </span>
-                    <span className="text-gray-500 text-sm">
-                      {imageFile ? imageFile.name : t('create_recipe.no_image_chosen')}
-                    </span>
+                />
+                {/* Image Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    {t('create_recipe.recipe_image')}
                   </label>
-                </div>
-                {imagePreview && (
-                  <div className="mt-4">
-                    <img
-                      src={imagePreview}
-                      alt="Recipe preview"
-                      className="w-full h-48 object-cover rounded-md border border-gray-200"
-                    />
+                  <div className="space-y-4">
+                    <div className="relative">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        id="image-upload"
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        className="flex items-center justify-center w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white cursor-pointer hover:bg-gray-800 focus-within:bg-gray-800 focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-500 transition-all"
+                      >
+                        <span className="mr-3 px-4 py-2 bg-orange-900/50 text-orange-300 rounded-md text-sm font-medium hover:bg-orange-800/50 transition-colors border border-orange-500/30">
+                          {t('create_recipe.choose_image')}
+                        </span>
+                        <span className="text-gray-400 text-sm">
+                          {imageFile ? imageFile.name : t('create_recipe.no_image_chosen')}
+                        </span>
+                      </label>
+                    </div>
+                    {imagePreview && (
+                      <div className="mt-4">
+                        <img
+                          src={imagePreview}
+                          alt="Recipe preview"
+                          className="w-full h-48 object-cover rounded-lg border border-gray-600"
+                        />
+                      </div>
+                    )}
+                    <div className="text-sm text-gray-400">
+                      {t('create_recipe.supported_formats')}
+                    </div>
                   </div>
-                )}
-                <div className="text-sm text-gray-500">
-                  {t('create_recipe.supported_formats')}
                 </div>
-              </div>
-            </div>
                 <FormField
                   label={t('create_recipe.description')}
                   name="description"
@@ -380,7 +380,7 @@ export default function CreateRecipe() {
                 <div className="pt-4 flex justify-end">
                   <button
                     type="button"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black/80"
                     onClick={() => setStep(2)}
                   >
                     {t('common.next')}
@@ -392,30 +392,30 @@ export default function CreateRecipe() {
             {/* Step 2: Ingredients, Instructions, Advanced */}
             {step === 2 && (
               <>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Step 2: Ingredients & Details</h2>
-            {/* Ingredients */}
-            <div>
-              <div className="flex justify-between items-center mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  {t('create_recipe.ingredients')}
-                </label>
-                <button
-                  type="button"
-                  onClick={addIngredient}
-                  className="text-sm text-orange-600 hover:text-orange-700 font-medium"
-                >
-                  {t('create_recipe.add_ingredient')}
-                </button>
-              </div>
-              <div className="space-y-3">
-                {ingredients.map((ingredient, index) => (
-                  <div key={index} className="grid grid-cols-2 gap-3">
+                <h2 className="text-2xl font-bold text-white mb-6">Step 2: Ingredients & Details</h2>
+                {/* Ingredients */}
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <label className="block text-sm font-medium text-gray-300">
+                      {t('create_recipe.ingredients')}
+                    </label>
+                    <button
+                      type="button"
+                      onClick={addIngredient}
+                      className="text-sm text-orange-400 hover:text-orange-300 font-medium transition-colors"
+                    >
+                      {t('create_recipe.add_ingredient')}
+                    </button>
+                  </div>
+                  <div className="space-y-3">
+                    {ingredients.map((ingredient, index) => (
+                      <div key={index} className="grid grid-cols-2 gap-3">
                         <FormField
                           label={t('create_recipe.ingredient')}
                           name={`ingredient-${index}`}
-                        type="text"
-                        placeholder={t('create_recipe.ingredient_placeholder')}
-                        value={ingredient.ingredientName}
+                          type="text"
+                          placeholder={t('create_recipe.ingredient_placeholder')}
+                          value={ingredient.ingredientName}
                           onChange={(value) => handleIngredientChange(index, 'ingredientName', value)}
                           required
                           className="mb-0"
@@ -423,36 +423,36 @@ export default function CreateRecipe() {
                         <FormField
                           label={t('create_recipe.measurement')}
                           name={`quantity-${index}`}
-                        type="text"
-                        placeholder={t('create_recipe.measurement_placeholder')}
-                        value={ingredient.quantity || ''}
+                          type="text"
+                          placeholder={t('create_recipe.measurement_placeholder')}
+                          value={ingredient.quantity || ''}
                           onChange={(value) => handleIngredientChange(index, 'quantity', parseFloat(value) || 0)}
                           required
                           className="mb-0"
-                      />
-                    </div>
+                        />
+                      </div>
                     ))}
                   </div>
-              {/* Unit Selection */}
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('create_recipe.unit')}
-                </label>
-                <select
-                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-md text-gray-900 focus:bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
-                  value={ingredients[0]?.unit || 'cups'}
-                  onChange={(e) => {
-                    setIngredients(prev => prev.map(ing => ({ ...ing, unit: e.target.value })))
-                  }}
-                >
-                  {MEASUREMENT_UNITS.map(unit => (
-                    <option key={unit} value={unit}>
-                      {getUnitName(unit, currentLanguage)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+                  {/* Unit Selection */}
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      {t('create_recipe.unit')}
+                    </label>
+                    <select
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:bg-gray-800 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 focus:outline-none transition-all"
+                      value={ingredients[0]?.unit || 'cups'}
+                      onChange={(e) => {
+                        setIngredients(prev => prev.map(ing => ({ ...ing, unit: e.target.value })))
+                      }}
+                    >
+                      {MEASUREMENT_UNITS.map(unit => (
+                        <option key={unit} value={unit}>
+                          {getUnitName(unit, currentLanguage)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
                 {/* Instructions */}
                 <FormField
                   label={t('create_recipe.instructions')}
@@ -466,15 +466,15 @@ export default function CreateRecipe() {
                   error={validationErrors.instructions}
                   success={fieldSuccess.instructions}
                 />
-                <div className="text-sm text-gray-500 mb-2">{t('create_recipe.markdown_info')}</div>
+                <div className="text-sm text-gray-400 mb-2">{t('create_recipe.markdown_info')}</div>
                 {/* Advanced Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <FormField
                     label={t('create_recipe.prep_time')}
                     name="prepTime"
-                type="number"
-                placeholder={t('create_recipe.prep_time_placeholder')}
-                value={formData.prepTime}
+                    type="number"
+                    placeholder={t('create_recipe.prep_time_placeholder')}
+                    value={formData.prepTime}
                     onChange={(value) => handleInputChange({ target: { name: 'prepTime', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={0}
                     error={validationErrors.prepTime}
@@ -483,9 +483,9 @@ export default function CreateRecipe() {
                   <FormField
                     label={t('create_recipe.cook_time')}
                     name="cookTime"
-                type="number"
-                placeholder={t('create_recipe.cook_time_placeholder')}
-                value={formData.cookTime}
+                    type="number"
+                    placeholder={t('create_recipe.cook_time_placeholder')}
+                    value={formData.cookTime}
                     onChange={(value) => handleInputChange({ target: { name: 'cookTime', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={0}
                     error={validationErrors.cookTime}
@@ -494,31 +494,31 @@ export default function CreateRecipe() {
                   <FormField
                     label={t('create_recipe.servings')}
                     name="servings"
-                type="number"
-                placeholder={t('create_recipe.servings_placeholder')}
-                value={formData.servings}
+                    type="number"
+                    placeholder={t('create_recipe.servings_placeholder')}
+                    value={formData.servings}
                     onChange={(value) => handleInputChange({ target: { name: 'servings', value } } as React.ChangeEvent<HTMLInputElement>)}
                     min={1}
                     error={validationErrors.servings}
                     success={fieldSuccess.servings}
-              />
-            </div>
+                  />
+                </div>
                 <div className="pt-4 flex justify-between">
                   <button
                     type="button"
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-6 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                    className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-black/80"
                     onClick={() => setStep(1)}
                   >
                     {t('common.previous')}
                   </button>
-              <button
-                type="submit"
-                disabled={isLoading || uploadingImage}
-                    className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-2 px-6 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {uploadingImage ? t('create_recipe.uploading_image') : isLoading ? t('create_recipe.saving') : t('create_recipe.save_recipe')}
-              </button>
-            </div>
+                  <button
+                    type="submit"
+                    disabled={isLoading || uploadingImage}
+                    className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white font-medium py-2 px-6 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-black/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {uploadingImage ? t('create_recipe.uploading_image') : isLoading ? t('create_recipe.saving') : t('create_recipe.save_recipe')}
+                  </button>
+                </div>
               </>
             )}
           </form>

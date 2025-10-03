@@ -6,7 +6,7 @@ import { useTolgee } from '@tolgee/react'
 import { useTranslateWithFallback } from '../lib/translations'
 
 export function Navigation() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const { t } = useTranslateWithFallback()
 
   return (
@@ -17,9 +17,6 @@ export function Navigation() {
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl">
               <span>ChefMaster</span>
-              <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
             </Link>
           </div>
 
@@ -122,8 +119,11 @@ function LanguageSelector() {
 
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="text-white/80 hover:text-white transition-colors">
+      <div tabIndex={0} role="button" className="text-white/80 hover:text-white transition-colors flex items-center gap-1">
         <span className="text-lg">🌐</span>
+        <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+        </svg>
       </div>
       <ul tabIndex={0} className="dropdown-content menu bg-[#0b0f1c]/95 backdrop-blur-md border border-white/10 rounded-lg z-[1] w-48 p-2 shadow-xl">
         {languages.map((language) => (
