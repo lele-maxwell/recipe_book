@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: recipebook_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: recipebook
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_recipebook:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  pgdata_recipebook: 

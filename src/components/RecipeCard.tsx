@@ -62,6 +62,17 @@ export default function RecipeCard({
       }
     }
   }
+
+  const handleCardActivate = async (e: React.MouseEvent | React.KeyboardEvent) => {
+    if (!onClick) return
+    e.preventDefault()
+    setButtonLoading(true)
+    try {
+      await onClick()
+    } finally {
+      setButtonLoading(false)
+    }
+  }
   
   const totalTime = (prepTime || 0) + (cookTime || 0)
   
@@ -129,11 +140,19 @@ export default function RecipeCard({
   }
   
   return (
-    <div className={`bg-white rounded-2xl shadow-lg max-w-xs min-h-[420px] flex flex-col border border-gray-100 hover:shadow-2xl transition-shadow duration-200 ${className}`} style={{width: '100%'}}>
+    <div
+      className={`bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl max-w-xs min-h-[380px] flex flex-col border border-white/10 hover:shadow-orange-500/20 hover:border-orange-500/30 transition-all duration-300 ${onClick ? 'cursor-pointer hover:scale-[1.01]' : ''} ${className}`}
+      style={{width: '100%'}}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : -1}
+      onClick={onClick ? handleCardActivate : undefined}
+      onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') { handleCardActivate(e) } } : undefined}
+      aria-label={onClick ? `Open recipe ${title}` : undefined}
+    >
       {/* Image at the top */}
-      <div className="relative h-48 w-full rounded-t-2xl overflow-hidden bg-gray-100">
+      <div className="relative h-48 w-full rounded-t-2xl overflow-hidden bg-gray-900">
         {imageLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
             <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         )}
@@ -142,55 +161,61 @@ export default function RecipeCard({
             src={imageUrl}
             alt={title}
             fill
-            className="object-cover w-full h-full transition-opacity duration-300"
+            className="object-cover w-full h-full transition-all duration-300 hover:scale-105"
             onError={handleImageError}
             onLoad={handleImageLoad}
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-300">
+          <div className="flex items-center justify-center h-full text-gray-400">
             <span className="text-5xl">🍽️</span>
           </div>
         )}
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
       </div>
+      
       {/* Card content */}
-      <div className="flex-1 flex flex-col px-5 py-4">
-        <h3 className="font-extrabold text-xl text-gray-900 mb-2 line-clamp-2">{title}</h3>
+      <div className="flex-1 flex flex-col px-4 py-3">
+        <h3 className="font-bold text-lg text-white mb-2 line-clamp-2 leading-tight">{title}</h3>
         {description && (
-          <p className="text-base text-gray-600 mb-3 line-clamp-2">{description}</p>
+          <p className="text-sm text-gray-300 mb-3 line-clamp-2 leading-relaxed">{description}</p>
         )}
+        
+        {/* Rating section */}
         <div className="flex items-center gap-2 mb-3">
           <StarRating rating={rating || 0} />
-          <span className="text-xs text-gray-500">{rating?.toFixed(1) || '0.0'}</span>
+          <span className="text-sm text-orange-400 font-medium">{rating?.toFixed(1) || '0.0'}</span>
           {ratingsCount !== undefined && (
             <span className="text-xs text-gray-400 ml-1">({ratingsCount})</span>
           )}
         </div>
-        <div className="flex items-center gap-3 text-xs text-gray-400 mb-3">
-          {totalTime > 0 && <span>🕒 {formatTime(totalTime)}</span>}
-          {servings && <span>🍽️ {formatServings(servings)}</span>}
-        </div>
-        {chefName && (
-          <div className="text-xs text-gray-300 mb-2">By {chefName}</div>
-        )}
-        <div className="mt-auto pt-2">
-          {onClick && (
-            <button
-              onClick={handleButtonClick}
-              disabled={buttonLoading}
-              className="w-full bg-orange-600 hover:bg-orange-700 disabled:bg-orange-400 text-white font-semibold py-2 px-4 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98]"
-            >
-              {buttonLoading ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Loading...
-                </div>
-              ) : (
-                'View Recipe'
-              )}
-            </button>
+        
+        {/* Recipe details */}
+        <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+          {totalTime > 0 && (
+            <div className="flex items-center gap-1">
+              <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+              <span>{formatTime(totalTime)}</span>
+            </div>
+          )}
+          {servings && (
+            <div className="flex items-center gap-1">
+              <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+              <span>{formatServings(servings)}</span>
+            </div>
           )}
         </div>
+        
+        {/* Chef attribution */}
+        {chefName && (
+          <div className="text-xs text-gray-400 mb-2 flex items-center gap-2">
+            <div className="w-5 h-5 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">{chefName.charAt(0).toUpperCase()}</span>
+            </div>
+            <span>By {chefName}</span>
+          </div>
+        )}
       </div>
     </div>
   )

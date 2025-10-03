@@ -13,6 +13,8 @@ interface Recipe {
   difficulty: string
   image: string
   description: string
+  averageRating?: number
+  ratingCount?: number
 }
 
 interface TopRecipesSectionProps {
@@ -21,76 +23,61 @@ interface TopRecipesSectionProps {
   isVisible?: boolean
 }
 
-const defaultRecipes: Recipe[] = [
-  {
-    id: '1',
-    title: 'Fresh Orange Juice',
-    chef: 'Chef Isabella Rivera',
-    category: 'Beverages',
-    difficulty: 'Easy',
-    image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&h=300&fit=crop',
-    description: 'Start your day with this refreshing homemade orange juice'
-  },
-  {
-    id: '2',
-    title: 'Tropical Fruit Salad',
-    chef: 'Chef Marco Bianchi',
-    category: 'Desserts',
-    difficulty: 'Quick',
-    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
-    description: 'A vibrant mix of tropical fruits in a colorful presentation'
-  },
-  {
-    id: '3',
-    title: 'Lemon Citrus Slices',
-    chef: 'Chef Sofia Martinez',
-    category: 'Garnishes',
-    difficulty: 'Easy',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-    description: 'Perfect citrus garnish for cocktails and desserts'
-  },
-  {
-    id: '4',
-    title: 'Spa Facial Treatment',
-    chef: 'Chef Alex Chen',
-    category: 'Wellness',
-    difficulty: 'Intermediate',
-    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-    description: 'Relaxing facial treatment with natural ingredients'
-  },
-  {
-    id: '5',
-    title: 'Outdoor Dining Experience',
-    chef: 'Chef Emma Wilson',
-    category: 'Dining',
-    difficulty: 'Advanced',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop',
-    description: 'Elegant outdoor dining with scenic water views'
-  },
-  {
-    id: '6',
-    title: 'Garden Fresh Salad',
-    chef: 'Chef David Kim',
-    category: 'Salads',
-    difficulty: 'Quick',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop',
-    description: 'Fresh garden vegetables with homemade dressing'
-  }
-]
-
 export default function TopRecipesSection({ 
-  recipes = defaultRecipes, 
+  recipes: propRecipes, 
   className = '',
-  isVisible = false // Changed default to false so section is hidden initially
+  isVisible = false
 }: TopRecipesSectionProps) {
   const { data: session } = useSession()
   const { t } = useTranslateWithFallback()
+  const [recipes, setRecipes] = useState<Recipe[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [animatedCards, setAnimatedCards] = useState<number[]>([])
   const [showHeadline, setShowHeadline] = useState(false)
   const [showCTA, setShowCTA] = useState(false)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [scrollY, setScrollY] = useState(0)
+
+  // Fetch top recipes from API
+  useEffect(() => {
+    const fetchTopRecipes = async () => {
+      if (propRecipes) {
+        console.log('📋 Using prop recipes:', propRecipes.length)
+        setRecipes(propRecipes)
+        return
+      }
+
+      console.log('🌐 Fetching top recipes from API...')
+      setLoading(true)
+      setError(null)
+      
+      try {
+        const response = await fetch('/api/recipes/top')
+        if (!response.ok) {
+          throw new Error('Failed to fetch top recipes')
+        }
+        
+        const data = await response.json()
+        console.log('📥 API response:', data)
+        console.log(`📊 Received ${data.recipes?.length || 0} recipes from API`)
+        
+        setRecipes(data.recipes || [])
+      } catch (err) {
+        console.error('❌ Error fetching top recipes:', err)
+        setError(err instanceof Error ? err.message : 'Failed to fetch recipes')
+        // Fallback to empty array
+        setRecipes([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (isVisible) {
+      fetchTopRecipes()
+    }
+  }, [isVisible, propRecipes])
 
   // Parallax scroll effect
   useEffect(() => {
@@ -100,7 +87,7 @@ export default function TopRecipesSection({
   }, [])
 
   useEffect(() => {
-    if (isVisible) {
+    if (isVisible && recipes.length > 0) {
       // Reset states when becoming visible
       setAnimatedCards([])
       setShowHeadline(false)
@@ -109,15 +96,16 @@ export default function TopRecipesSection({
       // Animate headline first
       setTimeout(() => setShowHeadline(true), 300)
       
-      // Animate cards with staggered delays (0.15s between each)
-      recipes.forEach((_, index) => {
+      // Always animate 6 cards with staggered delays (0.15s between each)
+      // This ensures we always show 6 animated cards even if some are placeholders
+      for (let i = 0; i < 6; i++) {
         setTimeout(() => {
-          setAnimatedCards(prev => [...prev, index])
-        }, 800 + (index * 150)) // 0.8s initial delay + 0.15s stagger
-      })
+          setAnimatedCards(prev => [...prev, i])
+        }, 800 + (i * 150)) // 0.8s initial delay + 0.15s stagger
+      }
       
       // Animate CTA after cards settle
-      setTimeout(() => setShowCTA(true), 800 + (recipes.length * 150) + 500)
+      setTimeout(() => setShowCTA(true), 800 + (6 * 150) + 500)
     }
   }, [isVisible, recipes.length])
 
@@ -134,8 +122,87 @@ export default function TopRecipesSection({
     return null
   }
 
+  // Show loading state
+  if (loading) {
+    return (
+      <div className={`relative py-20 bg-[#0b0f1c] overflow-hidden ${className}`}>
+        <div className="relative z-10 max-w-7xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-white mb-6 tracking-wide">
+              Top Recipes
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Loading our handpicked collection of exceptional recipes...
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-16">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="w-full h-96 bg-black/80 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10 animate-pulse">
+                <div className="h-64 bg-gray-700 rounded-t-xl"></div>
+                <div className="p-6 space-y-4">
+                  <div className="h-6 bg-gray-700 rounded"></div>
+                  <div className="h-4 bg-gray-700 rounded"></div>
+                  <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className={`relative py-20 bg-[#0b0f1c] overflow-hidden ${className}`}>
+        <div className="relative z-10 max-w-7xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-white mb-6 tracking-wide">
+              Top Recipes
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Unable to load recipes at the moment. Please try again later.
+            </p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="mt-6 px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Show empty state
+  if (recipes.length === 0) {
+    return (
+      <div className={`relative py-20 bg-[#0b0f1c] overflow-hidden ${className}`}>
+        <div className="relative z-10 max-w-7xl mx-auto px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-white mb-6 tracking-wide">
+              Top Recipes
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              No recipes available yet. Be the first to create one!
+            </p>
+            <Link 
+              href="/recipes/create"
+              className="mt-6 inline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+            >
+              Create Recipe
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className={`relative py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-orange-100 overflow-hidden ${className}`}>
+    <div className={`relative py-20 bg-[#0b0f1c] overflow-hidden ${className}`}>
       {/* Parallax Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Floating herbs and kitchen elements */}
@@ -143,7 +210,7 @@ export default function TopRecipesSection({
           className="absolute top-20 left-10 w-24 h-24 opacity-10"
           style={{ transform: `translateY(${scrollY * 0.1}px)` }}
         >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-green-600">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-orange-400">
             <path d="M50 10 Q60 30 50 50 Q40 30 50 10 M50 50 L50 90 M45 60 Q50 65 55 60 M45 70 Q50 75 55 70" 
                   fill="none" stroke="currentColor" strokeWidth="2"/>
           </svg>
@@ -164,7 +231,7 @@ export default function TopRecipesSection({
           className="absolute bottom-32 left-20 w-16 h-16 opacity-8"
           style={{ transform: `translateY(${scrollY * 0.08}px)` }}
         >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-amber-600">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-orange-400">
             <path d="M20 50 Q50 20 80 50 Q50 80 20 50 M50 35 L50 65 M35 50 L65 50" 
                   fill="none" stroke="currentColor" strokeWidth="2"/>
           </svg>
@@ -174,7 +241,7 @@ export default function TopRecipesSection({
           className="absolute top-60 right-32 w-18 h-18 opacity-6"
           style={{ transform: `translateY(${scrollY * 0.12}px)` }}
         >
-          <svg viewBox="0 0 100 100" className="w-full h-full text-green-500">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-orange-400">
             <path d="M30 70 Q50 40 70 70 M50 70 Q60 60 70 50 Q60 40 50 50 Q40 40 30 50 Q40 60 50 70" 
                   fill="currentColor" opacity="0.3"/>
           </svg>
@@ -186,10 +253,10 @@ export default function TopRecipesSection({
         <div className={`text-center mb-16 transition-all duration-1000 ease-out ${
           showHeadline ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className="text-5xl font-light text-gray-800 mb-6 tracking-wide">
+          <h2 className="text-5xl font-light text-white mb-6 tracking-wide">
             Top Recipes
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
             Explore our handpicked collection of exceptional recipes crafted by world-class chefs
           </p>
         </div>
@@ -199,95 +266,125 @@ export default function TopRecipesSection({
           ref={containerRef}
           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-16"
         >
-          {recipes.slice(0, 6).map((recipe, index) => (
-            <div 
-              key={recipe.id} 
-              className={`group cursor-pointer transition-all duration-800 ease-out large-recipe-card ${
-                animatedCards.includes(index) 
-                  ? 'opacity-100 scale-100 translate-y-0' 
-                  : 'opacity-0 scale-95 translate-y-8'
-              } ${hoveredCard === index ? 'recipe-card-hover-active' : ''}`}
-              onClick={() => handleRecipeClick(recipe.id)}
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => setHoveredCard(null)}
-              style={{
-                animationDelay: `${index * 0.15}s`
-              }}
-            >
-              {/* Large Recipe Card */}
-              <div className="relative w-full h-96 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-out overflow-hidden border border-orange-100">
-                {/* Recipe Image */}
-                <div className="relative h-64 overflow-hidden rounded-t-xl">
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className={`recipe-image w-full h-full object-cover transition-all duration-300 ease-out ${
-                      hoveredCard === index 
-                        ? 'scale-105 brightness-110' 
-                        : 'scale-100 brightness-100'
-                    }`}
-                    style={{
-                      filter: hoveredCard === index 
-                        ? 'brightness(1.1) contrast(1.05) saturate(1.1)' 
-                        : 'brightness(1) contrast(1) saturate(1)'
-                    }}
-                  />
-                  
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-                  
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/95 backdrop-blur-sm text-gray-700 text-sm font-medium rounded-full shadow-lg">
-                      {recipe.category}
-                    </span>
-                  </div>
-                  
-                  {/* Difficulty Badge */}
-                  <div className="absolute top-4 right-4">
-                    <span className="px-3 py-1 bg-orange-500 text-white text-sm font-medium rounded-full shadow-lg">
-                      {recipe.difficulty}
-                    </span>
-                  </div>
-
-                  {/* Hover Glow Effect */}
-                  <div className={`absolute inset-0 bg-gradient-to-t from-orange-500/10 via-transparent to-transparent transition-opacity duration-300 ${
-                    hoveredCard === index ? 'opacity-100' : 'opacity-0'
-                  }`}></div>
-                </div>
-                
-                {/* Card Content */}
-                <div className="p-6 h-32 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-800 group-hover:text-orange-600 transition-colors duration-300 mb-2 line-clamp-2">
-                      {recipe.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2 mb-3">
-                      {recipe.description}
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-500 font-medium">
-                      {recipe.chef}
-                    </span>
-                    <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-500 transition-all duration-300">
-                      <svg className="w-5 h-5 text-orange-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+          {[...Array(6)].map((_, index) => {
+            const recipe = recipes[index]
+            
+            if (!recipe) {
+              // Show placeholder card if we don't have enough recipes
+              return (
+                <div 
+                  key={`placeholder-${index}`} 
+                  className="w-full h-96 bg-black/40 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10 border-dashed opacity-50"
+                >
+                  <div className="h-full flex items-center justify-center">
+                    <div className="text-center text-gray-500">
+                      <div className="text-4xl mb-2">🍽️</div>
+                      <div className="text-sm">Recipe coming soon</div>
                     </div>
                   </div>
                 </div>
+              )
+            }
 
-                {/* 3D Depth Shadow */}
-                <div className={`absolute inset-0 rounded-xl transition-all duration-300 pointer-events-none ${
-                  hoveredCard === index 
-                    ? 'shadow-2xl shadow-orange-500/20' 
-                    : 'shadow-lg'
-                }`}></div>
+            return (
+              <div 
+                key={recipe.id} 
+                className={`group cursor-pointer transition-all duration-800 ease-out large-recipe-card ${
+                  animatedCards.includes(index) 
+                    ? 'opacity-100 scale-100 translate-y-0' 
+                    : 'opacity-0 scale-95 translate-y-8'
+                } ${hoveredCard === index ? 'recipe-card-hover-active' : ''}`}
+                onClick={() => handleRecipeClick(recipe.id)}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+                style={{
+                  animationDelay: `${index * 0.15}s`
+                }}
+              >
+                {/* Large Recipe Card */}
+                <div className="relative w-full h-96 bg-black/80 backdrop-blur-sm rounded-xl shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 ease-out overflow-hidden border border-white/10">
+                  {/* Recipe Image */}
+                  <div className="relative h-64 overflow-hidden rounded-t-xl">
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className={`recipe-image w-full h-full object-cover transition-all duration-300 ease-out ${
+                        hoveredCard === index 
+                          ? 'scale-105 brightness-110' 
+                          : 'scale-100 brightness-100'
+                      }`}
+                      style={{
+                        filter: hoveredCard === index 
+                          ? 'brightness(1.1) contrast(1.05) saturate(1.1)' 
+                          : 'brightness(1) contrast(1) saturate(1)'
+                      }}
+                    />
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                    
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-black/80 backdrop-blur-sm text-white text-sm font-medium rounded-full shadow-lg border border-white/20">
+                        {recipe.category}
+                      </span>
+                    </div>
+                    
+                    {/* Difficulty Badge */}
+                    <div className="absolute top-4 right-4">
+                      <span className="px-3 py-1 bg-orange-500 text-white text-sm font-medium rounded-full shadow-lg">
+                        {recipe.difficulty}
+                      </span>
+                    </div>
+
+                    {/* Rating Badge */}
+                    {recipe.averageRating && recipe.averageRating > 0 && (
+                      <div className="absolute bottom-4 left-4">
+                        <span className="px-3 py-1 bg-yellow-500/90 backdrop-blur-sm text-black text-sm font-medium rounded-full shadow-lg border border-yellow-400/30 flex items-center gap-1">
+                          <span>★</span>
+                          <span>{recipe.averageRating.toFixed(1)}</span>
+                          {recipe.ratingCount && (
+                            <span className="text-xs">({recipe.ratingCount})</span>
+                          )}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Hover Glow Effect */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-orange-500/10 via-transparent to-transparent transition-opacity duration-300 ${
+                      hoveredCard === index ? 'opacity-100' : 'opacity-0'
+                    }`}></div>
+                  </div>
+                  
+                  {/* Card Content */}
+                  <div className="p-6 h-32 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-xl font-semibold text-white group-hover:text-orange-400 transition-colors duration-300 mb-2 line-clamp-2">
+                        {recipe.title}
+                      </h3>
+                      <p className="text-gray-300 text-sm line-clamp-2 mb-3">
+                        {recipe.description}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-400 font-medium">
+                        {recipe.chef}
+                      </span>
+                      {/* Removed the arrow button - just showing chef name */}
+                    </div>
+                  </div>
+
+                  {/* 3D Depth Shadow */}
+                  <div className={`absolute inset-0 rounded-xl transition-all duration-300 pointer-events-none ${
+                    hoveredCard === index 
+                      ? 'shadow-2xl shadow-orange-500/20' 
+                      : 'shadow-lg'
+                  }`}></div>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Call to Action Section */}

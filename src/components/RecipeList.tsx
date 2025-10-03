@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useRef, useState } from 'react'
 import { RecipeWithDetails } from '@/types/recipe'
 import RecipeCard from './RecipeCard'
 import LoadingSpinner from './LoadingSpinner'
@@ -22,10 +22,13 @@ const RecipeList = React.memo<RecipeListProps>(({
   onRecipeClick,
   className = ''
 }) => {
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set())
+  const containerRef = useRef<HTMLDivElement>(null)
+
   // Memoize the grid classes to prevent recalculation on every render
   const gridClasses = useMemo(() => {
     return variant === 'grid' 
-      ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
+      ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-4'
       : 'space-y-4'
   }, [variant])
 
@@ -39,6 +42,31 @@ const RecipeList = React.memo<RecipeListProps>(({
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     })
   }, [recipes])
+
+  // Intersection Observer for smooth animations
+  useEffect(() => {
+    if (!containerRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.getAttribute('data-index') || '0')
+          if (entry.isIntersecting) {
+            setVisibleCards(prev => new Set([...prev, index]))
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    )
+
+    const cards = containerRef.current.querySelectorAll('[data-index]')
+    cards.forEach(card => observer.observe(card))
+
+    return () => observer.disconnect()
+  }, [sortedRecipes])
 
   if (loading) {
     return (
@@ -74,7 +102,7 @@ const RecipeList = React.memo<RecipeListProps>(({
     return (
       <div className="text-center py-12">
         <div className="text-gray-400 mb-4">
-          <div className="text-6xl mb-2">��️</div>
+          <div className="text-6xl mb-2">🍽️</div>
           <h2 className="text-2xl font-extrabold mb-2 text-gray-700">No recipes found</h2>
           <p className="text-base text-gray-400 mt-1">
             Try adjusting your search or filters
@@ -85,24 +113,36 @@ const RecipeList = React.memo<RecipeListProps>(({
   }
 
   return (
-    <div className={`${gridClasses} ${className}`}>
-      {sortedRecipes.map((recipe) => (
-        <RecipeCard
+    <div ref={containerRef} className={`${gridClasses} ${className}`}>
+      {sortedRecipes.map((recipe, index) => (
+        <div
           key={recipe.id}
-          id={recipe.id}
-          title={recipe.title}
-          description={recipe.description}
-          imageUrl={recipe.imageUrl}
-          rating={recipe.averageRating}
-          ratingsCount={recipe._count?.ratings || 0}
-          prepTime={recipe.prepTime}
-          cookTime={recipe.cookTime}
-          servings={recipe.servings}
-          chefName={recipe.user.name}
-          chefId={recipe.userId}
-          variant={variant === 'list' ? 'detailed' : 'default'}
-          onClick={() => onRecipeClick?.(recipe.id)}
-        />
+          data-index={index}
+          className={`transition-all duration-700 ease-out ${
+            visibleCards.has(index)
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-8 scale-95'
+          }`}
+          style={{
+            transitionDelay: `${Math.min(index * 100, 1000)}ms`
+          }}
+        >
+          <RecipeCard
+            id={recipe.id}
+            title={recipe.title}
+            description={recipe.description}
+            imageUrl={recipe.imageUrl}
+            rating={recipe.averageRating}
+            ratingsCount={recipe._count?.ratings || 0}
+            prepTime={recipe.prepTime}
+            cookTime={recipe.cookTime}
+            servings={recipe.servings}
+            chefName={recipe.user.name}
+            chefId={recipe.userId}
+            variant={variant === 'list' ? 'detailed' : 'default'}
+            onClick={() => onRecipeClick?.(recipe.id)}
+          />
+        </div>
       ))}
     </div>
   )

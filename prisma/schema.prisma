@@ -106,6 +106,7 @@ model Recipe {
   @@index([userId])
   @@index([createdAt])
   @@index([published])
+  @@unique([title, userId])
 }
 
 model Ingredient {

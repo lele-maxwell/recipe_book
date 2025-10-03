@@ -47,7 +47,7 @@ export default function TrendingPage() {
   const selectedPeriodData = trendingPeriods.find(p => p.period === selectedPeriod)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#0b0f1c]">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-orange-500 to-red-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -66,7 +66,7 @@ export default function TrendingPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Time Period Selector */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Trending Now</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Trending Now</h2>
           <div className="flex flex-wrap gap-2">
             {trendingPeriods.map((period) => {
               const Icon = period.icon
@@ -80,7 +80,7 @@ export default function TrendingPage() {
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                     selectedPeriod === period.period
                       ? 'bg-orange-500 text-white'
-                      : 'bg-white text-gray-700 hover:bg-orange-50 border border-gray-200'
+                      : 'bg-black/80 backdrop-blur-sm text-white hover:bg-black/60 border border-white/10'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -94,9 +94,9 @@ export default function TrendingPage() {
         {/* Main Trending Section */}
         <div className="mb-12">
           {isLoading ? (
-            <div className="bg-white rounded-lg shadow-md p-8">
+            <div className="bg-black/80 backdrop-blur-sm rounded-lg shadow-2xl border border-white/10 p-8">
               <div className="animate-pulse">
-                <div className="h-6 bg-gray-300 rounded mb-4 w-1/3"></div>
+                <div className="h-6 bg-gray-600 rounded mb-4 w-1/3"></div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {Array.from({ length: 6 }).map((_, index) => (
                     <div key={index} className="bg-gray-200 rounded-lg h-64"></div>

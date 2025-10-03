@@ -139,11 +139,11 @@ export default function PublicProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0b0f1c] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">😔</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{error}</h1>
-          <Link href="/" className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg transition-colors">
+          <h1 className="text-2xl font-bold text-white mb-2">{error}</h1>
+          <Link href="/" className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-6 py-2 rounded-lg transition-all duration-200">
             {t('profile.public.go_home')}
           </Link>
         </div>
@@ -156,14 +156,14 @@ export default function PublicProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#0b0f1c] py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Profile Header */}
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-8 text-center">
+        <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8 mb-8 text-center">
           {/* Profile Picture */}
           <div className="flex justify-center mb-6">
-            <div className="w-40 h-40 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg">
+            <div className="w-40 h-40 rounded-full overflow-hidden bg-gray-800 flex items-center justify-center border-4 border-white/20 shadow-lg">
               {profile.profilePicture ? (
                 <OptimizedImage
                   src={profile.profilePicture}
@@ -184,11 +184,11 @@ export default function PublicProfilePage() {
           </div>
 
           {/* Name and Email */}
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             Chef {profile.name || profile.email?.split('@')[0] || 'User'}
           </h1>
           {!profile.isOwnProfile && profile.email && (
-            <p className="text-gray-600 mb-6">{profile.email}</p>
+            <p className="text-gray-300 mb-6">{profile.email}</p>
           )}
 
           {/* Follow Button */}
@@ -199,8 +199,8 @@ export default function PublicProfilePage() {
                 disabled={isFollowLoading}
                 className={`flex items-center space-x-3 px-6 py-3 rounded-full font-medium transition-colors ${
                   isFollowing
-                    ? 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-                    : 'bg-orange-500 hover:bg-orange-600 text-white'
+                    ? 'bg-gray-700 hover:bg-gray-600 text-white'
+                    : 'bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white'
                 } ${isFollowLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center">
@@ -229,7 +229,7 @@ export default function PublicProfilePage() {
           {profile.isOwnProfile && (
             <Link
               href="/profile/edit"
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-2 rounded-full font-medium transition-colors inline-block"
+              className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-8 py-2 rounded-full font-medium transition-all duration-200 inline-block"
             >
               {t('profile.edit_profile')}
             </Link>
@@ -239,42 +239,42 @@ export default function PublicProfilePage() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Recipes Created */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 text-center">
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6 text-center">
+            <div className="text-4xl font-bold text-orange-400 mb-2">
               {profile.statistics.publishedRecipes}
             </div>
-            <div className="text-gray-600 font-medium">Recipes Created</div>
+            <div className="text-gray-300 font-medium">Recipes Created</div>
           </div>
 
           {/* Ratings Given */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 text-center">
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6 text-center">
+            <div className="text-4xl font-bold text-green-400 mb-2">
               {profile.statistics.totalRatingsReceived || 0}
             </div>
-            <div className="text-gray-600 font-medium">Ratings Given</div>
+            <div className="text-gray-300 font-medium">Ratings Given</div>
           </div>
 
           {/* Followers */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 text-center">
-            <div className="text-4xl font-bold text-gray-900 mb-2">
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6 text-center">
+            <div className="text-4xl font-bold text-blue-400 mb-2">
               {followersCount}
             </div>
-            <div className="text-gray-600 font-medium">Followers</div>
+            <div className="text-gray-300 font-medium">Followers</div>
           </div>
         </div>
 
         {/* Cooking Experience and Promotional Banner */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Cooking Experience */}
-          <div className="bg-white rounded-2xl shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Cooking Experience</h3>
-            <div className="text-2xl font-bold text-gray-700 capitalize">
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Cooking Experience</h3>
+            <div className="text-2xl font-bold text-orange-400 capitalize">
               {profile.cookingExperience ? t(`profile.experience.${profile.cookingExperience}`) : 'Intermediate'}
             </div>
           </div>
 
           {/* Promotional Banner */}
-          <div className="bg-gradient-to-r from-orange-400 to-orange-600 rounded-2xl shadow-sm p-6 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-2xl shadow-2xl p-6 text-white relative overflow-hidden border border-orange-500/30">
             <div className="relative z-10">
               <h3 className="text-xl font-bold mb-2">Hor Taiferi</h3>
               <p className="text-orange-100 text-sm">Master the art of cooking</p>
@@ -290,8 +290,8 @@ export default function PublicProfilePage() {
 
         {/* Recent Recipes */}
         {profile.recipes.length > 0 && (
-          <div className="bg-white rounded-2xl shadow-sm p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Recent Recipes</h2>
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8">
+            <h2 className="text-2xl font-bold text-white mb-8">Recent Recipes</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {profile.recipes.slice(0, 6).map((recipe) => (
                 <div key={recipe.id} className="group cursor-pointer">
@@ -303,7 +303,7 @@ export default function PublicProfilePage() {
                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-48 bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                      <div className="w-full h-48 bg-gradient-to-br from-orange-900 to-orange-700 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                         <svg className="w-12 h-12 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
@@ -312,11 +312,11 @@ export default function PublicProfilePage() {
                   </div>
                   
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
                       {recipe.title}
                     </h3>
                     {recipe.description && (
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                      <p className="text-gray-300 text-sm mb-3 line-clamp-2">
                         {recipe.description}
                       </p>
                     )}
@@ -324,14 +324,14 @@ export default function PublicProfilePage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-1">
                         <StarRating rating={calculateAverageRating(recipe.ratings)} />
-                        <span className="text-sm text-gray-600 ml-2">
+                        <span className="text-sm text-gray-400 ml-2">
                           ({recipe.ratings.length})
                         </span>
                       </div>
                       
                       <Link
                         href={`/recipes/${recipe.id}`}
-                        className="text-orange-600 hover:text-orange-700 text-sm font-medium"
+                        className="text-orange-400 hover:text-orange-300 text-sm font-medium transition-colors"
                       >
                         View Recipe →
                       </Link>
@@ -342,58 +342,58 @@ export default function PublicProfilePage() {
             </div>
           </div>
         )}
-{/* Bio Section */}
-{profile.bio && (
-  <div className="bg-white rounded-2xl shadow-sm p-8 mt-8">
-    <h2 className="text-2xl font-bold text-gray-900 mb-4">About</h2>
-    <p className="text-gray-700 leading-relaxed">{profile.bio}</p>
-  </div>
-)}
 
-{/* Cooking Preferences */}
-{(profile.favoritesCuisines || profile.dietaryRestrictions) && (
-  <div className="bg-white rounded-2xl shadow-sm p-8 mt-8">
-    <h2 className="text-2xl font-bold text-gray-900 mb-6">Cooking Preferences</h2>
-    <div className="space-y-6">
-      {profile.favoritesCuisines && (
-        <div>
-          <h3 className="font-semibold text-gray-700 mb-3">Favorite Cuisines</h3>
-          <div className="flex flex-wrap gap-2">
-            {JSON.parse(profile.favoritesCuisines).map((cuisine: string, index: number) => (
-              <span key={index} className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
-                {cuisine}
-              </span>
-            ))}
+        {/* Bio Section */}
+        {profile.bio && (
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8 mt-8">
+            <h2 className="text-2xl font-bold text-white mb-4">About</h2>
+            <p className="text-gray-300 leading-relaxed">{profile.bio}</p>
           </div>
-        </div>
-      )}
-      
-      {profile.dietaryRestrictions && (
-        <div>
-          <h3 className="font-semibold text-gray-700 mb-3">Dietary Restrictions</h3>
-          <div className="flex flex-wrap gap-2">
-            {JSON.parse(profile.dietaryRestrictions).map((restriction: string, index: number) => (
-              <span key={index} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
-                {restriction}
-              </span>
-            ))}
+        )}
+
+        {/* Cooking Preferences */}
+        {(profile.favoritesCuisines || profile.dietaryRestrictions) && (
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-8 mt-8">
+            <h2 className="text-2xl font-bold text-white mb-6">Cooking Preferences</h2>
+            <div className="space-y-6">
+              {profile.favoritesCuisines && (
+                <div>
+                  <h3 className="font-semibold text-gray-300 mb-3">Favorite Cuisines</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {JSON.parse(profile.favoritesCuisines).map((cuisine: string, index: number) => (
+                      <span key={index} className="bg-orange-900/50 text-orange-300 px-3 py-1 rounded-full text-sm font-medium border border-orange-500/30">
+                        {cuisine}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {profile.dietaryRestrictions && (
+                <div>
+                  <h3 className="font-semibold text-gray-300 mb-3">Dietary Restrictions</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {JSON.parse(profile.dietaryRestrictions).map((restriction: string, index: number) => (
+                      <span key={index} className="bg-red-900/50 text-red-300 px-3 py-1 rounded-full text-sm font-medium border border-red-500/30">
+                        {restriction}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Social Media Links */}
+        <SocialMediaDisplay
+          userId={userId}
+          className="mt-8"
+          showTitle={true}
+          compact={false}
+        />
+      </div>
     </div>
-  </div>
-)}
-
-{/* Social Media Links */}
-<SocialMediaDisplay
-  userId={userId}
-  className="mt-8"
-  showTitle={true}
-  compact={false}
-/>
-
-</div>
-</div>
-)
+  )
 }
           

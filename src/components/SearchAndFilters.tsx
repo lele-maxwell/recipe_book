@@ -68,16 +68,16 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
   const hasActiveFilters = Object.values(filters).some(value => value !== '')
 
   return (
-    <div className="mb-8 space-y-4">
+    <div className="mb-16 space-y-10">
       {/* Search Bar with Feedback */}
-      <div className="relative">
+      <div className="relative max-w-2xl mx-auto">
         <div className="relative">
           <input
             type="text"
-            placeholder="Search recipes..."
+            placeholder="Search recipes, topics, or keywords..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="w-full px-4 py-3 pl-12 pr-12 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+            className="w-full px-4 py-3 pl-12 pr-12 bg-gray-800 border border-gray-700 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white placeholder-gray-400"
           />
           {/* Search Icon */}
           <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
@@ -93,7 +93,7 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
           {searchTerm && (
             <button
               onClick={clearSearch}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -103,7 +103,7 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
         </div>
         {/* Search Status */}
         {isSearching && (
-          <div className="mt-2 text-sm text-gray-500 flex items-center gap-2">
+          <div className="mt-2 text-sm text-gray-400 flex items-center gap-2 justify-center">
             <div className="w-3 h-3 border border-orange-500 border-t-transparent rounded-full animate-spin"></div>
             Searching...
           </div>
@@ -111,10 +111,10 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
       </div>
 
       {/* Filters */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-center">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
+          className="flex items-center gap-2 text-gray-400 hover:text-gray-300 transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
@@ -125,7 +125,7 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="text-sm text-orange-600 hover:text-orange-700 font-medium transition-colors"
+            className="text-sm text-orange-400 hover:text-orange-300 font-medium transition-colors ml-4"
           >
             Clear all filters
           </button>
@@ -133,14 +133,14 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
       </div>
 
       {showFilters && (
-        <div className="bg-white p-6 rounded-xl border border-gray-200 space-y-4">
+        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 space-y-4 max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Cuisine</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Cuisine</label>
               <select
                 value={filters.cuisine}
                 onChange={(e) => handleFilterChange('cuisine', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white"
               >
                 <option value="">All cuisines</option>
                 <option value="italian">Italian</option>
@@ -155,11 +155,11 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Difficulty</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Difficulty</label>
               <select
                 value={filters.difficulty}
                 onChange={(e) => handleFilterChange('difficulty', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white"
               >
                 <option value="">All levels</option>
                 <option value="easy">Easy</option>
@@ -169,11 +169,11 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Max Time</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Max Time</label>
               <select
                 value={filters.maxTime}
                 onChange={(e) => handleFilterChange('maxTime', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white"
               >
                 <option value="">Any time</option>
                 <option value="15">15 minutes</option>
@@ -184,11 +184,11 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Min Rating</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Min Rating</label>
               <select
                 value={filters.rating}
                 onChange={(e) => handleFilterChange('rating', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all text-white"
               >
                 <option value="">Any rating</option>
                 <option value="4">4+ stars</option>
@@ -202,44 +202,44 @@ export default function SearchAndFilters({ onSearchChange, onFilterChange }: Sea
           {hasActiveFilters && (
             <div className="flex flex-wrap gap-2 pt-2">
               {filters.cuisine && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-100 text-orange-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-900/50 text-orange-300 border border-orange-700">
                   Cuisine: {filters.cuisine}
                   <button
                     onClick={() => handleFilterChange('cuisine', '')}
-                    className="ml-2 text-orange-600 hover:text-orange-800"
+                    className="ml-2 text-orange-400 hover:text-orange-300"
                   >
                     ×
                   </button>
                 </span>
               )}
               {filters.difficulty && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-100 text-orange-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-900/50 text-orange-300 border border-orange-700">
                   Difficulty: {filters.difficulty}
                   <button
                     onClick={() => handleFilterChange('difficulty', '')}
-                    className="ml-2 text-orange-600 hover:text-orange-800"
+                    className="ml-2 text-orange-400 hover:text-orange-300"
                   >
                     ×
                   </button>
                 </span>
               )}
               {filters.maxTime && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-100 text-orange-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-900/50 text-orange-300 border border-orange-700">
                   Max time: {filters.maxTime}min
                   <button
                     onClick={() => handleFilterChange('maxTime', '')}
-                    className="ml-2 text-orange-600 hover:text-orange-800"
+                    className="ml-2 text-orange-400 hover:text-orange-300"
                   >
                     ×
                   </button>
                 </span>
               )}
               {filters.rating && (
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-100 text-orange-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-orange-900/50 text-orange-300 border border-orange-700">
                   Min rating: {filters.rating}+
                   <button
                     onClick={() => handleFilterChange('rating', '')}
-                    className="ml-2 text-orange-600 hover:text-orange-800"
+                    className="ml-2 text-orange-400 hover:text-orange-300"
                   >
                     ×
                   </button>

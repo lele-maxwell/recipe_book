@@ -105,7 +105,7 @@ export default function ProfilePage() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0b0f1c] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </div>
     )
@@ -117,13 +117,13 @@ export default function ProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0b0f1c] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('common.error')}</h1>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <h1 className="text-2xl font-bold text-white mb-4">{t('common.error')}</h1>
+          <p className="text-gray-300 mb-4">{error}</p>
           <button 
             onClick={fetchProfile}
-            className="btn btn-primary"
+            className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
           >
             {t('common.try_again')}
           </button>
@@ -134,10 +134,10 @@ export default function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-[#0b0f1c] flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t('profile.not_found')}</h1>
-          <Link href="/" className="btn btn-primary">
+          <h1 className="text-2xl font-bold text-white mb-4">{t('profile.not_found')}</h1>
+          <Link href="/" className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200">
             {t('navigation.home')}
           </Link>
         </div>
@@ -146,14 +146,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
+    <div className="min-h-screen bg-[#0b0f1c] py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6 mb-6">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             {/* Profile Picture */}
             <div className="flex-shrink-0">
-              <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+              <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-800 flex items-center justify-center">
                 {profile.profilePicture || profile.image ? (
                   <OptimizedImage
                     src={profile.profilePicture || profile.image || ''}
@@ -177,12 +177,12 @@ export default function ProfilePage() {
             <div className="flex-1">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-white">
                     {profile.name || t('profile.anonymous_user')}
                   </h1>
-                  <p className="text-gray-600">{profile.email}</p>
+                  <p className="text-gray-300">{profile.email}</p>
                   {profile.location && (
-                    <p className="text-gray-500 text-sm flex items-center mt-1">
+                    <p className="text-gray-400 text-sm flex items-center mt-1">
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
                       </svg>
@@ -193,7 +193,7 @@ export default function ProfilePage() {
                 <div className="mt-4 sm:mt-0">
                   <Link
                     href="/profile/edit"
-                    className="btn btn-outline btn-sm"
+                    className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200"
                   >
                     {t('profile.edit_profile')}
                   </Link>
@@ -204,9 +204,9 @@ export default function ProfilePage() {
 
           {/* Bio */}
           {profile.bio && (
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('profile.about')}</h3>
-              <p className="text-gray-700 whitespace-pre-wrap">{profile.bio}</p>
+            <div className="mt-6 pt-6 border-t border-gray-700">
+              <h3 className="text-lg font-semibold text-white mb-2">{t('profile.about')}</h3>
+              <p className="text-gray-300 whitespace-pre-wrap">{profile.bio}</p>
             </div>
           )}
 
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                 href={profile.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-orange-600 hover:text-orange-700 text-sm flex items-center"
+                className="text-orange-400 hover:text-orange-300 text-sm flex items-center transition-colors"
               >
                 <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clipRule="evenodd"/>
@@ -230,44 +230,44 @@ export default function ProfilePage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Enhanced Stats */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('profile.statistics')}</h3>
+          <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">{t('profile.statistics')}</h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">{t('profile.recipes_created')}</span>
-                <span className="font-semibold text-orange-600">{profile.statistics.recipesCreated}</span>
+                <span className="text-gray-300">{t('profile.recipes_created')}</span>
+                <span className="font-semibold text-orange-400">{profile.statistics.recipesCreated}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">{t('profile.published_recipes')}</span>
-                <span className="font-semibold text-green-600">{profile.statistics.publishedRecipes}</span>
+                <span className="text-gray-300">{t('profile.published_recipes')}</span>
+                <span className="font-semibold text-green-400">{profile.statistics.publishedRecipes}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">{t('profile.draft_recipes')}</span>
-                <span className="font-semibold text-gray-500">{profile.statistics.draftRecipes}</span>
+                <span className="text-gray-300">{t('profile.draft_recipes')}</span>
+                <span className="font-semibold text-gray-400">{profile.statistics.draftRecipes}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">{t('profile.ratings_given')}</span>
-                <span className="font-semibold text-orange-600">{profile.statistics.ratingsGiven}</span>
+                <span className="text-gray-300">{t('profile.ratings_given')}</span>
+                <span className="font-semibold text-orange-400">{profile.statistics.ratingsGiven}</span>
               </div>
               {profile.statistics.totalRatingsReceived > 0 && (
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">{t('profile.average_rating')}</span>
+                  <span className="text-gray-300">{t('profile.average_rating')}</span>
                   <div className="flex items-center">
-                    <span className="font-semibold text-yellow-600 mr-1">
+                    <span className="font-semibold text-yellow-400 mr-1">
                       {profile.statistics.averageRatingReceived}
                     </span>
                     <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
-                    <span className="text-xs text-gray-500 ml-1">
+                    <span className="text-xs text-gray-400 ml-1">
                       ({profile.statistics.totalRatingsReceived})
                     </span>
                   </div>
                 </div>
               )}
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">{t('profile.member_since')}</span>
-                <span className="font-semibold text-gray-900">
+                <span className="text-gray-300">{t('profile.member_since')}</span>
+                <span className="font-semibold text-white">
                   {new Date(profile.statistics.memberSince).toLocaleDateString()}
                 </span>
               </div>
@@ -277,23 +277,23 @@ export default function ProfilePage() {
           {/* Cooking Experience & Preferences */}
           <div className="lg:col-span-2 space-y-6">
             {/* Cooking Experience */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('profile.cooking_experience')}</h3>
+            <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">{t('profile.cooking_experience')}</h3>
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full bg-orange-500 mr-3"></div>
-                <span className="text-gray-700">{getExperienceLevel(profile.cookingExperience)}</span>
+                <span className="text-gray-300">{getExperienceLevel(profile.cookingExperience)}</span>
               </div>
             </div>
 
             {/* Favorite Cuisines */}
             {parseCuisines(profile.favoritesCuisines).length > 0 && (
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('profile.favorite_cuisines')}</h3>
+              <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">{t('profile.favorite_cuisines')}</h3>
                 <div className="flex flex-wrap gap-2">
                   {parseCuisines(profile.favoritesCuisines).map((cuisine: string, index: number) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm"
+                      className="px-3 py-1 bg-orange-900/50 text-orange-300 rounded-full text-sm border border-orange-500/30"
                     >
                       {cuisine}
                     </span>
@@ -304,13 +304,13 @@ export default function ProfilePage() {
 
             {/* Dietary Restrictions */}
             {parseDietaryRestrictions(profile.dietaryRestrictions).length > 0 && (
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('profile.dietary_restrictions')}</h3>
+              <div className="bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">{t('profile.dietary_restrictions')}</h3>
                 <div className="flex flex-wrap gap-2">
                   {parseDietaryRestrictions(profile.dietaryRestrictions).map((restriction: string, index: number) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm"
+                      className="px-3 py-1 bg-red-900/50 text-red-300 rounded-full text-sm border border-red-500/30"
                     >
                       {restriction}
                     </span>
@@ -323,11 +323,11 @@ export default function ProfilePage() {
 
         {/* Most Popular Recipe */}
         {profile.statistics.mostPopularRecipe && (
-          <div className="mt-6 bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('profile.most_popular_recipe')}</h3>
-            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border border-orange-200">
+          <div className="mt-6 bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">{t('profile.most_popular_recipe')}</h3>
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-orange-900/30 to-yellow-900/30 rounded-lg border border-orange-500/30">
               <div>
-                <h4 className="font-semibold text-gray-900">{profile.statistics.mostPopularRecipe.title}</h4>
+                <h4 className="font-semibold text-white">{profile.statistics.mostPopularRecipe.title}</h4>
                 <div className="flex items-center mt-1">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
@@ -336,7 +336,7 @@ export default function ProfilePage() {
                         className={`w-4 h-4 ${
                           i < Math.floor(profile.statistics.mostPopularRecipe!.averageRating)
                             ? 'text-yellow-400'
-                            : 'text-gray-300'
+                            : 'text-gray-600'
                         }`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -345,14 +345,14 @@ export default function ProfilePage() {
                       </svg>
                     ))}
                   </div>
-                  <span className="ml-2 text-sm text-gray-600">
+                  <span className="ml-2 text-sm text-gray-400">
                     {profile.statistics.mostPopularRecipe.averageRating.toFixed(1)} ({profile.statistics.mostPopularRecipe.totalRatings} {t('profile.ratings')})
                   </span>
                 </div>
               </div>
               <Link
                 href={`/recipes/${profile.statistics.mostPopularRecipe.id}`}
-                className="btn btn-sm btn-outline btn-primary"
+                className="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200"
               >
                 {t('profile.view_recipe')}
               </Link>
@@ -361,14 +361,14 @@ export default function ProfilePage() {
         )}
 
         {/* Recent Recipes */}
-        <div className="mt-6 bg-white rounded-lg shadow-sm p-6">
+        <div className="mt-6 bg-black/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">{t('profile.recent_recipes')}</h3>
-            <Link href="/my-recipes" className="text-orange-600 hover:text-orange-700 text-sm">
+            <h3 className="text-lg font-semibold text-white">{t('profile.recent_recipes')}</h3>
+            <Link href="/my-recipes" className="text-orange-400 hover:text-orange-300 text-sm transition-colors">
               {t('profile.view_all_recipes')}
             </Link>
           </div>
-          <div className="text-gray-500 text-center py-8">
+          <div className="text-gray-400 text-center py-8">
             {t('profile.recent_recipes_placeholder')}
           </div>
         </div>

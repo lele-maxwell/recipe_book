@@ -155,6 +155,8 @@ export default function RecipePage() {
         
         if (response.ok) {
           const data = await response.json()
+          console.log('Recipe data received:', data)
+          console.log('Image URL:', data.imageUrl)
           setRecipe(data)
           
           // Check if user has already rated this recipe
@@ -172,6 +174,7 @@ export default function RecipePage() {
           setError('Recipe not found')
         } else {
           // Fallback to mock data if API fails
+          console.log('API failed, using mock data')
           setRecipe(mockRecipe)
         }
       } catch (error) {
@@ -274,18 +277,36 @@ export default function RecipePage() {
             <div className="relative group">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-white/10">
                 {recipe.imageUrl ? (
-            <OptimizedImage
-              src={recipe.imageUrl}
-              alt={recipe.title}
-                    className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
-                  />
+                  <>
+                    <OptimizedImage
+                      src={recipe.imageUrl}
+                      alt={recipe.title}
+                      className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                      onError={() => {
+                        console.error('OptimizedImage failed to load:', recipe.imageUrl)
+                      }}
+                    />
+                    {/* Fallback regular image in case OptimizedImage fails */}
+                    <img
+                      src={recipe.imageUrl}
+                      alt={recipe.title}
+                      className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 absolute inset-0 opacity-0 hover:opacity-100"
+                      onError={(e) => {
+                        console.error('Fallback image also failed:', recipe.imageUrl)
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  </>
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
+                  <div className="w-full h-full bg-gradient-to-br from-orange-900 to-orange-700 flex items-center justify-center">
                     <div className="text-center">
                       <svg className="w-24 h-24 text-orange-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2v12a2 2 0 002 2z" />
                       </svg>
-                      <p className="text-orange-600 font-medium">Recipe Image</p>
+                      <p className="text-orange-300 font-medium">No Image Available</p>
+                      {recipe.imageUrl && (
+                        <p className="text-orange-200 text-xs mt-2">URL: {recipe.imageUrl}</p>
+                      )}
                     </div>
                   </div>
                 )}
@@ -318,21 +339,26 @@ export default function RecipePage() {
                       </div>
                     )}
                     <div>
-                      <p className="text-orange-400 font-semibold">{recipe.user.name}</p>
+                      <Link 
+                        href={`/profile/${recipe.user.id}`}
+                        className="text-orange-400 font-semibold hover:text-orange-300 transition-colors cursor-pointer"
+                      >
+                        {recipe.user.name}
+                      </Link>
                       <p className="text-gray-400 text-sm">Chef</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Rating */}
-                <div className="flex items-center space-x-4 mb-8">
+                <div className="flex items-center space-x-4 mb-6">
                   <div className="flex items-center space-x-2">
                     <StarRating rating={recipe.averageRating || 0} />
-                    <span className="text-xl font-bold text-white">
+                    <span className="text-lg font-bold text-white">
                       {recipe.averageRating?.toFixed(1) || '0.0'}
                     </span>
                   </div>
-                  <span className="text-gray-400">
+                  <span className="text-gray-400 text-sm">
                     ({recipe._count.ratings} {t('recipe.reviews')})
                   </span>
                 </div>
@@ -427,78 +453,80 @@ export default function RecipePage() {
           </div>
         </div>
 
-        {/* Rating Section */}
-        <div className="mt-16">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-            <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
-              <svg className="w-6 h-6 text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-              </svg>
-              {t('recipe.rate_recipe')}
-            </h2>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-          {/* Overall Rating */}
-              <div className="text-center">
-                <div className="text-6xl font-bold text-orange-400 mb-2">
-              {recipe.averageRating?.toFixed(1) || '0.0'}
-            </div>
-                <div className="flex items-center justify-center mb-2">
-                  <StarRating rating={recipe.averageRating || 0} size="lg" />
-              </div>
-                <div className="text-gray-400">
-                {recipe._count.ratings} {t('recipe.reviews')}
-            </div>
-          </div>
-
-          {/* Rating Breakdown */}
-              <div className="space-y-3">
-            {[5, 4, 3, 2, 1].map((stars) => {
-              const count = recipe.ratings?.filter((r: Rating) => r.value === stars).length || 0
-              const percentage = recipe._count.ratings > 0 ? (count / recipe._count.ratings) * 100 : 0
+        {/* Rating Section - Hidden for recipe owners */}
+        {!isOwner && (
+          <div className="mt-12">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+              <h2 className="text-xl font-bold text-white mb-6 flex items-center">
+                <svg className="w-5 h-5 text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+                {t('recipe.rate_recipe')}
+              </h2>
               
-              return (
-                    <div key={stars} className="flex items-center space-x-4">
-                      <span className="text-gray-300 w-4">{stars}</span>
-                      <div className="flex-1 bg-white/10 rounded-full h-3">
-                        <div 
-                          className="bg-gradient-to-r from-orange-500 to-orange-400 h-3 rounded-full transition-all duration-500" 
-                      style={{ width: `${percentage}%` }}
-                    ></div>
-                  </div>
-                      <span className="text-gray-400 w-12 text-sm">{percentage.toFixed(0)}%</span>
+              <div className="grid md:grid-cols-2 gap-6">
+            {/* Overall Rating */}
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-orange-400 mb-2">
+                {recipe.averageRating?.toFixed(1) || '0.0'}
+              </div>
+                  <div className="flex items-center justify-center mb-2">
+                    <StarRating rating={recipe.averageRating || 0} size="lg" />
                 </div>
-              )
-            })}
-              </div>
-          </div>
-
-          {/* User Rating */}
-          {session && !isOwner && (
-              <div className="border-t border-white/10 pt-8 mt-8">
-                <p className="text-gray-300 mb-4 text-lg">{t('recipe.rate_this_recipe')}:</p>
-                <div className="flex items-center space-x-4">
-                  <StarRating rating={userRating} interactive={true} onRate={handleRating} size="lg" />
-                {userRating > 0 && (
-                    <span className="text-orange-400 font-semibold">
-                    {t('recipe.your_rating')}: {userRating}/5
-                  </span>
-                )}
+                  <div className="text-gray-400 text-sm">
+                  {recipe._count.ratings} {t('recipe.reviews')}
               </div>
             </div>
-          )}
 
-          {!session && (
-              <div className="border-t border-white/10 pt-8 mt-8">
-                <p className="text-gray-400">
-                  <Link href="/auth/signin" className="text-orange-400 hover:text-orange-300 underline font-medium">
-                    {t('navigation.sign_in')}
-                  </Link> {t('recipe.to_rate_recipe')}
-              </p>
+            {/* Rating Breakdown */}
+                <div className="space-y-2">
+              {[5, 4, 3, 2, 1].map((stars) => {
+                const count = recipe.ratings?.filter((r: Rating) => r.value === stars).length || 0
+                const percentage = recipe._count.ratings > 0 ? (count / recipe._count.ratings) * 100 : 0
+                
+                return (
+                      <div key={stars} className="flex items-center space-x-3">
+                        <span className="text-gray-300 w-3 text-sm">{stars}</span>
+                        <div className="flex-1 bg-white/10 rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-orange-500 to-orange-400 h-2 rounded-full transition-all duration-500" 
+                        style={{ width: `${percentage}%` }}
+                      ></div>
+                    </div>
+                        <span className="text-gray-400 w-8 text-xs">{percentage.toFixed(0)}%</span>
+                      </div>
+                    )
+                  })}
+                </div>
             </div>
-          )}
+
+            {/* User Rating */}
+            {session && (
+                <div className="border-t border-white/10 pt-6 mt-6">
+                  <p className="text-gray-300 mb-3 text-base">{t('recipe.rate_this_recipe')}:</p>
+                  <div className="flex items-center space-x-4">
+                    <StarRating rating={userRating} interactive={true} onRate={handleRating} size="lg" />
+                  {userRating > 0 && (
+                      <span className="text-orange-400 font-semibold text-sm">
+                      {t('recipe.your_rating')}: {userRating}/5
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {!session && (
+                <div className="border-t border-white/10 pt-6 mt-6">
+                  <p className="text-gray-400 text-sm">
+                    <Link href="/auth/signin" className="text-orange-400 hover:text-orange-300 underline font-medium">
+                      {t('navigation.sign_in')}
+                    </Link> {t('recipe.to_rate_recipe')}
+                </p>
+              </div>
+            )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Owner Actions */}
         {isOwner && (
@@ -515,24 +543,6 @@ export default function RecipePage() {
             >
               {t('recipe.delete_recipe')}
             </button>
-          </div>
-        )}
-
-        {/* Similar Recipes Section */}
-        {recipe && (
-          <div className="mt-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">Similar Recipes</h2>
-              <p className="text-gray-400">You might also enjoy these culinary creations</p>
-            </div>
-            <RecommendationSection
-              type="similar"
-              baseRecipeId={recipe.id}
-              title=""
-              subtitle=""
-              limit={4}
-              className="mb-8"
-            />
           </div>
         )}
       </div>
