@@ -1,36 +1,199 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recipe Book - African Cuisine Collection
 
-## Getting Started
+A modern recipe sharing platform built with Next.js, featuring authentic African and Cameroonian dishes. This application includes user authentication, recipe management, and a beautiful UI showcasing traditional African cuisine.
 
-First, run the development server:
+## 🍽️ Features
 
+- **16 Authentic Recipes**: 6 Pan-African dishes + 10 traditional Cameroonian specialties
+- **User Authentication**: Secure login and registration system
+- **Recipe Management**: Create, edit, and share recipes
+- **Rating System**: Rate and review recipes
+- **Responsive Design**: Beautiful UI that works on all devices
+- **Database Seeding**: Pre-populated with authentic African recipes and images
+
+## 🚀 Quick Start with Docker (Recommended)
+
+The easiest way to run the application is using Docker Compose, which will automatically set up the database and seed it with recipes.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Running the Application
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd recipe-book
+   ```
+
+2. **Start the application**
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the application**
+   - Open [http://localhost:3000](http://localhost:3000) in your browser
+   - The database will be automatically created and seeded with 16 authentic African recipes
+
+4. **Stop the application**
+   ```bash
+   docker-compose down
+   ```
+
+### What happens during startup:
+- ✅ PostgreSQL database is created (no persistent volumes - fresh start each time)
+- ✅ Database schema is applied via Prisma
+- ✅ Database is automatically seeded with 16 authentic African recipes
+- ✅ Next.js application starts and connects to the database
+
+## 🛠️ Local Development Setup
+
+If you prefer to run the application locally without Docker:
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 18 or higher)
+- [PostgreSQL](https://www.postgresql.org/) database
+
+### Setup Steps
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Set up environment variables**
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/recipebook?schema=public"
+   NEXTAUTH_SECRET="your-secret-key-here"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+3. **Set up the database**
+   ```bash
+   # Apply database schema
+   npx prisma db push --accept-data-loss
+   
+   # Seed the database with recipes
+   npm run seed
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the application**
+   Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## 📊 Database Management
+
+### Prisma Commands
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# View database in Prisma Studio
+npx prisma studio
+
+# Reset database and reseed
+npx prisma db push --accept-data-loss
+npm run seed
+
+# Generate Prisma client after schema changes
+npx prisma generate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Seeded Recipes
+The application comes pre-loaded with 16 authentic recipes:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Pan-African Dishes:**
+- Jollof Rice (West African)
+- Suya (Nigerian Kebabs)
+- Bobotie (South African)
+- Peri-Peri Chicken (Mozambican)
+- Bunny Chow (South African)
+- Doro Wat (Ethiopian)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Cameroonian Specialties:**
+- Ndolé (National dish)
+- Poulet DG (Director General's Chicken)
+- Eru (Vegetable soup)
+- Koki (Bean pudding)
+- Achu Soup (Yellow soup)
+- Sangah (Corn fufu)
+- Mbongo Tchobi (Black stew)
+- Kwacoco (Cocoyam porridge)
+- Kondre (Plantain porridge)
+- Puff Puff (Donuts)
 
-## Learn More
+## 🏗️ Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+recipe-book/
+├── src/
+│   ├── app/                 # Next.js App Router pages
+│   ├── components/          # Reusable React components
+│   └── lib/                 # Utility functions and configurations
+├── prisma/
+│   ├── schema.prisma        # Database schema
+│   └── seed.ts             # Database seeding script
+├── docker-compose.yml       # Docker services configuration
+├── Dockerfile              # Application container definition
+└── docker-entrypoint.sh    # Container startup script
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm start            # Start production server
+npm run lint         # Run ESLint
+npm run seed         # Seed database with recipes
+```
 
-## Deploy on Vercel
+## 🐳 Docker Commands
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Build and start services
+docker-compose up --build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Start services in background
+docker-compose up -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs app
+docker-compose logs db
+
+# Rebuild only the app
+docker-compose build app
+```
+
+## 🌍 Technology Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js
+- **Styling**: Tailwind CSS, DaisyUI
+- **Deployment**: Docker, Docker Compose
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🍴 About the Recipes
+
+All recipes featured in this application are authentic African dishes with detailed instructions and beautiful images sourced from reputable African food blogs. The recipes celebrate the rich culinary heritage of Africa, with a special focus on Cameroonian cuisine.
