@@ -104,29 +104,6 @@ npm run seed
 npx prisma generate
 ```
 
-### Seeded Recipes
-The application comes pre-loaded with 16 authentic recipes:
-
-**Pan-African Dishes:**
-- Jollof Rice (West African)
-- Suya (Nigerian Kebabs)
-- Bobotie (South African)
-- Peri-Peri Chicken (Mozambican)
-- Bunny Chow (South African)
-- Doro Wat (Ethiopian)
-
-**Cameroonian Specialties:**
-- Ndolé (National dish)
-- Poulet DG (Director General's Chicken)
-- Eru (Vegetable soup)
-- Koki (Bean pudding)
-- Achu Soup (Yellow soup)
-- Sangah (Corn fufu)
-- Mbongo Tchobi (Black stew)
-- Kwacoco (Cocoyam porridge)
-- Kondre (Plantain porridge)
-- Puff Puff (Donuts)
-
 ## 🏗️ Project Structure
 
 ```
@@ -193,7 +170,3 @@ docker-compose build app
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🍴 About the Recipes
-
-All recipes featured in this application are authentic African dishes with detailed instructions and beautiful images sourced from reputable African food blogs. The recipes celebrate the rich culinary heritage of Africa, with a special focus on Cameroonian cuisine.

@@ -76,7 +76,7 @@ async function main() {
 7. Fluff with fork and serve hot
 
 Perfect with fried plantains and grilled chicken!`,
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Le_Eru%2C_un_plat_camerounais.jpg',
+      imageUrl: 'https://www.africanbites.com/wp-content/uploads/2019/11/Eru-Soup-Spinach-or-Okazi-Leaves-6.jpg',
       prepTime: 20,
       cookTime: 60,
       servings: 6,
@@ -288,7 +288,7 @@ A deeply flavorful and aromatic dish!`,
 8. Adjust seasoning and serve hot
 
 Perfect with plantains, rice, or fufu!`,
-      imageUrl: 'https://verodav-shop.com/wp-content/uploads/2023/06/sddefault.jpg',
+      imageUrl: 'https://cdn.pixabay.com/photo/2020/03/15/12/06/african-food-4933239_1280.jpg',
       prepTime: 40,
       cookTime: 60,
       servings: 6,
@@ -359,7 +359,7 @@ A celebration dish!`,
 8. Serve with fufu, garri, or rice
 
 A healthy and delicious traditional meal!`,
-      imageUrl: 'https://www.africanbites.com/wp-content/uploads/2019/11/Eru-Soup-Spinach-or-Okazi-Leaves-6.jpg',
+      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ef/Le_Eru%2C_un_plat_camerounais.jpg',
       prepTime: 30,
       cookTime: 45,
       servings: 6,
@@ -427,7 +427,7 @@ Delicious with fried plantains!`,
 9. Serve with achu (pounded cocoyam)
 
 A unique and traditional delicacy!`,
-      imageUrl: 'https://images.squarespace-cdn.com/content/v1/5e04d1c138bd0a5d714cea2b/1701993920899-R2Y8TYQI1GE355DF3ZUW/20231207_122332.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1574484284002-952d92456975?w=800&h=600&fit=crop',
       prepTime: 20,
       cookTime: 90,
       servings: 6,
@@ -457,7 +457,7 @@ A unique and traditional delicacy!`,
 7. Mold into balls and serve hot
 
 Serve with njama njama soup or eru!`,
-      imageUrl: ' https://media.licdn.com/dms/image/v2/C5622AQEadyitQ4jcVg/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1677943560527?e=2147483647&v=beta&t=RnArPtdRwdGJuOkLcaN2h2VKUtOTwyot3P2hz4HXAPo',
+      imageUrl: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=800&h=600&fit=crop',
       prepTime: 15,
       cookTime: 55,
       servings: 6,
@@ -493,7 +493,7 @@ Serve with njama njama soup or eru!`,
 9. Add pepper and adjust seasoning
 
 Serve with plantains, rice, or fufu!`,
-      imageUrl: 'https://i.ytimg.com/vi/XEJjbAk5Ce4/maxresdefault.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=800&h=600&fit=crop',
       prepTime: 30,
       cookTime: 45,
       servings: 6,
@@ -526,7 +526,7 @@ Serve with plantains, rice, or fufu!`,
 8. Garnish with basil leaves
 
 Creamy, filling, and delicious!`,
-      imageUrl: 'https://i.ytimg.com/vi/Ho62d9ydXt8/hqdefault.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop',
       prepTime: 15,
       cookTime: 55,
       servings: 6,
