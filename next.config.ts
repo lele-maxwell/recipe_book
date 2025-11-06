@@ -54,6 +54,76 @@ const nextConfig: NextConfig = {
         hostname: 's3.cubbit.eu',
         port: '',
         pathname: '/**',
+      },
+      // African food blog domains for authentic recipe images
+      {
+        protocol: 'https',
+        hostname: 'www.africanbites.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i0.wp.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.yummymedley.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'afrovitalityeats.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.preciouscore.com',
+        port: '',
+        pathname: '/**',
+      },
+      // Pixabay for authentic African dish images
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        port: '',
+        pathname: '/**',
+      },
+      // Wikipedia for authentic dish images
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+        port: '',
+        pathname: '/**',
+      },
+      // Additional image domains found in seed data
+      {
+        protocol: 'https',
+        hostname: 'verodav-shop.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.squarespace-cdn.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.licdn.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        port: '',
+        pathname: '/**',
       }
     ],
     

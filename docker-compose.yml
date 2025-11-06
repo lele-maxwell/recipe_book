@@ -9,12 +9,31 @@ services:
       POSTGRES_DB: recipebook
     ports:
       - "5433:5432"
-    volumes:
-      - pgdata_recipebook:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
       retries: 10
-volumes:
-  pgdata_recipebook: 
+    networks:
+      - recipebook_network
+
+  app:
+    build: .
+    container_name: recipebook_app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/recipebook?schema=public
+      - NEXTAUTH_SECRET=your-secret-key-here
+      - NEXTAUTH_URL=http://localhost:3000
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - recipebook_network
+
+networks:
+  recipebook_network:
+    driver: bridge 
